@@ -1,1 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sabor do Caldo</title>
 
+<style>
+body { margin:0; font-family:Arial; background:#fff; }
+
+header {
+  background:#c40000;
+  color:#fff;
+  text-align:center;
+  padding:15px;
+}
+
+.produto {
+  display:flex;
+  gap:10px;
+  padding:10px;
+  border-bottom:1px solid #eee;
+  position:relative;
+}
+
+.produto img {
+  width:90px;
+  height:90px;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+.botao {
+  background:#c40000;
+  color:#fff;
+  border:none;
+  padding:8px;
+  border-radius:5px;
+}
+
+.botao-desativado {
+  background:#ccc;
+}
+
+.sem-estoque::after {
+  content:"SEM ESTOQUE";
+  position:absolute;
+  top:10px;
+  left:-10px;
+  background:#c40000;
+  color:#fff;
+  padding:5px;
+  transform:rotate(-20deg);
+  font-size:12px;
+}
+
+.finalizar {
+  width:90%;
+  margin:20px;
+  padding:15px;
+  background:#c40000;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Sabor do Caldo</h1>
+<p>Sabor que conquista</p>
+<p>Pedido mínimo R$20 • Entrega grátis • 40 a 60 min</p>
+</header>
+
+<!-- PRODUTO -->
+<div id="caldo1" class="produto">
+<img src="tradicional.jpg">
+<div>
+<b>Caldo Tradicional</b><br>
+R$ 20,00<br>
+<button class="botao" onclick="add('Caldo Tradicional',20)">Pedir</button>
+</div>
+</div>
+
+<div id="caldo2" class="produto">
+<img src="completo.jpg">
+<div>
+<b>Caldo Completo</b><br>
+R$ 25,00<br>
+<button class="botao" onclick="add('Caldo Completo',25)">Pedir</button>
+</div>
+</div>
+
+<button class="finalizar" onclick="finalizarPedido()">Finalizar Pedido</button>
+
+<script>
+let pedido = [];
+let total = 0;
+let numeroPedido = localStorage.getItem("pedidoNumero") || 1;
+
+function add(nome, preco){
+  pedido.push({nome, preco});
+  total += preco;
+  alert("Adicionado");
+}
+
+function linha(){
+  return "-----------------------------\n";
+}
+
+function finalizarPedido(){
+
+  if(total < 20){
+    alert("Pedido mínimo R$20");
+    return;
+  }
+
+  let agora = new Date();
+  let data = agora.toLocaleDateString();
+  let hora = agora.toLocaleTimeString();
+
+  let msg = "";
+
+  msg += "SABOR DO CALDO\n";
+  msg += "Sabor que conquista\n";
+  msg += linha();
+
+  msg += "PEDIDO Nº " + numeroPedido + "\n";
+  msg += data + " " + hora + "\n\n";
+
+  msg += "ITENS\n";
+  msg += linha();
+
+  pedido.forEach(p => {
+    msg += "1x " + p.nome + " - R$ " + p.preco.toFixed(2) + "\n";
+  });
+
+  msg += linha();
+  msg += "TOTAL R$ " + total.toFixed(2) + "\n\n";
+
+  msg += "TEMPO: 40 a 60 minutos\n\n";
+  msg += "Obrigado pela preferência!";
+
+  window.open("https://wa.me/5535999711358?text=" + encodeURIComponent(msg));
+
+  total = 0;
+  pedido = [];
+
+  numeroPedido++;
+  localStorage.setItem("pedidoNumero", numeroPedido);
+}
+
+function aplicarEstoque(){
+  document.querySelectorAll(".produto").forEach(p => {
+    let id = p.id;
+    if(localStorage.getItem("estoque_" + id) === "off"){
+      p.classList.add("sem-estoque");
+      let b = p.querySelector("button");
+      b.disabled = true;
+      b.classList.add("botao-desativado");
+      b.innerText = "Indisponível";
+    }
+  });
+}
+
+window.onload = aplicarEstoque;
+</script>
+
+</body>
+</html>
