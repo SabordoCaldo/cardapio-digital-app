@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Admin</title>
+</head>
 
+<body>
+
+<script>
+let senha = prompt("Acesso restrito:");
+
+if(senha !== "Dsrr@230885#Caldo"){
+  document.body.innerHTML = "Acesso negado";
+}
+</script>
+
+<h2>Painel de Controle</h2>
+
+<button onclick="toggle('caldo1')">Caldo Tradicional</button><br><br>
+<button onclick="toggle('caldo2')">Caldo Completo</button><br><br>
+
+<script>
+function toggle(id){
+  let status = localStorage.getItem("estoque_" + id);
+
+  if(status === "off"){
+    localStorage.setItem("estoque_" + id, "on");
+    alert("Ativado");
+  } else {
+    localStorage.setItem("estoque_" + id, "off");
+    alert("Desativado");
+  }
+}
+</script>
+
+</body>
+</html>
