@@ -47,10 +47,10 @@ header img { width:120px; }
   border-radius:5px;
 }
 
-/* CARRINHO */
+/* 🔥 CARRINHO CORRIGIDO */
 #carrinho {
   position:fixed;
-  right:0;
+  right:-260px; /* ESCONDIDO */
   top:0;
   width:260px;
   height:100%;
@@ -59,6 +59,11 @@ header img { width:120px; }
   overflow:auto;
   padding:10px;
   z-index:1000;
+  transition:0.3s;
+}
+
+#carrinho.ativo {
+  right:0;
 }
 
 .item {
@@ -94,6 +99,12 @@ header img { width:120px; }
   <h1>Sabor do Caldo</h1>
   <p>Sabor que conquista</p>
 </header>
+
+<!-- 🔴 BOTÃO CARRINHO -->
+<button onclick="toggleCarrinho()" 
+style="position:fixed;top:15px;right:15px;z-index:2000;background:#c40000;color:#fff;border:none;padding:10px;border-radius:50%;">
+🛒
+</button>
 
 <!-- CALDOS -->
 <div class="categoria">🍲 Caldos</div>
@@ -146,6 +157,11 @@ header img { width:120px; }
 <script>
 
 let carrinho = [];
+
+/* 🔥 ABRIR/FECHAR CARRINHO */
+function toggleCarrinho(){
+  document.getElementById("carrinho").classList.toggle("ativo");
+}
 
 function addItem(nome, preco, selectId=null){
 
@@ -222,9 +238,14 @@ return;
 
 let msg = "SABOR DO CALDO\n----------------\n";
 
+let total = 0;
+
 carrinho.forEach(i=>{
+total += i.preco*i.qtd;
 msg += `${i.qtd}x ${i.nome} - R$ ${(i.preco*i.qtd).toFixed(2)}\n`;
 });
+
+msg += "----------------\nTOTAL R$ " + total.toFixed(2);
 
 window.open("https://wa.me/5535999711358?text="+encodeURIComponent(msg));
 }
