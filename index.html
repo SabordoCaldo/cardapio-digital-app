@@ -6,11 +6,7 @@
 <title>Sabor do Caldo</title>
 
 <style>
-body {
-  margin:0;
-  font-family:Arial;
-  background:#fff;
-}
+body { margin:0; font-family:Arial; background:#fff; }
 
 header {
   background:#8B4513;
@@ -19,17 +15,13 @@ header {
   padding:15px;
 }
 
-header img {
-  width:120px;
-  margin-bottom:10px;
-}
+header img { width:120px; }
 
 .produto {
   display:flex;
   gap:10px;
   padding:10px;
   border-bottom:1px solid #eee;
-  position:relative;
 }
 
 .produto img {
@@ -45,24 +37,6 @@ header img {
   border:none;
   padding:8px;
   border-radius:5px;
-  cursor:pointer;
-}
-
-.botao-desativado {
-  background:#ccc;
-  cursor:not-allowed;
-}
-
-.sem-estoque::after {
-  content:"SEM ESTOQUE";
-  position:absolute;
-  top:10px;
-  left:-10px;
-  background:#c40000;
-  color:#fff;
-  padding:5px;
-  transform:rotate(-20deg);
-  font-size:12px;
 }
 
 .finalizar {
@@ -73,7 +47,6 @@ header img {
   color:#fff;
   border:none;
   border-radius:10px;
-  font-size:16px;
 }
 
 .categoria {
@@ -86,29 +59,156 @@ header img {
 <body>
 
 <header>
-  <img src="logo.png">
-  <h1>Sabor do Caldo</h1>
-  <p>Sabor que conquista</p>
-  <p>Pedido mínimo R$20 • Entrega grátis • 40 a 60 min</p>
+<img src="logo.png">
+<h1>Sabor do Caldo</h1>
+<p>Sabor que conquista</p>
+<p>Pedido mínimo R$20 • Entrega grátis • 40 a 60 min</p>
 </header>
 
+<!-- CALDOS -->
 <div class="categoria">🍲 Caldos</div>
 
-<div id="caldo1" class="produto">
+<div class="produto">
 <img src="tradicional.jpg">
 <div>
-<b>Caldo Tradicional</b><br>
-R$ 20,00<br>
+<b>Caldo Tradicional</b><br>R$ 20,00<br>
 <button class="botao" onclick="add('Caldo Tradicional',20)">Pedir</button>
 </div>
 </div>
 
-<div id="caldo2" class="produto">
+<div class="produto">
+<img src="calabresa_bacon.jpg">
+<div>
+<b>Caldo Calabresa e Bacon</b><br>R$ 22,00<br>
+<button class="botao" onclick="add('Caldo Calabresa e Bacon',22)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="ovo_codorna.jpg">
+<div>
+<b>Caldo com Ovo de Codorna</b><br>R$ 23,00<br>
+<button class="botao" onclick="add('Caldo com Ovo de Codorna',23)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="mussarela.jpg">
+<div>
+<b>Caldo com Mussarela</b><br>R$ 24,00<br>
+<button class="botao" onclick="add('Caldo com Mussarela',24)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
 <img src="completo.jpg">
 <div>
-<b>Caldo Completo</b><br>
-R$ 25,00<br>
+<b>Caldo Completo</b><br>R$ 25,00<br>
 <button class="botao" onclick="add('Caldo Completo',25)">Pedir</button>
+</div>
+</div>
+
+<!-- COMBOS COM REFri -->
+<div class="categoria">🔥 Combos com Refrigerante</div>
+
+<div class="produto">
+<img src="combo_individual.jpg">
+<div>
+<b>Combo Individual</b><br>R$ 29,00<br>
+<button class="botao" onclick="add('Combo Individual',29)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_casal.jpg">
+<div>
+<b>Combo Casal</b><br>R$ 55,00<br>
+<button class="botao" onclick="add('Combo Casal',55)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_familia.jpg">
+<div>
+<b>Combo Família</b><br>R$ 81,00<br>
+<button class="botao" onclick="add('Combo Família',81)">Pedir</button>
+</div>
+</div>
+
+<!-- COMBOS CALDO -->
+<div class="categoria">🍲 Combos de Caldos</div>
+
+<div class="produto"><img src="combo_2_tradicional.jpg"><div>
+<b>2 Tradicionais</b><br>R$ 37,00<br>
+<button class="botao" onclick="add('2 Tradicionais',37)">Pedir</button>
+</div></div>
+
+<div class="produto"><img src="combo_3_tradicional.jpg"><div>
+<b>3 Tradicionais</b><br>R$ 55,00<br>
+<button class="botao" onclick="add('3 Tradicionais',55)">Pedir</button>
+</div></div>
+
+<div class="produto"><img src="combo_2_calabresa.jpg"><div>
+<b>2 Calabresa</b><br>R$ 40,00<br>
+<button class="botao" onclick="add('2 Calabresa',40)">Pedir</button>
+</div></div>
+
+<div class="produto"><img src="combo_3_calabresa.jpg"><div>
+<b>3 Calabresa</b><br>R$ 60,00<br>
+<button class="botao" onclick="add('3 Calabresa',60)">Pedir</button>
+</div></div>
+
+<div class="produto"><img src="combo_2_completo.jpg"><div>
+<b>2 Completos</b><br>R$ 46,00<br>
+<button class="botao" onclick="add('2 Completos',46)">Pedir</button>
+</div></div>
+
+<div class="produto"><img src="combo_3_completo.jpg"><div>
+<b>3 Completos</b><br>R$ 69,00<br>
+<button class="botao" onclick="add('3 Completos',69)">Pedir</button>
+</div></div>
+
+<!-- BEBIDAS -->
+<div class="categoria">🥤 Bebidas</div>
+
+<div class="produto">
+<img src="lata.jpg">
+<div>
+<b>Lata 350ml</b><br>R$ 6,50<br>
+<select id="lata">
+<option>Coca-Cola</option>
+<option>Coca Zero</option>
+<option>Fanta</option>
+<option>Guaraná</option>
+</select><br>
+<button class="botao" onclick="addBebida('Lata',6.5,'lata')">Adicionar</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="1litro.jpg">
+<div>
+<b>1 Litro</b><br>R$ 10,00<br>
+<select id="umlitro">
+<option>Pepsi</option>
+<option>Sukita</option>
+<option>Guaraná</option>
+</select><br>
+<button class="botao" onclick="addBebida('1L',10,'umlitro')">Adicionar</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="2litros.jpg">
+<div>
+<b>2 Litros</b><br>R$ 16,00<br>
+<select id="doislitros">
+<option>Coca-Cola</option>
+<option>Coca Zero</option>
+<option>Fanta</option>
+<option>Guaraná</option>
+</select><br>
+<button class="botao" onclick="addBebida('2L',16,'doislitros')">Adicionar</button>
 </div>
 </div>
 
@@ -117,74 +217,34 @@ R$ 25,00<br>
 <script>
 let pedido = [];
 let total = 0;
-let numeroPedido = localStorage.getItem("pedidoNumero") || 1;
 
 function add(nome, preco){
-  pedido.push({nome, preco});
-  total += preco;
-  alert("Item adicionado");
+pedido.push({nome, preco});
+total += preco;
+alert("Adicionado");
 }
 
-function linha(){
-  return "-----------------------------\n";
+function addBebida(tipo, preco, id){
+let sabor = document.getElementById(id).value;
+let nome = tipo + " - " + sabor;
+pedido.push({nome, preco});
+total += preco;
+alert("Bebida adicionada");
 }
 
 function finalizarPedido(){
+if(total < 20){ alert("Pedido mínimo R$20"); return; }
 
-  if(total < 20){
-    alert("Pedido mínimo R$20");
-    return;
-  }
+let msg = "SABOR DO CALDO\n----------------\n";
 
-  let agora = new Date();
-  let data = agora.toLocaleDateString();
-  let hora = agora.toLocaleTimeString();
+pedido.forEach(p=>{
+msg += "1x " + p.nome + " - R$ " + p.preco.toFixed(2) + "\n";
+});
 
-  let msg = "";
+msg += "----------------\nTOTAL R$ " + total.toFixed(2);
 
-  msg += "SABOR DO CALDO\n";
-  msg += "Sabor que conquista\n";
-  msg += linha();
-
-  msg += "PEDIDO Nº " + numeroPedido + "\n";
-  msg += data + " " + hora + "\n\n";
-
-  msg += "ITENS\n";
-  msg += linha();
-
-  pedido.forEach(p => {
-    msg += "1x " + p.nome + " - R$ " + p.preco.toFixed(2) + "\n";
-  });
-
-  msg += linha();
-  msg += "TOTAL R$ " + total.toFixed(2) + "\n\n";
-
-  msg += "TEMPO: 40 a 60 minutos\n\n";
-  msg += "Obrigado pela preferência!";
-
-  window.open("https://wa.me/5535999711358?text=" + encodeURIComponent(msg));
-
-  total = 0;
-  pedido = [];
-
-  numeroPedido++;
-  localStorage.setItem("pedidoNumero", numeroPedido);
+window.open("https://wa.me/5535999711358?text=" + encodeURIComponent(msg));
 }
-
-function aplicarEstoque(){
-  document.querySelectorAll(".produto").forEach(p => {
-    let id = p.id;
-    if(localStorage.getItem("estoque_" + id) === "off"){
-      p.classList.add("sem-estoque");
-      let b = p.querySelector("button");
-      b.disabled = true;
-      b.classList.add("botao-desativado");
-      b.innerText = "Indisponível";
-    }
-  });
-}
-
-window.onload = aplicarEstoque;
 </script>
 
 </body>
