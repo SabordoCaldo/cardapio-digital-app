@@ -56,68 +56,64 @@ input, select {
 <!-- CALDOS -->
 <div class="categoria">Caldos</div>
 
-<div class="produto">
-<img src="tradicional.jpg">
-<div>
+<script>
+function getAdd(id){
+let v=document.getElementById(id).value;
+if(!v)return{nome:"",valor:0};
+let p=v.split("|");
+return{nome:p[0],valor:+p[1]};
+}
+</script>
+
+<!-- TODOS CALDOS -->
+<div class="produto"><img src="tradicional.jpg"><div>
 <b>Caldo Tradicional</b><br>R$20<br>
-<select id="add1">
+<select id="a1">
 <option value="">Sem adicional</option>
 <option value="Bacon|5">Bacon +5</option>
 <option value="Calabresa|5">Calabresa +5</option>
 <option value="Mussarela|6">Mussarela +6</option>
+<option value="Torresmo|5">Torresmo +5</option>
 </select>
-<button class="botao" onclick="addItem('Caldo Tradicional',20,'add1')">Adicionar</button>
-</div>
-</div>
+<button class="botao" onclick="add('Caldo Tradicional',20,'a1')">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="calabresa_bacon.jpg">
-<div>
+<div class="produto"><img src="calabresa_bacon.jpg"><div>
 <b>Caldo Calabresa e Bacon</b><br>R$22<br>
-<button class="botao" onclick="addItem('Caldo Calabresa e Bacon',22)">Adicionar</button>
-</div>
-</div>
+<button class="botao" onclick="add('Caldo Calabresa e Bacon',22)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="ovo_codorna.jpg">
-<div>
+<div class="produto"><img src="ovo_codorna.jpg"><div>
 <b>Caldo com Ovo de Codorna</b><br>R$23<br>
-<button class="botao" onclick="addItem('Caldo com Ovo de Codorna',23)">Adicionar</button>
-</div>
-</div>
+<button class="botao" onclick="add('Caldo com Ovo de Codorna',23)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="mussarela.jpg">
-<div>
+<div class="produto"><img src="mussarela.jpg"><div>
 <b>Caldo com Mussarela</b><br>R$24<br>
-<button class="botao" onclick="addItem('Caldo com Mussarela',24)">Adicionar</button>
-</div>
-</div>
+<button class="botao" onclick="add('Caldo com Mussarela',24)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="completo.jpg">
-<div>
+<div class="produto"><img src="completo.jpg"><div>
 <b>Caldo Completo</b><br>R$25<br>
-<button class="botao" onclick="addItem('Caldo Completo',25)">Adicionar</button>
-</div>
-</div>
+<button class="botao" onclick="add('Caldo Completo',25)">Adicionar</button>
+</div></div>
 
 <!-- COMBOS -->
-<div class="categoria">Combos com Refrigerante</div>
+<div class="categoria">Combos</div>
 
 <div class="produto"><img src="combo_individual.jpg"><div>
-<b>Combo Individual</b><br>R$29<br>
-<button class="botao" onclick="addItem('Combo Individual',29)">Adicionar</button>
+<b>⭐ Combo Individual</b><br>R$29<br>
+<button class="botao" onclick="add('Combo Individual',29)">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="combo_casal.jpg"><div>
-<b>Combo Casal</b><br>R$55<br>
-<button class="botao" onclick="addItem('Combo Casal',55)">Adicionar</button>
+<b>🔥 Combo Casal</b><br>R$55<br>
+<button class="botao" onclick="add('Combo Casal',55)">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="combo_familia.jpg"><div>
-<b>Combo Família</b><br>R$81<br>
-<button class="botao" onclick="addItem('Combo Família',81)">Adicionar</button>
+<b>💰 Combo Família (Mais vendido)</b><br>R$81<br>
+<button class="botao" onclick="add('Combo Família',81)">Adicionar</button>
 </div></div>
 
 <!-- COMBOS CALDOS -->
@@ -125,32 +121,32 @@ input, select {
 
 <div class="produto"><img src="combo_2_tradicional.jpg"><div>
 <b>2 Tradicionais</b><br>R$37<br>
-<button class="botao" onclick="addItem('2 Tradicionais',37)">Adicionar</button>
+<button class="botao" onclick="add('2 Tradicionais',37)">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="combo_3_tradicional.jpg"><div>
 <b>3 Tradicionais</b><br>R$55<br>
-<button class="botao" onclick="addItem('3 Tradicionais',55)">Adicionar</button>
+<button class="botao" onclick="add('3 Tradicionais',55)">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="combo_2_calabresa.jpg"><div>
 <b>2 Calabresa e Bacon</b><br>R$40<br>
-<button class="botao" onclick="addItem('2 Calabresa e Bacon',40)">Adicionar</button>
+<button class="botao" onclick="add('2 Calabresa e Bacon',40)">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="combo_3_calabresa.jpg"><div>
 <b>3 Calabresa e Bacon</b><br>R$60<br>
-<button class="botao" onclick="addItem('3 Calabresa e Bacon',60)">Adicionar</button>
+<button class="botao" onclick="add('3 Calabresa e Bacon',60)">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="combo_2_completo.jpg"><div>
 <b>2 Completos</b><br>R$46<br>
-<button class="botao" onclick="addItem('2 Completos',46)">Adicionar</button>
+<button class="botao" onclick="add('2 Completos',46)">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="combo_3_completo.jpg"><div>
 <b>3 Completos</b><br>R$69<br>
-<button class="botao" onclick="addItem('3 Completos',69)">Adicionar</button>
+<button class="botao" onclick="add('3 Completos',69)">Adicionar</button>
 </div></div>
 
 <!-- BEBIDAS -->
@@ -158,17 +154,34 @@ input, select {
 
 <div class="produto"><img src="lata.jpg"><div>
 <b>Lata 350ml</b><br>R$6,50<br>
-<button class="botao" onclick="addItem('Lata 350ml',6.5)">Adicionar</button>
+<select id="b1">
+<option>Coca-Cola</option>
+<option>Coca Zero</option>
+<option>Fanta</option>
+<option>Guaraná</option>
+</select>
+<button class="botao" onclick="addBebida('Lata',6.5,'b1')">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="1litro.jpg"><div>
 <b>1 Litro</b><br>R$10<br>
-<button class="botao" onclick="addItem('Refrigerante 1L',10)">Adicionar</button>
+<select id="b2">
+<option>Pepsi</option>
+<option>Sukita</option>
+<option>Guaraná</option>
+</select>
+<button class="botao" onclick="addBebida('1L',10,'b2')">Adicionar</button>
 </div></div>
 
 <div class="produto"><img src="2litros.jpg"><div>
 <b>2 Litros</b><br>R$16<br>
-<button class="botao" onclick="addItem('Refrigerante 2L',16)">Adicionar</button>
+<select id="b3">
+<option>Coca-Cola</option>
+<option>Coca Zero</option>
+<option>Fanta</option>
+<option>Guaraná</option>
+</select>
+<button class="botao" onclick="addBebida('2L',16,'b3')">Adicionar</button>
 </div></div>
 
 <!-- CARRINHO -->
@@ -182,7 +195,7 @@ input, select {
 <input id="endereco" placeholder="Endereço">
 
 <div class="categoria">Pagamento</div>
-<select id="pagamento" onchange="trocoVisivel()">
+<select id="pagamento" onchange="troco()">
 <option value="">Escolher</option>
 <option>Dinheiro</option>
 <option>Pix</option>
@@ -194,69 +207,83 @@ input, select {
 
 <button class="finalizar" onclick="finalizar()">Finalizar Pedido</button>
 
-<script>
-let carrinho = [];
-let numero = localStorage.getItem("pedido") || 1;
+<div style="height:150px;"></div>
 
-function trocoVisivel(){
+<script>
+
+let carrinho=[]; let numero=localStorage.getItem("pedido")||1;
+
+function troco(){
 document.getElementById("troco").style.display =
-(document.getElementById("pagamento").value === "Dinheiro") ? "block" : "none";
+(document.getElementById("pagamento").value==="Dinheiro")?"block":"none";
 }
 
-function addItem(nome, preco){
-carrinho.push({nome, preco});
+function add(nome,preco,id=null){
+let add=""; let valor=preco;
+if(id){
+let a=getAdd(id);
+if(a.nome){add=" + "+a.nome; valor+=a.valor;}
+}
+carrinho.push({nome:nome+add,preco:valor,qtd:1});
+render();
+}
+
+function addBebida(tipo,preco,id){
+let sabor=document.getElementById(id).value;
+carrinho.push({nome:tipo+" "+sabor,preco,qtd:1});
 render();
 }
 
 function render(){
-let total = 0;
-let txt = "";
-
-carrinho.forEach(i=>{
-total += i.preco;
-txt += `1x ${i.nome} - R$ ${i.preco.toFixed(2)}\n`;
+let html=""; let total=0;
+carrinho.forEach((i,x)=>{
+total+=i.preco*i.qtd;
+html+=`
+<div>
+<b>${i.qtd}x ${i.nome}</b><br>
+R$ ${(i.preco*i.qtd).toFixed(2)}
+<button onclick="iMais(${x})">+</button>
+<button onclick="iMenos(${x})">-</button>
+</div><hr>`;
 });
-
-txt += "\nTOTAL: R$ " + total.toFixed(2);
-document.getElementById("carrinho").innerText = txt;
+html+=`<b>Total: R$ ${total.toFixed(2)}</b>`;
+document.getElementById("carrinho").innerHTML=html;
 }
+
+function iMais(i){carrinho[i].qtd++;render();}
+function iMenos(i){carrinho[i].qtd--;if(carrinho[i].qtd<=0)carrinho.splice(i,1);render();}
 
 function finalizar(){
 
-if(carrinho.length == 0) return alert("Adicione itens");
+let nome=nome.value,tel=telefone.value,end=endereco.value;
+if(!nome||!tel||!end)return alert("Preencha seus dados");
 
-let msg = "SABOR DO CALDO\n";
-msg += "Pedido Nº " + numero + "\n";
-msg += new Date().toLocaleString() + "\n";
-msg += "----------------\n";
-
-let total = 0;
+let msg="SABOR DO CALDO\nPedido Nº "+numero+"\n"+new Date().toLocaleString()+"\n----------------\n";
+let total=0;
 
 carrinho.forEach(i=>{
-total += i.preco;
-msg += `1x ${i.nome} - R$ ${i.preco.toFixed(2)}\n`;
+total+=i.preco*i.qtd;
+msg+=`${i.qtd}x ${i.nome} - R$ ${(i.preco*i.qtd).toFixed(2)}\n`;
 });
 
-msg += "----------------\n";
-msg += "TOTAL: R$ " + total.toFixed(2) + "\n\n";
+msg+="----------------\nTOTAL: R$ "+total.toFixed(2)+"\n\n";
+msg+=nome+"\n"+tel+"\n"+end+"\n\n";
+msg+="Tempo: 40 a 60 minutos\n\n";
+msg+="Pagamento: "+pagamento.value+"\n";
 
-msg += document.getElementById("nome").value + "\n";
-msg += document.getElementById("telefone").value + "\n";
-msg += document.getElementById("endereco").value + "\n\n";
-
-msg += "Pagamento: " + document.getElementById("pagamento").value + "\n";
-
-if(document.getElementById("pagamento").value === "Dinheiro"){
-msg += "Troco para: " + document.getElementById("troco").value + "\n";
+if(pagamento.value==="Dinheiro"){
+msg+="Troco para: "+troco.value+"\n";
 }
 
-msg += "\nObs: " + document.getElementById("obs").value;
+msg+="\nObs: "+obs.value;
 
-localStorage.setItem("pedido", ++numero);
+localStorage.setItem("pedido",++numero);
 
 window.open("https://wa.me/5535999711358?text="+encodeURIComponent(msg));
+alert("Pedido enviado!");
 }
+
 </script>
 
 </body>
-   </html>
+  </html>
