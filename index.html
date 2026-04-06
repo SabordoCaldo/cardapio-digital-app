@@ -7,8 +7,18 @@
 
 <style>
 
-body { margin:0; font-family:Arial; background:#fff; }
+/* ==========================
+   ESTILO GERAL
+========================== */
+body {
+  margin:0;
+  font-family:Arial;
+  background:#fff;
+}
 
+/* ==========================
+   CABEÇALHO
+========================== */
 header {
   background:#8B4513;
   color:#fff;
@@ -16,15 +26,13 @@ header {
   padding:15px;
 }
 
-header img { width:120px; }
-
-.categoria {
-  padding:10px;
-  font-weight:bold;
-  font-size:18px;
-  background:#f5f5f5;
+header img {
+  width:120px;
 }
 
+/* ==========================
+   PRODUTOS
+========================== */
 .produto {
   display:flex;
   gap:10px;
@@ -39,54 +47,36 @@ header img { width:120px; }
   object-fit:cover;
 }
 
+/* ==========================
+   BOTÕES
+========================== */
 .botao {
   background:#c40000;
   color:#fff;
   border:none;
-  padding:6px;
+  padding:8px;
   border-radius:5px;
 }
 
-/* 🔥 CARRINHO CORRIGIDO */
-#carrinho {
-  position:fixed;
-  right:-260px; /* ESCONDIDO */
-  top:0;
-  width:260px;
-  height:100%;
-  background:#fff;
-  border-left:2px solid #eee;
-  overflow:auto;
-  padding:10px;
-  z-index:1000;
-  transition:0.3s;
-}
-
-#carrinho.ativo {
-  right:0;
-}
-
-.item {
-  border-bottom:1px solid #eee;
-  padding:5px 0;
-}
-
-.qtd {
-  display:flex;
-  gap:5px;
-}
-
+/* ==========================
+   FINALIZAR PEDIDO
+========================== */
 .finalizar {
-  position: fixed;
-  bottom: 10px;
-  left: 5%;
-  width: 90%;
+  width:90%;
+  margin:20px;
   padding:15px;
   background:#c40000;
   color:#fff;
   border:none;
   border-radius:10px;
-  z-index:999;
+}
+
+/* ==========================
+   CATEGORIAS
+========================== */
+.categoria {
+  padding:10px;
+  font-weight:bold;
 }
 
 </style>
@@ -94,33 +84,50 @@ header img { width:120px; }
 
 <body>
 
+<!-- ==========================
+     CABEÇALHO
+========================== -->
 <header>
   <img src="logo.png">
   <h1>Sabor do Caldo</h1>
   <p>Sabor que conquista</p>
+  <p>Pedido mínimo R$20 • Entrega grátis • 40 a 60 min</p>
 </header>
 
-<!-- 🔴 BOTÃO CARRINHO -->
-<button onclick="toggleCarrinho()" 
-style="position:fixed;top:15px;right:15px;z-index:2000;background:#c40000;color:#fff;border:none;padding:10px;border-radius:50%;">
-🛒
-</button>
-
-<!-- CALDOS -->
+<!-- ==========================
+     CALDOS
+========================== -->
 <div class="categoria">🍲 Caldos</div>
 
 <div class="produto">
 <img src="tradicional.jpg">
 <div>
 <b>Caldo Tradicional</b><br>R$ 20,00<br>
+<button class="botao" onclick="add('Caldo Tradicional',20)">Pedir</button>
+</div>
+</div>
 
-<select id="add1">
-<option value="">Sem adicional</option>
-<option value="Bacon|5">Bacon +5</option>
-<option value="Calabresa|5">Calabresa +5</option>
-</select><br>
+<div class="produto">
+<img src="calabresa_bacon.jpg">
+<div>
+<b>Caldo Calabresa e Bacon</b><br>R$ 22,00<br>
+<button class="botao" onclick="add('Caldo Calabresa e Bacon',22)">Pedir</button>
+</div>
+</div>
 
-<button class="botao" onclick="addItem('Caldo Tradicional',20,'add1')">Adicionar</button>
+<div class="produto">
+<img src="ovo_codorna.jpg">
+<div>
+<b>Caldo com Ovo de Codorna</b><br>R$ 23,00<br>
+<button class="botao" onclick="add('Caldo com Ovo de Codorna',23)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="mussarela.jpg">
+<div>
+<b>Caldo com Mussarela</b><br>R$ 24,00<br>
+<button class="botao" onclick="add('Caldo com Mussarela',24)">Pedir</button>
 </div>
 </div>
 
@@ -128,126 +135,181 @@ style="position:fixed;top:15px;right:15px;z-index:2000;background:#c40000;color:
 <img src="completo.jpg">
 <div>
 <b>Caldo Completo</b><br>R$ 25,00<br>
-<button class="botao" onclick="addItem('Caldo Completo',25)">Adicionar</button>
+<button class="botao" onclick="add('Caldo Completo',25)">Pedir</button>
 </div>
 </div>
 
-<!-- BEBIDAS -->
+<!-- ==========================
+     COMBOS COM REFRIGERANTE
+========================== -->
+<div class="categoria">🔥 Combos com Refrigerante</div>
+
+<div class="produto">
+<img src="combo_individual.jpg">
+<div>
+<b>Combo Individual</b><br>R$ 29,00<br>
+<button class="botao" onclick="add('Combo Individual',29)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_casal.jpg">
+<div>
+<b>Combo Casal</b><br>R$ 55,00<br>
+<button class="botao" onclick="add('Combo Casal',55)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_familia.jpg">
+<div>
+<b>Combo Família</b><br>R$ 81,00<br>
+<button class="botao" onclick="add('Combo Família',81)">Pedir</button>
+</div>
+</div>
+
+<!-- ==========================
+     COMBOS DE CALDOS
+========================== -->
+<div class="categoria">🍲 Combos de Caldos</div>
+
+<div class="produto">
+<img src="combo_2_tradicional.jpg">
+<div>
+<b>2 Tradicionais</b><br>R$ 37,00<br>
+<button class="botao" onclick="add('2 Tradicionais',37)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_3_tradicional.jpg">
+<div>
+<b>3 Tradicionais</b><br>R$ 55,00<br>
+<button class="botao" onclick="add('3 Tradicionais',55)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_2_calabresa.jpg">
+<div>
+<b>2 Calabresa</b><br>R$ 40,00<br>
+<button class="botao" onclick="add('2 Calabresa',40)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_3_calabresa.jpg">
+<div>
+<b>3 Calabresa</b><br>R$ 60,00<br>
+<button class="botao" onclick="add('3 Calabresa',60)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_2_completo.jpg">
+<div>
+<b>2 Completos</b><br>R$ 46,00<br>
+<button class="botao" onclick="add('2 Completos',46)">Pedir</button>
+</div>
+</div>
+
+<div class="produto">
+<img src="combo_3_completo.jpg">
+<div>
+<b>3 Completos</b><br>R$ 69,00<br>
+<button class="botao" onclick="add('3 Completos',69)">Pedir</button>
+</div>
+</div>
+
+<!-- ==========================
+     BEBIDAS
+========================== -->
 <div class="categoria">🥤 Bebidas</div>
 
 <div class="produto">
 <img src="lata.jpg">
 <div>
 <b>Lata 350ml</b><br>R$ 6,50<br>
-<button class="botao" onclick="addItem('Lata',6.5)">Adicionar</button>
+<select id="lata">
+<option>Coca-Cola</option>
+<option>Coca Zero</option>
+<option>Fanta</option>
+<option>Guaraná</option>
+</select><br>
+<button class="botao" onclick="addBebida('Lata',6.5,'lata')">Adicionar</button>
 </div>
 </div>
 
-<!-- CARRINHO -->
-<div id="carrinho">
-<h3>Carrinho</h3>
-<div id="lista"></div>
-<div id="total">Total: R$ 0,00</div>
+<div class="produto">
+<img src="1litro.jpg">
+<div>
+<b>1 Litro</b><br>R$ 10,00<br>
+<select id="umlitro">
+<option>Pepsi</option>
+<option>Sukita</option>
+<option>Guaraná</option>
+</select><br>
+<button class="botao" onclick="addBebida('1L',10,'umlitro')">Adicionar</button>
+</div>
 </div>
 
+<div class="produto">
+<img src="2litros.jpg">
+<div>
+<b>2 Litros</b><br>R$ 16,00<br>
+<select id="doislitros">
+<option>Coca-Cola</option>
+<option>Coca Zero</option>
+<option>Fanta</option>
+<option>Guaraná</option>
+</select><br>
+<button class="botao" onclick="addBebida('2L',16,'doislitros')">Adicionar</button>
+</div>
+</div>
+
+<!-- ==========================
+     BOTÃO FINAL
+========================== -->
 <button class="finalizar" onclick="finalizarPedido()">Finalizar Pedido</button>
 
-<div style="height:120px;"></div>
-
+<!-- ==========================
+     SCRIPT
+========================== -->
 <script>
 
-let carrinho = [];
-
-/* 🔥 ABRIR/FECHAR CARRINHO */
-function toggleCarrinho(){
-  document.getElementById("carrinho").classList.toggle("ativo");
-}
-
-function addItem(nome, preco, selectId=null){
-
-let adicional = "";
-let precoFinal = preco;
-
-if(selectId){
-let val = document.getElementById(selectId).value;
-if(val){
-let parts = val.split("|");
-adicional = " + " + parts[0];
-precoFinal += parseFloat(parts[1]);
-}
-}
-
-let item = carrinho.find(i => i.nome === nome + adicional);
-
-if(item){
-item.qtd++;
-}else{
-carrinho.push({nome:nome+adicional, preco:precoFinal, qtd:1});
-}
-
-render();
-}
-
-function render(){
-
-let lista = document.getElementById("lista");
-lista.innerHTML = "";
-
+let pedido = [];
 let total = 0;
 
-carrinho.forEach((item, index)=>{
-
-total += item.preco * item.qtd;
-
-lista.innerHTML += `
-<div class="item">
-${item.qtd}x ${item.nome}<br>
-R$ ${(item.preco * item.qtd).toFixed(2)}
-
-<div class="qtd">
-<button onclick="menos(${index})">-</button>
-<button onclick="mais(${index})">+</button>
-</div>
-</div>
-`;
-});
-
-document.getElementById("total").innerText =
-"Total: R$ " + total.toFixed(2);
+function add(nome, preco){
+  pedido.push({nome, preco});
+  total += preco;
+  alert("Adicionado");
 }
 
-function mais(i){
-carrinho[i].qtd++;
-render();
-}
-
-function menos(i){
-carrinho[i].qtd--;
-if(carrinho[i].qtd <= 0){
-carrinho.splice(i,1);
-}
-render();
+function addBebida(tipo, preco, id){
+  let sabor = document.getElementById(id).value;
+  let nome = tipo + " - " + sabor;
+  pedido.push({nome, preco});
+  total += preco;
+  alert("Bebida adicionada");
 }
 
 function finalizarPedido(){
 
-if(carrinho.length === 0){
-alert("Adicione itens");
-return;
-}
+  if(total < 20){
+    alert("Pedido mínimo R$20");
+    return;
+  }
 
-let msg = "SABOR DO CALDO\n----------------\n";
+  let msg = "SABOR DO CALDO\n----------------\n";
 
-let total = 0;
+  pedido.forEach(p=>{
+    msg += "1x " + p.nome + " - R$ " + p.preco.toFixed(2) + "\n";
+  });
 
-carrinho.forEach(i=>{
-total += i.preco*i.qtd;
-msg += `${i.qtd}x ${i.nome} - R$ ${(i.preco*i.qtd).toFixed(2)}\n`;
-});
+  msg += "----------------\nTOTAL R$ " + total.toFixed(2);
 
-msg += "----------------\nTOTAL R$ " + total.toFixed(2);
-
-window.open("https://wa.me/5535999711358?text="+encodeURIComponent(msg));
+  window.open("https://wa.me/5535999711358?text=" + encodeURIComponent(msg));
 }
 
 </script>
