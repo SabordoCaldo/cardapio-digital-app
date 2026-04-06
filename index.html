@@ -6,19 +6,8 @@
 <title>Sabor do Caldo</title>
 
 <style>
+body { margin:0; font-family:Arial; }
 
-/* ==========================
-   ESTILO GERAL
-========================== */
-body {
-  margin:0;
-  font-family:Arial;
-  background:#fff;
-}
-
-/* ==========================
-   CABEÇALHO
-========================== */
 header {
   background:#8B4513;
   color:#fff;
@@ -26,293 +15,248 @@ header {
   padding:15px;
 }
 
-header img {
-  width:120px;
-}
+.produto { display:flex; gap:10px; padding:10px; border-bottom:1px solid #eee; }
+.produto img { width:90px; height:90px; border-radius:10px; }
 
-/* ==========================
-   PRODUTOS
-========================== */
-.produto {
-  display:flex;
-  gap:10px;
-  padding:10px;
-  border-bottom:1px solid #eee;
-}
+.categoria { padding:10px; font-weight:bold; background:#f5f5f5; }
 
-.produto img {
-  width:90px;
-  height:90px;
-  border-radius:10px;
-  object-fit:cover;
-}
+.botao { background:#c40000; color:#fff; border:none; padding:6px; border-radius:5px; }
 
-/* ==========================
-   BOTÕES
-========================== */
-.botao {
-  background:#c40000;
-  color:#fff;
-  border:none;
+#carrinho { padding:10px; background:#fafafa; }
+
+input, select {
+  width:95%;
   padding:8px;
-  border-radius:5px;
+  margin:5px 0;
 }
 
-/* ==========================
-   FINALIZAR PEDIDO
-========================== */
 .finalizar {
+  position:fixed;
+  bottom:10px;
+  left:5%;
   width:90%;
-  margin:20px;
   padding:15px;
   background:#c40000;
   color:#fff;
   border:none;
   border-radius:10px;
 }
-
-/* ==========================
-   CATEGORIAS
-========================== */
-.categoria {
-  padding:10px;
-  font-weight:bold;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- ==========================
-     CABEÇALHO
-========================== -->
 <header>
-  <img src="logo.png">
-  <h1>Sabor do Caldo</h1>
-  <p>Sabor que conquista</p>
-  <p>Pedido mínimo R$20 • Entrega grátis • 40 a 60 min</p>
+<img src="logo.png">
+<h2>Sabor do Caldo</h2>
+<p>Sabor que conquista</p>
+<p>Pedido mínimo R$20 • Entrega grátis • 40 a 60 min</p>
 </header>
 
-<!-- ==========================
-     CALDOS
-========================== -->
-<div class="categoria">🍲 Caldos</div>
+<!-- CALDOS -->
+<div class="categoria">Caldos</div>
 
 <div class="produto">
 <img src="tradicional.jpg">
 <div>
-<b>Caldo Tradicional</b><br>R$ 20,00<br>
-<button class="botao" onclick="add('Caldo Tradicional',20)">Pedir</button>
+<b>Caldo Tradicional</b><br>R$20<br>
+<select id="add1">
+<option value="">Sem adicional</option>
+<option value="Bacon|5">Bacon +5</option>
+<option value="Calabresa|5">Calabresa +5</option>
+<option value="Mussarela|6">Mussarela +6</option>
+</select>
+<button class="botao" onclick="addItem('Caldo Tradicional',20,'add1')">Adicionar</button>
 </div>
 </div>
 
 <div class="produto">
 <img src="calabresa_bacon.jpg">
 <div>
-<b>Caldo Calabresa e Bacon</b><br>R$ 22,00<br>
-<button class="botao" onclick="add('Caldo Calabresa e Bacon',22)">Pedir</button>
+<b>Caldo Calabresa e Bacon</b><br>R$22<br>
+<button class="botao" onclick="addItem('Caldo Calabresa e Bacon',22)">Adicionar</button>
 </div>
 </div>
 
 <div class="produto">
 <img src="ovo_codorna.jpg">
 <div>
-<b>Caldo com Ovo de Codorna</b><br>R$ 23,00<br>
-<button class="botao" onclick="add('Caldo com Ovo de Codorna',23)">Pedir</button>
+<b>Caldo com Ovo de Codorna</b><br>R$23<br>
+<button class="botao" onclick="addItem('Caldo com Ovo de Codorna',23)">Adicionar</button>
 </div>
 </div>
 
 <div class="produto">
 <img src="mussarela.jpg">
 <div>
-<b>Caldo com Mussarela</b><br>R$ 24,00<br>
-<button class="botao" onclick="add('Caldo com Mussarela',24)">Pedir</button>
+<b>Caldo com Mussarela</b><br>R$24<br>
+<button class="botao" onclick="addItem('Caldo com Mussarela',24)">Adicionar</button>
 </div>
 </div>
 
 <div class="produto">
 <img src="completo.jpg">
 <div>
-<b>Caldo Completo</b><br>R$ 25,00<br>
-<button class="botao" onclick="add('Caldo Completo',25)">Pedir</button>
+<b>Caldo Completo</b><br>R$25<br>
+<button class="botao" onclick="addItem('Caldo Completo',25)">Adicionar</button>
 </div>
 </div>
 
-<!-- ==========================
-     COMBOS COM REFRIGERANTE
-========================== -->
-<div class="categoria">🔥 Combos com Refrigerante</div>
+<!-- COMBOS -->
+<div class="categoria">Combos com Refrigerante</div>
 
-<div class="produto">
-<img src="combo_individual.jpg">
-<div>
-<b>Combo Individual</b><br>R$ 29,00<br>
-<button class="botao" onclick="add('Combo Individual',29)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_individual.jpg"><div>
+<b>Combo Individual</b><br>R$29<br>
+<button class="botao" onclick="addItem('Combo Individual',29)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="combo_casal.jpg">
-<div>
-<b>Combo Casal</b><br>R$ 55,00<br>
-<button class="botao" onclick="add('Combo Casal',55)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_casal.jpg"><div>
+<b>Combo Casal</b><br>R$55<br>
+<button class="botao" onclick="addItem('Combo Casal',55)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="combo_familia.jpg">
-<div>
-<b>Combo Família</b><br>R$ 81,00<br>
-<button class="botao" onclick="add('Combo Família',81)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_familia.jpg"><div>
+<b>Combo Família</b><br>R$81<br>
+<button class="botao" onclick="addItem('Combo Família',81)">Adicionar</button>
+</div></div>
 
-<!-- ==========================
-     COMBOS DE CALDOS
-========================== -->
-<div class="categoria">🍲 Combos de Caldos</div>
+<!-- COMBOS CALDOS -->
+<div class="categoria">Combos de Caldos</div>
 
-<div class="produto">
-<img src="combo_2_tradicional.jpg">
-<div>
-<b>2 Tradicionais</b><br>R$ 37,00<br>
-<button class="botao" onclick="add('2 Tradicionais',37)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_2_tradicional.jpg"><div>
+<b>2 Tradicionais</b><br>R$37<br>
+<button class="botao" onclick="addItem('2 Tradicionais',37)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="combo_3_tradicional.jpg">
-<div>
-<b>3 Tradicionais</b><br>R$ 55,00<br>
-<button class="botao" onclick="add('3 Tradicionais',55)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_3_tradicional.jpg"><div>
+<b>3 Tradicionais</b><br>R$55<br>
+<button class="botao" onclick="addItem('3 Tradicionais',55)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="combo_2_calabresa.jpg">
-<div>
-<b>2 Calabresa</b><br>R$ 40,00<br>
-<button class="botao" onclick="add('2 Calabresa',40)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_2_calabresa.jpg"><div>
+<b>2 Calabresa e Bacon</b><br>R$40<br>
+<button class="botao" onclick="addItem('2 Calabresa e Bacon',40)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="combo_3_calabresa.jpg">
-<div>
-<b>3 Calabresa</b><br>R$ 60,00<br>
-<button class="botao" onclick="add('3 Calabresa',60)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_3_calabresa.jpg"><div>
+<b>3 Calabresa e Bacon</b><br>R$60<br>
+<button class="botao" onclick="addItem('3 Calabresa e Bacon',60)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="combo_2_completo.jpg">
-<div>
-<b>2 Completos</b><br>R$ 46,00<br>
-<button class="botao" onclick="add('2 Completos',46)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_2_completo.jpg"><div>
+<b>2 Completos</b><br>R$46<br>
+<button class="botao" onclick="addItem('2 Completos',46)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="combo_3_completo.jpg">
-<div>
-<b>3 Completos</b><br>R$ 69,00<br>
-<button class="botao" onclick="add('3 Completos',69)">Pedir</button>
-</div>
-</div>
+<div class="produto"><img src="combo_3_completo.jpg"><div>
+<b>3 Completos</b><br>R$69<br>
+<button class="botao" onclick="addItem('3 Completos',69)">Adicionar</button>
+</div></div>
 
-<!-- ==========================
-     BEBIDAS
-========================== -->
-<div class="categoria">🥤 Bebidas</div>
+<!-- BEBIDAS -->
+<div class="categoria">Bebidas</div>
 
-<div class="produto">
-<img src="lata.jpg">
-<div>
-<b>Lata 350ml</b><br>R$ 6,50<br>
-<select id="lata">
-<option>Coca-Cola</option>
-<option>Coca Zero</option>
-<option>Fanta</option>
-<option>Guaraná</option>
-</select><br>
-<button class="botao" onclick="addBebida('Lata',6.5,'lata')">Adicionar</button>
-</div>
-</div>
+<div class="produto"><img src="lata.jpg"><div>
+<b>Lata 350ml</b><br>R$6,50<br>
+<button class="botao" onclick="addItem('Lata 350ml',6.5)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="1litro.jpg">
-<div>
-<b>1 Litro</b><br>R$ 10,00<br>
-<select id="umlitro">
-<option>Pepsi</option>
-<option>Sukita</option>
-<option>Guaraná</option>
-</select><br>
-<button class="botao" onclick="addBebida('1L',10,'umlitro')">Adicionar</button>
-</div>
-</div>
+<div class="produto"><img src="1litro.jpg"><div>
+<b>1 Litro</b><br>R$10<br>
+<button class="botao" onclick="addItem('Refrigerante 1L',10)">Adicionar</button>
+</div></div>
 
-<div class="produto">
-<img src="2litros.jpg">
-<div>
-<b>2 Litros</b><br>R$ 16,00<br>
-<select id="doislitros">
-<option>Coca-Cola</option>
-<option>Coca Zero</option>
-<option>Fanta</option>
-<option>Guaraná</option>
-</select><br>
-<button class="botao" onclick="addBebida('2L',16,'doislitros')">Adicionar</button>
-</div>
-</div>
+<div class="produto"><img src="2litros.jpg"><div>
+<b>2 Litros</b><br>R$16<br>
+<button class="botao" onclick="addItem('Refrigerante 2L',16)">Adicionar</button>
+</div></div>
 
-<!-- ==========================
-     BOTÃO FINAL
-========================== -->
-<button class="finalizar" onclick="finalizarPedido()">Finalizar Pedido</button>
+<!-- CARRINHO -->
+<div class="categoria">Seu Pedido</div>
+<div id="carrinho"></div>
 
-<!-- ==========================
-     SCRIPT
-========================== -->
+<!-- DADOS -->
+<div class="categoria">Seus Dados</div>
+<input id="nome" placeholder="Nome">
+<input id="telefone" placeholder="Telefone">
+<input id="endereco" placeholder="Endereço">
+
+<div class="categoria">Pagamento</div>
+<select id="pagamento" onchange="trocoVisivel()">
+<option value="">Escolher</option>
+<option>Dinheiro</option>
+<option>Pix</option>
+<option>Cartão</option>
+</select>
+
+<input id="troco" placeholder="Troco para quanto?" style="display:none;">
+<input id="obs" placeholder="Observação">
+
+<button class="finalizar" onclick="finalizar()">Finalizar Pedido</button>
+
 <script>
+let carrinho = [];
+let numero = localStorage.getItem("pedido") || 1;
 
-let pedido = [];
+function trocoVisivel(){
+document.getElementById("troco").style.display =
+(document.getElementById("pagamento").value === "Dinheiro") ? "block" : "none";
+}
+
+function addItem(nome, preco){
+carrinho.push({nome, preco});
+render();
+}
+
+function render(){
+let total = 0;
+let txt = "";
+
+carrinho.forEach(i=>{
+total += i.preco;
+txt += `1x ${i.nome} - R$ ${i.preco.toFixed(2)}\n`;
+});
+
+txt += "\nTOTAL: R$ " + total.toFixed(2);
+document.getElementById("carrinho").innerText = txt;
+}
+
+function finalizar(){
+
+if(carrinho.length == 0) return alert("Adicione itens");
+
+let msg = "SABOR DO CALDO\n";
+msg += "Pedido Nº " + numero + "\n";
+msg += new Date().toLocaleString() + "\n";
+msg += "----------------\n";
+
 let total = 0;
 
-function add(nome, preco){
-  pedido.push({nome, preco});
-  total += preco;
-  alert("Adicionado");
+carrinho.forEach(i=>{
+total += i.preco;
+msg += `1x ${i.nome} - R$ ${i.preco.toFixed(2)}\n`;
+});
+
+msg += "----------------\n";
+msg += "TOTAL: R$ " + total.toFixed(2) + "\n\n";
+
+msg += document.getElementById("nome").value + "\n";
+msg += document.getElementById("telefone").value + "\n";
+msg += document.getElementById("endereco").value + "\n\n";
+
+msg += "Pagamento: " + document.getElementById("pagamento").value + "\n";
+
+if(document.getElementById("pagamento").value === "Dinheiro"){
+msg += "Troco para: " + document.getElementById("troco").value + "\n";
 }
 
-function addBebida(tipo, preco, id){
-  let sabor = document.getElementById(id).value;
-  let nome = tipo + " - " + sabor;
-  pedido.push({nome, preco});
-  total += preco;
-  alert("Bebida adicionada");
+msg += "\nObs: " + document.getElementById("obs").value;
+
+localStorage.setItem("pedido", ++numero);
+
+window.open("https://wa.me/5535999711358?text="+encodeURIComponent(msg));
 }
-
-function finalizarPedido(){
-
-  if(total < 20){
-    alert("Pedido mínimo R$20");
-    return;
-  }
-
-  let msg = "SABOR DO CALDO\n----------------\n";
-
-  pedido.forEach(p=>{
-    msg += "1x " + p.nome + " - R$ " + p.preco.toFixed(2) + "\n";
-  });
-
-  msg += "----------------\nTOTAL R$ " + total.toFixed(2);
-
-  window.open("https://wa.me/5535999711358?text=" + encodeURIComponent(msg));
-}
-
 </script>
 
 </body>
-</html>
+   </html>
