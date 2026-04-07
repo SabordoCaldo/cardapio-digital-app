@@ -120,6 +120,7 @@ select {
 <input id="nome" placeholder="Seu nome">
 <input id="telefone" placeholder="Telefone">
 <input id="endereco" placeholder="Endereço">
+<input id="referencia" placeholder="Referência (opcional)">
 
 <select id="pagamento" onchange="verTroco()">
 <option value="">Forma de pagamento</option>
@@ -201,35 +202,61 @@ function finalizarPedido() {
   let nome = document.getElementById("nome").value.trim();
   let telefone = document.getElementById("telefone").value.trim();
   let endereco = document.getElementById("endereco").value.trim();
+  let referencia = document.getElementById("referencia").value.trim();
   let pagamento = document.getElementById("pagamento").value;
   let troco = document.getElementById("troco").value.trim();
 
   if (!nome || !telefone || !endereco || !pagamento) {
-    alert("Preencha todos os campos");
+    alert("Preencha todos os campos obrigatórios");
     return;
   }
 
-  let mensagem = "Pedido:%0A";
+  let numeroPedido = Math.floor(Math.random() * 1000);
+  let data = new Date();
+  let dataFormatada = data.toLocaleDateString("pt-BR") + " " + data.toLocaleTimeString("pt-BR");
+
+  let mensagem = "*SABOR DO CALDO*%0A";
+  mensagem += "--------------------------------%0A%0A";
+
+  mensagem += "*PEDIDO Nº " + numeroPedido + "*%0A";
+  mensagem += dataFormatada + "%0A%0A";
+
+  mensagem += "*ITENS*%0A";
+  mensagem += "--------------------------------%0A";
+
   let total = 0;
 
   carrinho.forEach(item => {
-    mensagem += item.quantidade + "x " + item.nome + "%0A";
-    total += item.quantidade * item.preco;
+    let subtotal = item.quantidade * item.preco;
+    mensagem += `${item.quantidade}x ${item.nome}        R$ ${subtotal.toFixed(2)}%0A`;
+    total += subtotal;
   });
 
-  mensagem += "%0ATotal: R$ " + total.toFixed(2);
+  mensagem += "%0A--------------------------------%0A";
+  mensagem += "*TOTAL*                     R$ " + total.toFixed(2) + "%0A%0A";
 
-  mensagem += "%0A%0ANome: " + nome;
-  mensagem += "%0ATelefone: " + telefone;
-  mensagem += "%0AEndereço: " + endereco;
-  mensagem += "%0APagamento: " + pagamento;
+  mensagem += "*CLIENTE*%0A";
+  mensagem += nome + "%0A";
+  mensagem += telefone + "%0A";
+  mensagem += endereco + "%0A";
 
-  if (pagamento === "Dinheiro" && troco) {
-    mensagem += "%0ATroco para: R$ " + troco;
+  if (referencia) {
+    mensagem += "%0A*REFERÊNCIA*%0A";
+    mensagem += referencia + "%0A";
   }
 
-  let url = `https://wa.me/5535999711358?text=${mensagem}`;
+  mensagem += "%0A*PAGAMENTO*%0A";
+  mensagem += pagamento + "%0A";
 
+  if (pagamento === "Dinheiro" && troco) {
+    mensagem += "Troco para: R$ " + troco + "%0A";
+  }
+
+  mensagem += "%0A--------------------------------%0A";
+  mensagem += "TEMPO: 40 a 60 minutos%0A%0A";
+  mensagem += "Obrigado pela preferência!%0A";
+
+  let url = `https://wa.me/5535999711358?text=${mensagem}`;
   window.open(url, "_blank");
 }
 
