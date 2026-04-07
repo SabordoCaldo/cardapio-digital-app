@@ -13,7 +13,6 @@ body {
   margin-top:60px;
 }
 
-/* TOPO */
 .topo {
   position:fixed;
   top:0;
@@ -30,22 +29,16 @@ body {
   text-decoration:none;
 }
 
-/* CONTEÚDO */
 .conteudo {
   padding:15px;
-  padding-bottom:120px; /* espaço pro botão fixo */
+  padding-bottom:120px;
 }
 
-/* ITEM */
 .item {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   border-bottom:1px solid #eee;
   padding:12px 0;
 }
 
-/* CONTADOR */
 .contador {
   display:flex;
   align-items:center;
@@ -58,10 +51,8 @@ body {
   border:none;
   border-radius:8px;
   font-size:18px;
-  cursor:pointer;
 }
 
-/* CORES PADRÃO */
 .menos {
   background:#ccc;
 }
@@ -71,14 +62,12 @@ body {
   color:#fff;
 }
 
-/* TOTAL */
 .total {
   font-size:20px;
   font-weight:bold;
   margin-top:15px;
 }
 
-/* INPUTS */
 input, select {
   width:100%;
   max-width:100%;
@@ -90,12 +79,10 @@ input, select {
   font-size:16px;
 }
 
-/* SELECT */
 select {
   height:45px;
 }
 
-/* BOTÃO FIXO */
 .botao {
   position:fixed;
   bottom:10px;
@@ -145,7 +132,6 @@ select {
 
 </div>
 
-<!-- BOTÃO FIXO -->
 <a href="#" class="botao" onclick="finalizarPedido()">
 Enviar Pedido
 </a>
@@ -169,15 +155,19 @@ function renderizar() {
     div.className = "item";
 
     div.innerHTML = `
-      <div>
-        ${item.nome}<br>
-        R$ ${item.preco.toFixed(2)}
-      </div>
+      <div style="width:100%;">
+        <div style="display:flex; justify-content:space-between;">
+          <span>${item.nome}</span>
+          <span>R$ ${item.preco.toFixed(2)}</span>
+        </div>
 
-      <div class="contador">
-        <button class="menos" onclick="alterar(${index}, -1)">-</button>
-        <span>${item.quantidade}</span>
-        <button class="mais" onclick="alterar(${index}, 1)">+</button>
+        <div style="display:flex; justify-content:flex-end; margin-top:5px;">
+          <div class="contador">
+            <button class="menos" onclick="alterar(${index}, -1)">-</button>
+            <span>${item.quantidade}</span>
+            <button class="mais" onclick="alterar(${index}, 1)">+</button>
+          </div>
+        </div>
       </div>
     `;
 
