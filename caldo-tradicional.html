@@ -7,18 +7,35 @@
 
 <style>
 body{margin:0;font-family:Arial;background:#fff;margin-top:60px;}
-.topo{position:fixed;top:0;left:0;right:0;background:#8B4513;color:#fff;padding:12px;z-index:1000;}
+.topo{position:fixed;top:0;left:0;right:0;background:#8B4513;color:#fff;padding:12px;}
 .topo a{color:#fff;text-decoration:none;}
 #iconeCarrinho{float:right;color:#fff;}
+
 .img{width:100%;height:320px;object-fit:cover;}
 .conteudo{padding:15px;padding-bottom:120px;}
 .preco{font-size:22px;font-weight:bold;margin-top:10px;}
+
 .item{display:flex;justify-content:space-between;align-items:center;padding:10px;}
 .contador{display:flex;gap:8px;align-items:center;}
-.contador button{width:32px;height:32px;border:none;border-radius:8px;}
+
+.contador button{
+  width:32px;height:32px;border:none;border-radius:8px;
+}
+
 .menos{background:#ccc;}
 .mais{background:#8B4513;color:#fff;}
-.botao{position:fixed;bottom:10px;left:10px;right:10px;background:#25D366;color:#fff;padding:14px;border-radius:12px;text-align:center;}
+
+.botao{
+  position:fixed;
+  bottom:10px;
+  left:10px;
+  right:10px;
+  background:#25D366;
+  color:#fff;
+  padding:14px;
+  border-radius:12px;
+  text-align:center;
+}
 </style>
 </head>
 
@@ -26,7 +43,9 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;}
 
 <div class="topo">
 <a href="index.html">← Voltar</a>
-<a href="carrinho.html" id="iconeCarrinho">🛒 <span id="qtdCarrinho">0</span></a>
+<a href="carrinho.html" id="iconeCarrinho">
+🛒 <span id="qtdCarrinho">0</span>
+</a>
 </div>
 
 <img src="img/banners/tradicional_banner.jpg" class="img">
@@ -54,15 +73,50 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
 <script>
-function alt(b,v){let n=b.parentElement.querySelector("span");let a=parseInt(n.innerText);a+=v;if(a<0)a=0;n.innerText=a;}
-function add(){
-let qtd=parseInt(document.querySelector(".contador span").innerText);
-if(qtd<=0){alert("Selecione pelo menos 1 item");return;}
-let c=JSON.parse(localStorage.getItem("carrinho"))||[];
-c.push({nome:"Caldo Tradicional",quantidade:qtd,preco:20,tipo:"comida"});
-localStorage.setItem("carrinho",JSON.stringify(c));
-alert("Adicionado ao carrinho");
+function alt(b,v){
+  let n=b.parentElement.querySelector("span");
+  let a=parseInt(n.innerText);
+  a+=v;
+  if(a<0)a=0;
+  n.innerText=a;
 }
+
+function add(){
+  let qtd=parseInt(document.querySelector(".contador span").innerText);
+
+  if(qtd<=0){
+    alert("Selecione pelo menos 1 item");
+    return;
+  }
+
+  let c=JSON.parse(localStorage.getItem("carrinho"))||[];
+
+  c.push({
+    nome:"Caldo Tradicional",
+    quantidade:qtd,
+    preco:20,
+    tipo:"comida"
+  });
+
+  localStorage.setItem("carrinho",JSON.stringify(c));
+
+  atualizarCarrinho(); // 🔥 ESSENCIAL
+  alert("Adicionado ao carrinho");
+}
+
+function atualizarCarrinho(){
+  let carrinho=JSON.parse(localStorage.getItem("carrinho"))||[];
+  let total=0;
+
+  carrinho.forEach(item=>{
+    total+=item.quantidade;
+  });
+
+  document.getElementById("qtdCarrinho").innerText=total;
+}
+
+// 🔥 atualiza ao abrir a página
+atualizarCarrinho();
 </script>
 
 </body>
