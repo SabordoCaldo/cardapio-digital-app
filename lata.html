@@ -6,12 +6,23 @@
 <title>Refrigerante Lata</title>
 
 <style>
-body { margin:0; font-family:Arial; background:#fff; }
+body {
+  margin:0;
+  font-family:Arial;
+  background:#fff;
+  margin-top:60px; /* espaço para barra fixa */
+}
 
+/* BARRA FIXA */
 .topo {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
   background:#8B4513;
   color:#fff;
   padding:12px;
+  z-index:1000;
 }
 
 .topo a {
@@ -19,6 +30,7 @@ body { margin:0; font-family:Arial; background:#fff; }
   text-decoration:none;
 }
 
+/* IMAGEM */
 .img {
   width:100%;
   height:320px;
@@ -72,7 +84,7 @@ body { margin:0; font-family:Arial; background:#fff; }
   color:#fff;
 }
 
-/* efeito toque */
+/* EFEITO TOQUE */
 .contador button:active {
   transform:scale(0.9);
 }
@@ -99,6 +111,7 @@ body { margin:0; font-family:Arial; background:#fff; }
 
 <body>
 
+<!-- BARRA -->
 <div class="topo">
 <a href="index.html">← Voltar</a>
 </div>
@@ -161,11 +174,11 @@ Escolha seu sabor
 
 </div>
 
-<a href="#" class="botao">
+<a href="javascript:void(0)" class="botao">
 Adicionar ao carrinho
 </a>
 
-<!-- espaço para não esconder atrás da barra -->
+<!-- espaço para não cortar o botão -->
 <div style="height:80px;"></div>
 
 </div>
