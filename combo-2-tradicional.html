@@ -7,14 +7,15 @@
 
 <style>
 body{margin:0;font-family:Arial;background:#fff;margin-top:60px;}
-.topo{position:fixed;top:0;left:0;right:0;background:#8B4513;color:#fff;padding:12px;}
+.topo{position:fixed;top:0;left:0;right:0;background:#8B4513;color:#fff;padding:12px;z-index:1000;}
 .topo a{color:#fff;text-decoration:none;}
 #iconeCarrinho{float:right;color:#fff;}
 .img{width:100%;height:320px;object-fit:cover;}
 .conteudo{padding:15px;padding-bottom:120px;}
 .preco{font-size:22px;font-weight:bold;}
 .item{display:flex;justify-content:space-between;padding:10px;}
-.contador{display:flex;gap:8px;}
+.contador{display:flex;gap:8px;align-items:center;}
+.contador button{width:32px;height:32px;border:none;border-radius:8px;}
 .menos{background:#ccc;}
 .mais{background:#8B4513;color:#fff;}
 .botao{position:fixed;bottom:10px;left:10px;right:10px;background:#25D366;color:#fff;padding:14px;border-radius:12px;text-align:center;}
