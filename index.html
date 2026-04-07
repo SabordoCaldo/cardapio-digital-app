@@ -15,7 +15,7 @@ header {
   padding:15px;
 }
 
-header img { width:120px; }
+header img { width:100px; }
 
 .categoria {
   padding:10px;
@@ -29,6 +29,7 @@ header img { width:120px; }
   gap:10px;
   padding:10px;
   border-bottom:1px solid #eee;
+  align-items:center;
 }
 
 .produto img {
@@ -37,113 +38,205 @@ header img { width:120px; }
   border-radius:10px;
   object-fit:cover;
 }
-
-small { color:#555; }
-
-a { text-decoration:none; color:inherit; }
 </style>
 </head>
 
 <body>
 
 <header>
-<img src="logo.png">
-<h1>Sabor do Caldo</h1>
-<p>Sabor que conquista</p>
-<p><b>🔥 Combos com melhor custo-benefício</b></p>
-<p>Pedido mínimo R$20 • Entrega grátis • 40 a 60 min</p>
+  <img src="img/logo/logo.png">
+  <h1>Sabor do Caldo</h1>
+  <p>Sabor que conquista</p>
 </header>
 
-<!-- MAIS PEDIDOS -->
+<!-- 🔥 MAIS PEDIDOS -->
 <div class="categoria">🔥 Mais Pedidos</div>
 
+<div class="produto">
 <a href="combo-familia.html">
-<div class="produto">
-<img src="combo_familia.jpg">
-<div><b>Combo Família</b><br><small>3 caldos completos + refrigerante 2L</small><br>R$ 81,00</div>
-</div>
+<img src="img/produtos/combo_familia.jpg">
 </a>
-
-<a href="produto-completo.html">
-<div class="produto">
-<img src="completo.jpg">
-<div><b>Caldo Completo</b><br><small>Com calabresa, bacon, ovos e mussarela</small><br>R$ 25,00</div>
+<div>
+<b>Combo Família</b><br>
+3 caldos + Coca 2L<br>
+<b>R$ 81,00</b>
 </div>
+</div>
+
+<div class="produto">
+<a href="caldo-completo.html">
+<img src="img/produtos/completo.jpg">
 </a>
+<div>
+<b>Caldo Completo</b><br>
+Completo da casa<br>
+<b>R$ 27,00</b>
+</div>
+</div>
 
-<div class="produto"><img src="combo_2_calabresa.jpg"><div><b>2 Calabresa e Bacon</b><br><small>2 caldos com calabresa e bacon</small><br>R$ 40,00</div></div>
+<div class="produto">
+<img src="img/produtos/combo_2_calabresa.jpg">
+<div>
+<b>2 Calabresa e Bacon</b><br>
+2 caldos recheados<br>
+<b>R$ 45,00</b>
+</div>
+</div>
 
-<div class="produto"><img src="mussarela.jpg"><div><b>Caldo com Mussarela</b><br><small>Com calabresa, bacon e mussarela</small><br>R$ 24,00</div></div>
+<div class="produto">
+<a href="caldo-mussarela.html">
+<img src="img/produtos/mussarela.jpg">
+</a>
+<div>
+<b>Caldo com Mussarela</b><br>
+Com queijo em cubos<br>
+<b>R$ 25,00</b>
+</div>
+</div>
 
-<div class="produto"><img src="coca_2l.jpg"><div><b>Coca-Cola 2L</b><br><small>Refrigerante 2 litros</small><br>R$ 16,00</div></div>
+<div class="produto">
+<img src="img/bebidas/coca_2l.jpg">
+<div>
+<b>Coca-Cola 2L</b><br>
+Refrigerante 2 litros<br>
+<b>R$ 12,00</b>
+</div>
+</div>
 
-<div class="produto"><img src="fanta_lata.jpg"><div><b>Fanta Laranja 350ml</b><br><small>Refrigerante lata</small><br>R$ 6,50</div></div>
+<div class="produto">
+<img src="img/bebidas/fanta_lata.jpg">
+<div>
+<b>Fanta Laranja 350ml</b><br>
+Refrigerante lata<br>
+<b>R$ 6,50</b>
+</div>
+</div>
 
-<!-- COMBOS COM REFRIGERANTE -->
+<!-- 🔥 COMBOS COM REFRIGERANTE -->
 <div class="categoria">🔥 Combos com Refrigerante</div>
 
+<div class="produto">
 <a href="combo-individual.html">
-<div class="produto">
-<img src="combo_individual.jpg">
-<div><b>Combo Individual</b><br><small>1 caldo completo + refrigerante lata</small><br>R$ 29,00</div>
-</div>
+<img src="img/produtos/combo_individual.jpg">
 </a>
+<div>
+<b>Combo Individual</b><br>
+1 caldo + refri lata<br>
+<b>R$ 29,00</b>
+</div>
+</div>
 
+<div class="produto">
 <a href="combo-casal.html">
-<div class="produto">
-<img src="combo_casal.jpg">
-<div><b>Combo Casal</b><br><small>2 caldos completos + refrigerante 1L</small><br>R$ 55,00</div>
-</div>
+<img src="img/produtos/combo_casal.jpg">
 </a>
+<div>
+<b>Combo Casal</b><br>
+2 caldos + refri 1L<br>
+<b>R$ 55,00</b>
+</div>
+</div>
 
+<div class="produto">
 <a href="combo-familia.html">
-<div class="produto">
-<img src="combo_familia.jpg">
-<div><b>Combo Família</b><br><small>3 caldos completos + refrigerante 2L</small><br>R$ 81,00</div>
-</div>
+<img src="img/produtos/combo_familia.jpg">
 </a>
+<div>
+<b>Combo Família</b><br>
+3 caldos + refri 2L<br>
+<b>R$ 81,00</b>
+</div>
+</div>
 
-<!-- CALDOS -->
+<!-- 🍲 CALDOS -->
 <div class="categoria">🍲 Caldos</div>
 
-<div class="produto"><img src="tradicional.jpg"><div><b>Caldo Tradicional</b><br><small>Feijão cremoso e bem temperado</small><br>R$ 20,00</div></div>
+<div class="produto">
+<a href="caldo-tradicional.html">
+<img src="img/produtos/tradicional.jpg">
+</a>
+<div>
+<b>Caldo Tradicional</b><br>
+Feijão cremoso<br>
+<b>R$ 20,00</b>
+</div>
+</div>
 
-<div class="produto"><img src="calabresa_bacon.jpg"><div><b>Caldo Calabresa e Bacon</b><br><small>Com calabresa e bacon</small><br>R$ 22,00</div></div>
+<div class="produto">
+<a href="caldo-calabresa.html">
+<img src="img/produtos/calabresa_bacon.jpg">
+</a>
+<div>
+<b>Calabresa e Bacon</b><br>
+Recheado<br>
+<b>R$ 23,00</b>
+</div>
+</div>
 
-<div class="produto"><img src="ovo_codorna.jpg"><div><b>Caldo com Ovo de Codorna</b><br><small>Com calabresa, bacon e ovos</small><br>R$ 23,00</div></div>
+<div class="produto">
+<a href="caldo-ovo.html">
+<img src="img/produtos/ovo_codorna.jpg">
+</a>
+<div>
+<b>Ovo de Codorna</b><br>
+Com ovos<br>
+<b>R$ 25,00</b>
+</div>
+</div>
 
-<div class="produto"><img src="mussarela.jpg"><div><b>Caldo com Mussarela</b><br><small>Com calabresa, bacon e mussarela</small><br>R$ 24,00</div></div>
+<div class="produto">
+<a href="caldo-mussarela.html">
+<img src="img/produtos/mussarela.jpg">
+</a>
+<div>
+<b>Com Mussarela</b><br>
+Queijo em cubos<br>
+<b>R$ 25,00</b>
+</div>
+</div>
 
-<div class="produto"><img src="completo.jpg"><div><b>Caldo Completo</b><br><small>Com calabresa, bacon, ovos e mussarela</small><br>R$ 25,00</div></div>
+<div class="produto">
+<a href="caldo-completo.html">
+<img src="img/produtos/completo.jpg">
+</a>
+<div>
+<b>Caldo Completo</b><br>
+Completo da casa<br>
+<b>R$ 27,00</b>
+</div>
+</div>
 
-<!-- COMBOS SEM REFRIGERANTE -->
-<div class="categoria">🍲 Combos de Caldos</div>
-
-<div class="produto"><img src="combo_2_tradicional.jpg"><div><b>2 Tradicionais</b><br><small>2 caldos tradicionais</small><br>R$ 37,00</div></div>
-
-<div class="produto"><img src="combo_3_tradicional.jpg"><div><b>3 Tradicionais</b><br><small>3 caldos tradicionais</small><br>R$ 55,00</div></div>
-
-<div class="produto"><img src="combo_2_calabresa.jpg"><div><b>2 Calabresa e Bacon</b><br><small>2 caldos com calabresa e bacon</small><br>R$ 40,00</div></div>
-
-<div class="produto"><img src="combo_3_calabresa.jpg"><div><b>3 Calabresa e Bacon</b><br><small>3 caldos com calabresa e bacon</small><br>R$ 60,00</div></div>
-
-<div class="produto"><img src="combo_2_completo.jpg"><div><b>2 Completos</b><br><small>2 caldos completos</small><br>R$ 46,00</div></div>
-
-<div class="produto"><img src="combo_3_completo.jpg"><div><b>3 Completos</b><br><small>3 caldos completos</small><br>R$ 69,00</div></div>
-
-<!-- BEBIDAS -->
+<!-- 🥤 BEBIDAS -->
 <div class="categoria">🥤 Bebidas</div>
 
-<div class="categoria">Lata 350ml</div>
-<div class="produto"><img src="lata.jpg"><div><b>Refrigerante Lata</b><br><small>Coca, Fanta ou Guaraná</small><br>R$ 6,50</div></div>
+<div class="produto">
+<img src="img/bebidas/lata.jpg">
+<div>
+<b>Lata 350ml</b><br>
+Refrigerante<br>
+<b>R$ 6,50</b>
+</div>
+</div>
 
-<div class="categoria">1 Litro</div>
-<div class="produto"><img src="1litro.jpg"><div><b>Refrigerante 1L</b><br><small>Pepsi, Sukita ou Guaraná</small><br>R$ 10,00</div></div>
+<div class="produto">
+<img src="img/bebidas/1litro.jpg">
+<div>
+<b>1 Litro</b><br>
+Refrigerante<br>
+<b>R$ 8,00</b>
+</div>
+</div>
 
-<div class="categoria">2 Litros</div>
-<div class="produto"><img src="2litros.jpg"><div><b>Refrigerante 2L</b><br><small>Coca, Fanta ou Guaraná</small><br>R$ 16,00</div></div>
+<div class="produto">
+<img src="img/bebidas/2litros.jpg">
+<div>
+<b>2 Litros</b><br>
+Refrigerante<br>
+<b>R$ 12,00</b>
+</div>
+</div>
 
-<div style="height:60px;"></div>
+<div style="height:40px;"></div>
 
 </body>
   </html>
