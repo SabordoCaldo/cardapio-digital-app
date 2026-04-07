@@ -6,92 +6,64 @@
 <title>Caldo Completo</title>
 
 <style>
-body {
-  margin:0;
-  font-family:Arial;
-  background:#fff;
-  margin-top:60px;
-}
+body{margin:0;font-family:Arial;background:#fff;margin-top:60px;}
 
-.topo {
+.topo{
   position:fixed;
-  top:0;
-  left:0;
-  right:0;
+  top:0;left:0;right:0;
   background:#8B4513;
   color:#fff;
   padding:12px;
-  z-index:1000;
 }
+.topo a{color:#fff;text-decoration:none;}
+#iconeCarrinho{float:right;color:#fff;}
 
-.topo a {
-  color:#fff;
-  text-decoration:none;
-}
+.img{width:100%;height:320px;object-fit:cover;}
 
-#iconeCarrinho {
-  float:right;
-  color:#fff;
-}
-
-.img {
-  width:100%;
-  height:320px;
-  object-fit:cover;
-}
-
-.conteudo {
+.conteudo{
   padding:15px;
   padding-bottom:120px;
 }
 
-.preco {
+.preco{
   font-size:22px;
   font-weight:bold;
   margin-top:10px;
 }
 
-.item {
+.item{
   display:flex;
   justify-content:space-between;
   align-items:center;
   padding:10px;
 }
 
-.contador {
+.contador{
   display:flex;
-  align-items:center;
   gap:8px;
+  align-items:center;
 }
 
-.contador button {
+.contador button{
   width:32px;
   height:32px;
   border:none;
   border-radius:8px;
-  font-size:18px;
 }
 
-.menos { background:#ccc; }
+.menos{background:#ccc;}
+.mais{background:#8B4513;color:#fff;}
 
-.mais {
-  background:#8B4513;
-  color:#fff;
-}
-
-.botao {
+.botao{
   position:fixed;
   bottom:10px;
   left:10px;
   right:10px;
-  z-index:1000;
-  text-align:center;
-  padding:14px;
-  border-radius:12px;
-  text-decoration:none;
-  font-weight:bold;
   background:#25D366;
   color:#fff;
+  padding:14px;
+  border-radius:12px;
+  text-align:center;
 }
 </style>
 </head>
@@ -121,64 +93,64 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 
 <div class="item">
 <span>Caldo Completo</span>
+
 <div class="contador">
-<button class="menos" onclick="alterar(this, -1)">-</button>
+<button class="menos" onclick="alt(this,-1)">-</button>
 <span>0</span>
-<button class="mais" onclick="alterar(this, 1)">+</button>
+<button class="mais" onclick="alt(this,1)">+</button>
 </div>
 </div>
 
 </div>
 
-<a href="#" class="botao" onclick="adicionarCarrinho()">
-Adicionar ao carrinho
-</a>
+<a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
 <script>
-function alterar(botao, valor) {
-  let numero = botao.parentElement.querySelector("span");
-  let atual = parseInt(numero.innerText);
+function alt(b,v){
+  let n=b.parentElement.querySelector("span");
+  let a=parseInt(n.innerText);
 
-  atual += valor;
-  if (atual < 0) atual = 0;
+  a+=v;
+  if(a<0)a=0;
 
-  numero.innerText = atual;
+  n.innerText=a;
 }
 
-function adicionarCarrinho() {
-  let qtd = parseInt(document.querySelector(".contador span").innerText);
+function add(){
+  let qtd=parseInt(document.querySelector(".contador span").innerText);
 
-  if (qtd <= 0) {
+  if(qtd<=0){
     alert("Selecione pelo menos 1 item");
     return;
   }
 
-  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  let c=JSON.parse(localStorage.getItem("carrinho"))||[];
 
-  carrinho.push({
-    nome: "Caldo Completo",
-    quantidade: qtd,
-    preco: 25,
-    tipo: "comida"
+  c.push({
+    nome:"Caldo Completo",
+    quantidade:qtd,
+    preco:25,
+    tipo:"comida"
   });
 
-  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  localStorage.setItem("carrinho",JSON.stringify(c));
 
-  atualizarCarrinho();
+  atualizarCarrinho(); // 🔥 ESSENCIAL
   alert("Adicionado ao carrinho");
 }
 
-function atualizarCarrinho() {
-  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-  let total = 0;
+function atualizarCarrinho(){
+  let carrinho=JSON.parse(localStorage.getItem("carrinho"))||[];
+  let total=0;
 
-  carrinho.forEach(item => {
-    total += item.quantidade;
+  carrinho.forEach(item=>{
+    total+=item.quantidade;
   });
 
-  document.getElementById("qtdCarrinho").innerText = total;
+  document.getElementById("qtdCarrinho").innerText=total;
 }
 
+// atualiza ao abrir
 atualizarCarrinho();
 </script>
 
