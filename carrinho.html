@@ -68,6 +68,14 @@ body {
   margin-top:15px;
 }
 
+/* AVISO */
+#avisoMinimo {
+  color:#d9534f;
+  font-weight:bold;
+  margin-top:10px;
+  display:none;
+}
+
 input, select {
   width:100%;
   max-width:100%;
@@ -115,6 +123,9 @@ select {
 
 <div class="total" id="total"></div>
 
+<!-- AVISO -->
+<div id="avisoMinimo"></div>
+
 <h3>Dados do Pedido</h3>
 
 <input id="nome" placeholder="Seu nome">
@@ -133,7 +144,7 @@ select {
 
 </div>
 
-<a href="#" class="botao" onclick="finalizarPedido()">
+<a href="#" id="btnFinalizar" class="botao" onclick="finalizarPedido()">
 Enviar Pedido
 </a>
 
@@ -173,11 +184,28 @@ function renderizar() {
     `;
 
     lista.appendChild(div);
-
     total += item.quantidade * item.preco;
   });
 
   document.getElementById("total").innerText = "Total: R$ " + total.toFixed(2);
+
+  let aviso = document.getElementById("avisoMinimo");
+  let botao = document.getElementById("btnFinalizar");
+
+  if (total < 20 && total > 0) {
+    let falta = 20 - total;
+
+    aviso.style.display = "block";
+    aviso.innerText = `Faltam R$ ${falta.toFixed(2)} para o pedido mínimo`;
+
+    botao.style.opacity = "0.5";
+    botao.style.pointerEvents = "none";
+  } else {
+    aviso.style.display = "none";
+
+    botao.style.opacity = "1";
+    botao.style.pointerEvents = "auto";
+  }
 }
 
 function alterar(index, valor) {
@@ -206,6 +234,13 @@ function finalizarPedido() {
   let pagamento = document.getElementById("pagamento").value;
   let troco = document.getElementById("troco").value.trim();
 
+  let total = 0;
+  carrinho.forEach(item => {
+    total += item.quantidade * item.preco;
+  });
+
+  if (total < 20) return;
+
   if (!nome || !telefone || !endereco || !pagamento) {
     alert("Preencha todos os campos obrigatórios");
     return;
@@ -224,12 +259,9 @@ function finalizarPedido() {
   mensagem += "*ITENS*%0A";
   mensagem += "--------------------------------%0A";
 
-  let total = 0;
-
   carrinho.forEach(item => {
     let subtotal = item.quantidade * item.preco;
     mensagem += `${item.quantidade}x ${item.nome}        R$ ${subtotal.toFixed(2)}%0A`;
-    total += subtotal;
   });
 
   mensagem += "%0A--------------------------------%0A";
