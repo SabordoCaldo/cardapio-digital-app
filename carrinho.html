@@ -34,14 +34,40 @@ body {
 }
 
 .item {
-  padding:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   border-bottom:1px solid #eee;
+  padding:10px 0;
+}
+
+.contador {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.contador button {
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:6px;
+  background:#8B4513;
+  color:#fff;
 }
 
 .total {
   font-size:20px;
   font-weight:bold;
   margin-top:15px;
+}
+
+input, select {
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
 }
 
 .botao {
@@ -72,8 +98,23 @@ body {
 
 <div class="total" id="total"></div>
 
+<h3>Dados do Pedido</h3>
+
+<input id="nome" placeholder="Seu nome">
+<input id="telefone" placeholder="Telefone">
+<input id="endereco" placeholder="Endereço">
+
+<select id="pagamento" onchange="verTroco()">
+<option value="">Forma de pagamento</option>
+<option>Dinheiro</option>
+<option>Pix</option>
+<option>Cartão</option>
+</select>
+
+<input id="troco" placeholder="Troco para quanto?" style="display:none;">
+
 <a href="#" class="botao" onclick="finalizarPedido()">
-Finalizar Pedido
+Enviar Pedido
 </a>
 
 </div>
@@ -81,38 +122,92 @@ Finalizar Pedido
 <script>
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let lista = document.getElementById("lista");
-let total = 0;
 
-if (carrinho.length === 0) {
-  lista.innerHTML = "<p>Seu carrinho está vazio</p>";
+function renderizar() {
+  lista.innerHTML = "";
+  let total = 0;
+
+  carrinho.forEach((item, index) => {
+    let div = document.createElement("div");
+    div.className = "item";
+
+    div.innerHTML = `
+      <div>
+        ${item.nome}<br>
+        R$ ${item.preco.toFixed(2)}
+      </div>
+
+      <div class="contador">
+        <button onclick="alterar(${index}, -1)">-</button>
+        <span>${item.quantidade}</span>
+        <button onclick="alterar(${index}, 1)">+</button>
+      </div>
+    `;
+
+    lista.appendChild(div);
+
+    total += item.quantidade * item.preco;
+  });
+
+  document.getElementById("total").innerText = "Total: R$ " + total.toFixed(2);
 }
 
-carrinho.forEach(item => {
-  let div = document.createElement("div");
-  div.className = "item";
-  div.innerText = item.quantidade + "x " + item.nome;
+function alterar(index, valor) {
+  carrinho[index].quantidade += valor;
 
-  lista.appendChild(div);
+  if (carrinho[index].quantidade <= 0) {
+    carrinho.splice(index, 1);
+  }
 
-  total += item.quantidade * item.preco;
-});
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  renderizar();
+}
 
-document.getElementById("total").innerText = "Total: R$ " + total.toFixed(2);
+function verTroco() {
+  let pagamento = document.getElementById("pagamento").value;
+  let troco = document.getElementById("troco");
+
+  troco.style.display = pagamento === "Dinheiro" ? "block" : "none";
+}
 
 function finalizarPedido() {
+  let nome = document.getElementById("nome").value;
+  let telefone = document.getElementById("telefone").value;
+  let endereco = document.getElementById("endereco").value;
+  let pagamento = document.getElementById("pagamento").value;
+  let troco = document.getElementById("troco").value;
+
+  if (!nome || !telefone || !endereco || !pagamento) {
+    alert("Preencha todos os campos");
+    return;
+  }
+
   let mensagem = "Pedido:%0A";
 
+  let total = 0;
+
   carrinho.forEach(item => {
-    mensagem += item.quantidade + " " + item.nome + "%0A";
+    mensagem += item.quantidade + "x " + item.nome + "%0A";
+    total += item.quantidade * item.preco;
   });
 
   mensagem += "%0ATotal: R$ " + total.toFixed(2);
 
-  let telefone = "5599999999999"; // COLOCA SEU NÚMERO
-  let url = `https://wa.me/${telefone}?text=${mensagem}`;
+  mensagem += "%0A%0ANome: " + nome;
+  mensagem += "%0ATelefone: " + telefone;
+  mensagem += "%0AEndereço: " + endereco;
+  mensagem += "%0APagamento: " + pagamento;
+
+  if (pagamento === "Dinheiro" && troco) {
+    mensagem += "%0ATroco para: R$ " + troco;
+  }
+
+  let url = `https://wa.me/5535999711358?text=${mensagem}`;
 
   window.open(url, "_blank");
 }
+
+renderizar();
 </script>
 
 </body>
