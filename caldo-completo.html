@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Caldo de Feijão</title>
+<title>Caldo Completo</title>
 
 <style>
 body {
@@ -31,7 +31,6 @@ body {
 
 #iconeCarrinho {
   float:right;
-  font-weight:bold;
   color:#fff;
 }
 
@@ -56,7 +55,6 @@ body {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:12px;
   padding:10px;
 }
 
@@ -108,18 +106,21 @@ body {
 </a>
 </div>
 
-<img src="img/caldos/feijao.jpg" class="img">
+<img src="img/banners/completo_banner.jpg" class="img">
 
 <div class="conteudo">
 
-<h2>Caldo de Feijão</h2>
+<h2>Caldo Completo</h2>
 
-<p>Caldo cremoso de feijão com tempero caseiro.</p>
+<p>
+Pote 500g - Feijão cremoso e bem temperado, recheado com calabresa, bacon, 3 ovos de codorna e mussarela em cubos.<br><br>
+Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
+</p>
 
-<div class="preco">R$ 12,00</div>
+<div class="preco">R$ 25,00</div>
 
 <div class="item">
-<span>Caldo de Feijão</span>
+<span>Caldo Completo</span>
 <div class="contador">
 <button class="menos" onclick="alterar(this, -1)">-</button>
 <span>0</span>
@@ -145,31 +146,21 @@ function alterar(botao, valor) {
 }
 
 function adicionarCarrinho() {
-  let itens = document.querySelectorAll(".item");
-  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  let qtd = parseInt(document.querySelector(".contador span").innerText);
 
-  let adicionou = false;
-
-  itens.forEach(item => {
-    let nome = item.querySelector("span").innerText;
-    let qtd = parseInt(item.querySelector(".contador span").innerText);
-
-    if (qtd > 0) {
-      carrinho.push({
-        nome: nome,
-        quantidade: qtd,
-        preco: 12.0,
-        tipo: "comida"
-      });
-
-      adicionou = true;
-    }
-  });
-
-  if (!adicionou) {
+  if (qtd <= 0) {
     alert("Selecione pelo menos 1 item");
     return;
   }
+
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  carrinho.push({
+    nome: "Caldo Completo",
+    quantidade: qtd,
+    preco: 25,
+    tipo: "comida"
+  });
 
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
