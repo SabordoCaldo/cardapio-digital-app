@@ -3,15 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Caldo Completo</title>
+<title>Caldo de Feijão</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#fff;}
-.topo{background:#8B4513;color:#fff;padding:12px;}
-.topo a{color:#fff;text-decoration:none;}
-.img{width:100%;height:320px;object-fit:cover;}
-.conteudo{padding:15px;}
-.preco{font-size:22px;font-weight:bold;margin-top:10px;}
+body {
+  margin:0;
+  font-family:Arial;
+  background:#fff;
+  margin-top:60px;
+}
+
+.topo {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background:#8B4513;
+  color:#fff;
+  padding:12px;
+  z-index:1000;
+}
+
+.topo a {
+  color:#fff;
+  text-decoration:none;
+}
+
+#iconeCarrinho {
+  float:right;
+  font-weight:bold;
+  color:#fff;
+}
+
+.img {
+  width:100%;
+  height:320px;
+  object-fit:cover;
+}
+
+.conteudo {
+  padding:15px;
+  padding-bottom:120px;
+}
+
+.preco {
+  font-size:22px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.item {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+  padding:10px;
+}
+
+.contador {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.contador button {
+  width:32px;
+  height:32px;
+  border:none;
+  border-radius:8px;
+  font-size:18px;
+}
+
+.menos { background:#ccc; }
+
+.mais {
+  background:#8B4513;
+  color:#fff;
+}
+
+.botao {
+  position:fixed;
+  bottom:10px;
+  left:10px;
+  right:10px;
+  z-index:1000;
+  text-align:center;
+  padding:14px;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:bold;
+  background:#25D366;
+  color:#fff;
+}
 </style>
 </head>
 
@@ -19,20 +102,94 @@ body{margin:0;font-family:Arial;background:#fff;}
 
 <div class="topo">
 <a href="index.html">← Voltar</a>
+
+<a href="carrinho.html" id="iconeCarrinho">
+🛒 <span id="qtdCarrinho">0</span>
+</a>
 </div>
 
-<img src="img/banners/completo_banner.jpg" class="img">
+<img src="img/caldos/feijao.jpg" class="img">
 
 <div class="conteudo">
-<h2>Caldo Completo</h2>
 
-<p>
-Pote 500g - Feijão cremoso e bem temperado recheado com calabresa, bacon, 3 ovos de codorna e mussarela em cubos, acompanha torresmo crocante, torrada sequinha e cheiro verde fresco.
-</p>
+<h2>Caldo de Feijão</h2>
 
-<div class="preco">R$ 27,00</div>
+<p>Caldo cremoso de feijão com tempero caseiro.</p>
+
+<div class="preco">R$ 12,00</div>
+
+<div class="item">
+<span>Caldo de Feijão</span>
+<div class="contador">
+<button class="menos" onclick="alterar(this, -1)">-</button>
+<span>0</span>
+<button class="mais" onclick="alterar(this, 1)">+</button>
+</div>
+</div>
 
 </div>
+
+<a href="#" class="botao" onclick="adicionarCarrinho()">
+Adicionar ao carrinho
+</a>
+
+<script>
+function alterar(botao, valor) {
+  let numero = botao.parentElement.querySelector("span");
+  let atual = parseInt(numero.innerText);
+
+  atual += valor;
+  if (atual < 0) atual = 0;
+
+  numero.innerText = atual;
+}
+
+function adicionarCarrinho() {
+  let itens = document.querySelectorAll(".item");
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  let adicionou = false;
+
+  itens.forEach(item => {
+    let nome = item.querySelector("span").innerText;
+    let qtd = parseInt(item.querySelector(".contador span").innerText);
+
+    if (qtd > 0) {
+      carrinho.push({
+        nome: nome,
+        quantidade: qtd,
+        preco: 12.0,
+        tipo: "comida"
+      });
+
+      adicionou = true;
+    }
+  });
+
+  if (!adicionou) {
+    alert("Selecione pelo menos 1 item");
+    return;
+  }
+
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+
+  atualizarCarrinho();
+  alert("Adicionado ao carrinho");
+}
+
+function atualizarCarrinho() {
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  let total = 0;
+
+  carrinho.forEach(item => {
+    total += item.quantidade;
+  });
+
+  document.getElementById("qtdCarrinho").innerText = total;
+}
+
+atualizarCarrinho();
+</script>
 
 </body>
 </html>
