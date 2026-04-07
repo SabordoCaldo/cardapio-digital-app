@@ -13,6 +13,7 @@ body {
   margin-top:60px;
 }
 
+/* TOPO */
 .topo {
   position:fixed;
   top:0;
@@ -29,13 +30,14 @@ body {
   text-decoration:none;
 }
 
-/* ícone carrinho */
+/* CARRINHO */
 #iconeCarrinho {
   float:right;
   font-weight:bold;
+  color:#fff;
 }
 
-/* imagem */
+/* IMAGEM */
 .img {
   width:100%;
   height:320px;
@@ -44,6 +46,7 @@ body {
 
 .conteudo {
   padding:15px;
+  padding-bottom:120px; /* espaço pro botão fixo */
 }
 
 .preco {
@@ -52,17 +55,16 @@ body {
   margin-top:10px;
 }
 
-/* itens */
+/* ITEM */
 .item {
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:12px;
   padding:10px;
-  border-radius:8px;
 }
 
-/* contador */
+/* CONTADOR */
 .contador {
   display:flex;
   align-items:center;
@@ -75,41 +77,30 @@ body {
   border:none;
   border-radius:8px;
   font-size:18px;
-  cursor:pointer;
-  transition:0.15s;
 }
 
-/* cores originais */
-.menos {
-  background:#ccc;
-}
-
+/* CORES */
+.menos { background:#ccc; }
 .mais {
   background:#8B4513;
   color:#fff;
 }
 
-/* efeito toque */
-.contador button:active {
-  transform:scale(0.9);
-}
-
-/* botão principal */
+/* BOTÃO FIXO */
 .botao {
-  display:block;
+  position:fixed;
+  bottom:10px;
+  left:10px;
+  right:10px;
+  z-index:1000;
+
   text-align:center;
   padding:14px;
-  margin-top:20px;
   border-radius:12px;
   text-decoration:none;
   font-weight:bold;
   background:#25D366;
   color:#fff;
-  transition:0.2s;
-}
-
-.botao:active {
-  transform:scale(0.97);
 }
 </style>
 </head>
@@ -119,7 +110,7 @@ body {
 <div class="topo">
 <a href="index.html">← Voltar</a>
 
-<a href="carrinho.html" id="iconeCarrinho" style="color:#fff;">
+<a href="carrinho.html" id="iconeCarrinho">
 🛒 <span id="qtdCarrinho">0</span>
 </a>
 </div>
@@ -135,8 +126,6 @@ body {
 <div class="preco">R$ 6,50</div>
 
 <h3 style="margin-top:20px;">Escolha seu sabor</h3>
-
-<div>
 
 <div class="item">
 <span>Coca-Cola</span>
@@ -176,30 +165,10 @@ body {
 
 </div>
 
+<!-- BOTÃO FIXO -->
 <a href="#" class="botao" onclick="adicionarCarrinho()">
 Adicionar ao carrinho
 </a>
-
-<div style="height:80px;"></div>
-
-</div>
-
-<!-- TOAST -->
-<div id="toast" style="
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-background:#333;
-color:#fff;
-padding:12px 20px;
-border-radius:8px;
-opacity:0;
-transition:0.3s;
-z-index:2000;
-">
-Adicionado ao carrinho ✅
-</div>
 
 <script>
 function alterar(botao, valor) {
@@ -226,7 +195,8 @@ function adicionarCarrinho() {
       carrinho.push({
         nome: nome,
         quantidade: qtd,
-        preco: 6.5
+        preco: 6.5,
+        tipo: "bebida"
       });
 
       adicionou = true;
@@ -240,17 +210,8 @@ function adicionarCarrinho() {
 
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
-  mostrarToast();
   atualizarCarrinho();
-}
-
-function mostrarToast() {
-  let toast = document.getElementById("toast");
-  toast.style.opacity = "1";
-
-  setTimeout(() => {
-    toast.style.opacity = "0";
-  }, 2000);
+  alert("Adicionado ao carrinho");
 }
 
 function atualizarCarrinho() {
