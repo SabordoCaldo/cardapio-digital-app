@@ -10,10 +10,9 @@ body {
   margin:0;
   font-family:Arial;
   background:#fff;
-  margin-top:60px; /* espaço para barra fixa */
+  margin-top:60px;
 }
 
-/* BARRA FIXA */
 .topo {
   position:fixed;
   top:0;
@@ -30,7 +29,13 @@ body {
   text-decoration:none;
 }
 
-/* IMAGEM */
+/* ícone carrinho */
+#iconeCarrinho {
+  float:right;
+  font-weight:bold;
+}
+
+/* imagem */
 .img {
   width:100%;
   height:320px;
@@ -47,7 +52,7 @@ body {
   margin-top:10px;
 }
 
-/* ITENS */
+/* itens */
 .item {
   display:flex;
   justify-content:space-between;
@@ -57,7 +62,7 @@ body {
   border-radius:8px;
 }
 
-/* CONTADOR */
+/* contador */
 .contador {
   display:flex;
   align-items:center;
@@ -74,7 +79,7 @@ body {
   transition:0.15s;
 }
 
-/* CORES ORIGINAIS */
+/* cores originais */
 .menos {
   background:#ccc;
 }
@@ -84,12 +89,12 @@ body {
   color:#fff;
 }
 
-/* EFEITO TOQUE */
+/* efeito toque */
 .contador button:active {
   transform:scale(0.9);
 }
 
-/* BOTÃO PRINCIPAL */
+/* botão principal */
 .botao {
   display:block;
   text-align:center;
@@ -111,9 +116,12 @@ body {
 
 <body>
 
-<!-- BARRA -->
 <div class="topo">
 <a href="index.html">← Voltar</a>
+
+<a href="carrinho.html" id="iconeCarrinho" style="color:#fff;">
+🛒 <span id="qtdCarrinho">0</span>
+</a>
 </div>
 
 <img src="img/bebidas/lata.jpg" class="img">
@@ -126,13 +134,10 @@ body {
 
 <div class="preco">R$ 6,50</div>
 
-<h3 style="margin-top:20px; margin-bottom:10px;">
-Escolha seu sabor
-</h3>
+<h3 style="margin-top:20px;">Escolha seu sabor</h3>
 
 <div>
 
-<!-- COCA -->
 <div class="item">
 <span>Coca-Cola</span>
 <div class="contador">
@@ -142,7 +147,6 @@ Escolha seu sabor
 </div>
 </div>
 
-<!-- COCA ZERO -->
 <div class="item">
 <span>Coca-Cola Zero</span>
 <div class="contador">
@@ -152,7 +156,6 @@ Escolha seu sabor
 </div>
 </div>
 
-<!-- FANTA -->
 <div class="item">
 <span>Fanta Laranja</span>
 <div class="contador">
@@ -162,7 +165,6 @@ Escolha seu sabor
 </div>
 </div>
 
-<!-- GUARANÁ -->
 <div class="item">
 <span>Guaraná Antártica</span>
 <div class="contador">
@@ -174,13 +176,29 @@ Escolha seu sabor
 
 </div>
 
-<a href="javascript:void(0)" class="botao">
+<a href="#" class="botao" onclick="adicionarCarrinho()">
 Adicionar ao carrinho
 </a>
 
-<!-- espaço para não cortar o botão -->
 <div style="height:80px;"></div>
 
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#333;
+color:#fff;
+padding:12px 20px;
+border-radius:8px;
+opacity:0;
+transition:0.3s;
+z-index:2000;
+">
+Adicionado ao carrinho ✅
 </div>
 
 <script>
@@ -189,11 +207,64 @@ function alterar(botao, valor) {
   let atual = parseInt(numero.innerText);
 
   atual += valor;
-
   if (atual < 0) atual = 0;
 
   numero.innerText = atual;
 }
+
+function adicionarCarrinho() {
+  let itens = document.querySelectorAll(".item");
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  let adicionou = false;
+
+  itens.forEach(item => {
+    let nome = item.querySelector("span").innerText;
+    let qtd = parseInt(item.querySelector(".contador span").innerText);
+
+    if (qtd > 0) {
+      carrinho.push({
+        nome: nome,
+        quantidade: qtd,
+        preco: 6.5
+      });
+
+      adicionou = true;
+    }
+  });
+
+  if (!adicionou) {
+    alert("Selecione pelo menos 1 item");
+    return;
+  }
+
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+
+  mostrarToast();
+  atualizarCarrinho();
+}
+
+function mostrarToast() {
+  let toast = document.getElementById("toast");
+  toast.style.opacity = "1";
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+  }, 2000);
+}
+
+function atualizarCarrinho() {
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  let total = 0;
+
+  carrinho.forEach(item => {
+    total += item.quantidade;
+  });
+
+  document.getElementById("qtdCarrinho").innerText = total;
+}
+
+atualizarCarrinho();
 </script>
 
 </body>
