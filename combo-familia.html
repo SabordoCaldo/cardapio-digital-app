@@ -21,7 +21,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   align-items:center;
 }
 
-.topo a{color:#fff;text-decoration:none;font-size:18px;}
+.topo a{color:#fff;text-decoration:none;}
 
 .img{width:100%;height:320px;object-fit:cover;}
 
@@ -48,6 +48,23 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   padding:14px;
   border-radius:12px;
   text-align:center;
+}
+
+/* BOTÃO VOLTAR REDONDO */
+.voltar-btn{
+  width:40px;
+  height:40px;
+  background:#eee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.voltar-btn svg{
+  width:20px;
+  height:20px;
+  stroke:#8B4513;
 }
 
 /* MENU */
@@ -84,7 +101,11 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <body>
 
 <div class="topo">
-<a href="index.html">←</a>
+<a href="index.html" class="voltar-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+</a>
 </div>
 
 <img src="img/banners/combo_familia_banner.jpg" class="img">
@@ -190,7 +211,11 @@ function atualizarCarrinho(){
   carrinho.forEach(item=>{
     total+=item.quantidade;
   });
+
+  document.getElementById("qtdCarrinho")?.innerText = total;
 }
+
+atualizarCarrinho();
 </script>
 
 </body>
