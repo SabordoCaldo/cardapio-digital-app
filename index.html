@@ -6,7 +6,12 @@
 <title>Sabor do Caldo</title>
 
 <style>
-body { margin:0; font-family:Arial; background:#fff; }
+body { 
+  margin:0; 
+  font-family:Arial; 
+  background:#fff;
+  padding-bottom:90px;
+}
 
 header {
   background:#8B4513;
@@ -40,7 +45,10 @@ header img { width:120px; }
 
 small { color:#555; }
 
-a { text-decoration:none; color:inherit; }
+a { 
+  text-decoration:none; 
+  color:inherit; 
+}
 
 /* MENU INFERIOR */
 .menu {
@@ -48,33 +56,27 @@ a { text-decoration:none; color:inherit; }
   bottom:0;
   left:0;
   right:0;
-  background:#fff;
-  border-top:1px solid #ddd;
+  background:#8B4513; /* 🔥 ALTERAÇÃO */
   display:flex;
   justify-content:space-around;
-  padding:8px 0;
+  padding:10px 0;
+  border-top:1px solid #8B4513;
 }
 
-.item-menu {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+.menu a {
+  text-align:center;
   font-size:12px;
-  color:#555;
+  color:#fff; /* 🔥 ALTERAÇÃO */
+  text-decoration:none;
 }
 
-.item-menu svg {
+.menu svg {
   width:24px;
   height:24px;
-  stroke:#555;
-}
-
-.item-menu.ativo {
-  color:#8B4513;
-}
-
-.item-menu.ativo svg {
-  stroke:#8B4513;
+  display:block;
+  margin:auto;
+  margin-bottom:4px;
+  stroke:#fff; /* 🔥 ALTERAÇÃO */
 }
 </style>
 </head>
@@ -120,69 +122,7 @@ a { text-decoration:none; color:inherit; }
 </div>
 </a>
 
-<!-- COMBOS COM REFRIGERANTE -->
-<div class="categoria">🔥 Combos com Refrigerante</div>
-
-<a href="combo-individual.html">
-<div class="produto">
-<img src="img/produtos/combo_individual.jpg">
-<div><b>Combo Individual</b><br><small>1 caldo completo + refrigerante lata</small><br>R$ 29,00</div>
-</div>
-</a>
-
-<a href="combo-casal.html">
-<div class="produto">
-<img src="img/produtos/combo_casal.jpg">
-<div><b>Combo Casal</b><br><small>2 caldos completos + refrigerante 1L</small><br>R$ 55,00</div>
-</div>
-</a>
-
-<a href="combo-familia.html">
-<div class="produto">
-<img src="img/produtos/combo_familia.jpg">
-<div><b>Combo Família</b><br><small>3 caldos completos + refrigerante 2L</small><br>R$ 81,00</div>
-</div>
-</a>
-
-<!-- CALDOS -->
-<div class="categoria">🍲 Caldos</div>
-
-<a href="caldo-tradicional.html">
-<div class="produto">
-<img src="img/produtos/tradicional.jpg">
-<div><b>Caldo Tradicional</b><br><small>Feijão cremoso e bem temperado</small><br>R$ 20,00</div>
-</div>
-</a>
-
-<a href="caldo-calabresa.html">
-<div class="produto">
-<img src="img/produtos/calabresa_bacon.jpg">
-<div><b>Caldo Calabresa e Bacon</b><br><small>Com calabresa e bacon</small><br>R$ 22,00</div>
-</div>
-</a>
-
-<a href="caldo-ovo.html">
-<div class="produto">
-<img src="img/produtos/ovo_codorna.jpg">
-<div><b>Caldo com Ovo de Codorna</b><br><small>Com calabresa, bacon e ovos</small><br>R$ 23,00</div>
-</div>
-</a>
-
-<a href="caldo-mussarela.html">
-<div class="produto">
-<img src="img/produtos/mussarela.jpg">
-<div><b>Caldo com Mussarela</b><br><small>Com calabresa, bacon e mussarela</small><br>R$ 24,00</div>
-</div>
-</a>
-
-<a href="caldo-completo.html">
-<div class="produto">
-<img src="img/produtos/completo.jpg">
-<div><b>Caldo Completo</b><br><small>Com calabresa, bacon, ovos e mussarela</small><br>R$ 25,00</div>
-</div>
-</a>
-
-<!-- COMBOS SEM REFRIGERANTE -->
+<!-- COMBOS -->
 <div class="categoria">🍲 Combos de Caldos</div>
 
 <a href="combo-2-completo.html">
@@ -209,7 +149,6 @@ a { text-decoration:none; color:inherit; }
 <!-- BEBIDAS -->
 <div class="categoria">🥤 Bebidas</div>
 
-<div class="categoria">Lata 350ml</div>
 <a href="lata.html">
 <div class="produto">
 <img src="img/bebidas/lata.jpg">
@@ -217,7 +156,6 @@ a { text-decoration:none; color:inherit; }
 </div>
 </a>
 
-<div class="categoria">1 Litro</div>
 <a href="refri-1l.html">
 <div class="produto">
 <img src="img/bebidas/1litro.jpg">
@@ -225,7 +163,6 @@ a { text-decoration:none; color:inherit; }
 </div>
 </a>
 
-<div class="categoria">2 Litros</div>
 <a href="refri-2l.html">
 <div class="produto">
 <img src="img/bebidas/2litros.jpg">
@@ -233,44 +170,40 @@ a { text-decoration:none; color:inherit; }
 </div>
 </a>
 
-<div style="height:80px;"></div>
-
 <!-- MENU INFERIOR -->
 <div class="menu">
 
-  <a href="index.html" class="item-menu ativo">
-    <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-      <path d="M3 10L12 3l9 7"></path>
-      <path d="M5 10v10h14V10"></path>
-    </svg>
-    Início
-  </a>
+<a href="index.html">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M3 10 L12 3 L21 10 V21 H3 Z"/>
+</svg>
+Início
+</a>
 
-  <a href="#" class="item-menu">
-    <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-      <circle cx="7" cy="7" r="2"></circle>
-      <circle cx="17" cy="17" r="2"></circle>
-      <line x1="7" y1="17" x2="17" y2="7"></line>
-    </svg>
-    Promoções
-  </a>
+<a href="#">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="12" cy="12" r="9"/>
+<path d="M8 12 L16 12"/>
+</svg>
+Promoções
+</a>
 
-  <a href="carrinho.html" class="item-menu">
-    <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-      <circle cx="9" cy="20" r="1"></circle>
-      <circle cx="17" cy="20" r="1"></circle>
-      <path d="M5 6h2l1 7h9l2-5H7"></path>
-    </svg>
-    Carrinho
-  </a>
+<a href="carrinho.html">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="9" cy="21" r="1"/>
+<circle cx="20" cy="21" r="1"/>
+<path d="M1 1 H5 L7 14 H19 L23 6 H6"/>
+</svg>
+Carrinho
+</a>
 
-  <a href="#" class="item-menu">
-    <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-      <circle cx="12" cy="8" r="4"></circle>
-      <path d="M4 20c2-4 14-4 16 0"></path>
-    </svg>
-    Perfil
-  </a>
+<a href="#">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="12" cy="8" r="4"/>
+<path d="M4 21 C4 16,20 16,20 21"/>
+</svg>
+Perfil
+</a>
 
 </div>
 
