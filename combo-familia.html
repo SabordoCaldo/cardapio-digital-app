@@ -6,7 +6,14 @@
 <title>Combo Família</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:100px;}
+body{
+  margin:0;
+  font-family:Arial;
+  background:#fff;
+  margin-top:60px;
+  padding-bottom:100px;
+  position:relative;
+}
 
 .topo{
   position:fixed;
@@ -17,7 +24,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   color:#fff;
   padding:12px;
   display:flex;
-  justify-content:space-between;
+  justify-content:flex-end;
   align-items:center;
 }
 
@@ -25,7 +32,35 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 #iconeCarrinho{color:#fff;}
 
-.img{width:100%;height:320px;object-fit:cover;}
+.img{
+  width:100%;
+  height:320px;
+  object-fit:cover;
+  position:relative;
+}
+
+/* BOTÃO VOLTAR */
+.voltar-btn{
+  position:absolute;
+  top:15px;
+  right:15px;
+  width:45px;
+  height:45px;
+  background:#eee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  z-index:10;
+}
+
+.voltar-btn svg{
+  width:20px;
+  height:20px;
+  stroke:#8B4513;
+}
 
 .conteudo{padding:15px;padding-bottom:140px;}
 
@@ -52,17 +87,17 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   text-align:center;
 }
 
-/* MENU INFERIOR */
+/* MENU */
 .menu{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
   background:#fff;
-  border-top:1px solid #ddd;
+  border-top:1px solid #eee;
   display:flex;
   justify-content:space-around;
-  padding:8px 0;
+  padding:10px 0;
 }
 
 .item-menu{
@@ -75,18 +110,10 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 }
 
 .item-menu svg{
-  width:22px;
-  height:22px;
+  width:24px;
+  height:24px;
   stroke:#555;
-  margin-bottom:3px;
-}
-
-.item-menu.ativo{
-  color:#8B4513;
-}
-
-.item-menu.ativo svg{
-  stroke:#8B4513;
+  margin-bottom:4px;
 }
 </style>
 </head>
@@ -94,12 +121,17 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <body>
 
 <div class="topo">
-<a href="index.html" style="color:#fff;font-size:18px;">←</a>
-
 <a href="carrinho.html" id="iconeCarrinho">
 🛒 <span id="qtdCarrinho">0</span>
 </a>
 </div>
+
+<!-- BOTÃO VOLTAR -->
+<a href="index.html" class="voltar-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+</a>
 
 <img src="img/banners/combo_familia_banner.jpg" class="img">
 
