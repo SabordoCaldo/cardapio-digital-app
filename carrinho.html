@@ -6,12 +6,17 @@
 <title>Carrinho</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:Arial;
   background:#fff;
   margin-top:60px;
-  padding-bottom:100px;
+  padding-bottom:180px; /* 🔥 espaço para botão + menu */
+  overflow-x:hidden;
 }
 
 .topo{
@@ -25,6 +30,7 @@ body{
   display:flex;
   justify-content:flex-end;
   align-items:center;
+  z-index:1000;
 }
 
 .voltar-btn{
@@ -77,6 +83,7 @@ body{
 
 input, select{
   width:100%;
+  max-width:100%;
   padding:12px;
   margin-top:10px;
   border-radius:8px;
@@ -84,6 +91,7 @@ input, select{
   font-size:16px;
 }
 
+/* BOTÃO */
 .botao{
   position:fixed;
   bottom:80px;
@@ -95,8 +103,10 @@ input, select{
   border-radius:12px;
   text-align:center;
   font-weight:bold;
+  z-index:1000;
 }
 
+/* MENU */
 .menu{
   position:fixed;
   bottom:0;
@@ -107,6 +117,7 @@ input, select{
   display:flex;
   justify-content:space-around;
   padding:10px 0;
+  z-index:1000;
 }
 
 .item-menu{
@@ -129,6 +140,7 @@ input, select{
 
 <body>
 
+<!-- TOPO -->
 <div class="topo">
 <a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
@@ -137,12 +149,15 @@ input, select{
 </a>
 </div>
 
+<!-- CONTEÚDO -->
 <div class="conteudo" id="conteudo">
 <h2>Seu Carrinho</h2>
 </div>
 
+<!-- BOTÃO -->
 <div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
+<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -221,7 +236,6 @@ function renderizar(){
 
   container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
 
-  // FORMULÁRIO
   container.innerHTML += `
     <h3>Dados do Pedido</h3>
 
