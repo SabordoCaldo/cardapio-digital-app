@@ -50,7 +50,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   text-align:center;
 }
 
-/* BOTÃO VOLTAR REDONDO */
+/* BOTÃO VOLTAR */
 .voltar-btn{
   width:40px;
   height:40px;
@@ -153,12 +153,26 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
     Promoções
   </a>
 
-  <a href="carrinho.html" class="item-menu">
+  <!-- 🔥 CARRINHO COM CONTADOR -->
+  <a href="carrinho.html" class="item-menu" style="position:relative;">
+
+    <span id="qtdCarrinho" style="
+      position:absolute;
+      top:-5px;
+      right:-10px;
+      background:red;
+      color:#fff;
+      font-size:10px;
+      padding:2px 6px;
+      border-radius:10px;
+    ">0</span>
+
     <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
       <circle cx="9" cy="20" r="1"></circle>
       <circle cx="17" cy="20" r="1"></circle>
       <path d="M5 6h2l1 7h9l2-5H7"></path>
     </svg>
+
     Carrinho
   </a>
 
@@ -215,6 +229,11 @@ function atualizarCarrinho(){
   carrinho.forEach(item=>{
     total+=item.quantidade;
   });
+
+  let badge = document.getElementById("qtdCarrinho");
+  if(badge){
+    badge.innerText = total;
+  }
 }
 
 atualizarCarrinho();
