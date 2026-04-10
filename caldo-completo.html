@@ -123,7 +123,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <body>
 
 <div class="topo">
-<a href="index.html" class="voltar-btn">
+<a href="#" onclick="voltar()" class="voltar-btn">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
     <path d="M15 18l-6-6 6-6"/>
   </svg>
@@ -177,9 +177,7 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
     Promoções
   </a>
 
-  <!-- 🔴 CARRINHO COM CONTADOR -->
   <a href="carrinho.html" class="item-menu">
-    
     <span id="qtdCarrinho" style="
       position:absolute;
       top:-5px;
@@ -210,6 +208,14 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 </div>
 
 <script>
+function voltar(){
+  if(history.length > 1){
+    history.back();
+  }else{
+    window.location.href = "index.html";
+  }
+}
+
 function alt(botao, valor){
   let contador = botao.parentElement.children[1];
   let numero = parseInt(contador.innerText) || 0;
