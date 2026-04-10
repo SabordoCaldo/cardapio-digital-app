@@ -11,6 +11,7 @@ body {
   font-family:Arial;
   background:#fff;
   margin-top:60px;
+  padding-bottom:100px;
 }
 
 .topo {
@@ -20,7 +21,10 @@ body {
   right:0;
   background:#8B4513;
   color:#fff;
-  padding:12px;
+  padding:4px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
   z-index:1000;
 }
 
@@ -29,9 +33,26 @@ body {
   text-decoration:none;
 }
 
+/* BOTÃO VOLTAR */
+.voltar-btn{
+  width:40px;
+  height:40px;
+  background:#eee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.voltar-btn svg{
+  width:20px;
+  height:20px;
+  stroke:#8B4513;
+}
+
 .conteudo {
   padding:15px;
-  padding-bottom:120px;
+  padding-bottom:140px;
 }
 
 .item {
@@ -82,9 +103,10 @@ input, select {
 
 select { height:45px; }
 
+/* BOTÃO SUBIDO */
 .botao {
   position:fixed;
-  bottom:10px;
+  bottom:80px;
   left:10px;
   right:10px;
   z-index:1000;
@@ -102,7 +124,11 @@ select { height:45px; }
 <body>
 
 <div class="topo">
-<a href="index.html">← Voltar</a>
+<a href="#" onclick="voltar()" class="voltar-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+</a>
 </div>
 
 <div class="conteudo">
@@ -139,6 +165,14 @@ Enviar Pedido
 </a>
 
 <script>
+function voltar(){
+  if(history.length > 1){
+    history.back();
+  }else{
+    window.location.href = "index.html";
+  }
+}
+
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let lista = document.getElementById("lista");
 
@@ -185,7 +219,6 @@ function renderizar() {
 
   let temComida = carrinho.some(item => item.tipo === "comida");
 
-  // BLOQUEIO BEBIDA
   if (!temComida && total > 0) {
     avisoBebida.style.display = "block";
     avisoBebida.innerText = "Adicione pelo menos 1 caldo ou combo para continuar";
@@ -193,7 +226,6 @@ function renderizar() {
     avisoBebida.style.display = "none";
   }
 
-  // PEDIDO MÍNIMO
   if (total < 20 && total > 0) {
     let falta = 20 - total;
     avisoMinimo.style.display = "block";
@@ -202,7 +234,6 @@ function renderizar() {
     avisoMinimo.style.display = "none";
   }
 
-  // CONTROLE BOTÃO
   if (temComida && total >= 20) {
     botao.style.opacity = "1";
     botao.style.pointerEvents = "auto";
