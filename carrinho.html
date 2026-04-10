@@ -322,11 +322,12 @@ function finalizarPedido(){
   }
 
   let data = new Date();
-let dataFormatada = data.toLocaleDateString("pt-BR") + " - " + data.toLocaleTimeString("pt-BR");
+  let dataFormatada = data.toLocaleDateString("pt-BR") + " - " + data.toLocaleTimeString("pt-BR");
 
-let mensagem = "*SABOR DO CALDO*%0A";
-mensagem += dataFormatada + "%0A";
-mensagem += "--------------------------%0A";
+  let mensagem = "*SABOR DO CALDO*%0A";
+  mensagem += dataFormatada + "%0A";
+  mensagem += "--------------------------%0A";
+
   carrinho.forEach(item=>{
     let subtotal = item.quantidade * item.preco;
     mensagem += `${item.quantidade}x ${item.nome} - R$ ${subtotal.toFixed(2)}%0A`;
@@ -349,14 +350,22 @@ mensagem += "--------------------------%0A";
   }
 
   mensagem += "%0A--------------------------%0A";
-mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
-mensagem += "Obrigado pela preferência!";
+  mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
+  mensagem += "Obrigado pela preferência!";
 
-window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
+  window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
 
-// 🔥 AQUI DENTRO DA FUNÇÃO
-localStorage.removeItem("carrinho");
-carrinho = [];
-renderizar();
-atualizarBadge();
+  // 🔥 DELAY PARA LIMPAR CARRINHO
+  setTimeout(() => {
+    localStorage.removeItem("carrinho");
+    carrinho = [];
+    renderizar();
+    atualizarBadge();
+  }, 500);
 }
+
+renderizar();
+</script>
+
+</body>
+</html>
