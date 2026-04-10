@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:#fff;
+  margin-top:60px;
+  padding-bottom:120px;
+}
+
+/* TOPO */
+.topo{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background:#8B4513;
+  padding:4px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+
+.voltar-btn{
+  width:40px;
+  height:40px;
+  background:#eee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.voltar-btn svg{
+  width:20px;
+  height:20px;
+  stroke:#8B4513;
+}
+
+/* CONTEÚDO */
+.conteudo{
+  padding:15px;
+}
+
+h2{
+  margin-bottom:15px;
+}
+
+/* CARD */
+.card{
+  border:1px solid #eee;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:15px;
+}
+
+.titulo{
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+/* BOTÕES */
+.btn{
+  margin-top:10px;
+  display:flex;
+  gap:10px;
+}
+
+button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.repetir{
+  background:#25D366;
+  color:#fff;
+}
+
+.apagar{
+  background:#ccc;
+}
+
+/* MENU */
+.menu{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  border-top:1px solid #eee;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+
+.item-menu{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:13px;
+  color:#555;
+  text-decoration:none;
+}
+
+.item-menu svg{
+  width:26px;
+  height:26px;
+  stroke:#555;
+  margin-bottom:4px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPO -->
+<div class="topo">
+<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+</a>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="conteudo">
+<h2>Últimos pedidos</h2>
+<div id="lista"></div>
+</div>
+
+<!-- MENU -->
+<div class="menu">
+
+<a href="index.html" class="item-menu">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
+<path d="M3 10L12 3l9 7"></path>
+<path d="M5 10v10h14V10"></path>
+</svg>
+Início
+</a>
+
+<a href="#" class="item-menu">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="7" cy="7" r="2"></circle>
+<circle cx="17" cy="17" r="2"></circle>
+<line x1="7" y1="17" x2="17" y2="7"></line>
+</svg>
+Promoções
+</a>
+
+<a href="carrinho.html" class="item-menu">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="9" cy="20" r="1"/>
+<circle cx="17" cy="20" r="1"/>
+<path d="M5 6h2l1 7h9l2-5H7"/>
+</svg>
+Carrinho
+</a>
+
+<a href="perfil.html" class="item-menu">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="8" r="4"/>
+<path d="M4 20c2-4 14-4 16 0"/>
+</svg>
+Perfil
+</a>
+
+</div>
+
+<script>
+let lista = document.getElementById("lista");
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+
+function render(){
+  lista.innerHTML = "";
+
+  if(pedidos.length === 0){
+    lista.innerHTML = "<p>Nenhum pedido ainda</p>";
+    return;
+  }
+
+  pedidos.forEach((pedido, index)=>{
+
+    let itensTexto = "";
+    pedido.itens.forEach(i=>{
+      itensTexto += `${i.quantidade}x ${i.nome}<br>`;
+    });
+
+    let div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <div class="titulo">${pedido.data}</div>
+
+      <div>${itensTexto}</div>
+
+      <div><b>Total:</b> R$ ${pedido.total.toFixed(2)}</div>
+
+      <br>
+
+      <div><b>Nome:</b> ${pedido.nome}</div>
+      <div><b>Telefone:</b> ${pedido.telefone}</div>
+      <div><b>Endereço:</b> ${pedido.endereco}</div>
+      <div><b>Pagamento:</b> ${pedido.pagamento}</div>
+
+      <div class="btn">
+        <button class="repetir" onclick="repetir(${index})">Pedir de novo</button>
+        <button class="apagar" onclick="remover(${index})">Apagar</button>
+      </div>
+    `;
+
+    lista.appendChild(div);
+  });
+}
+
+function repetir(index){
+  localStorage.setItem("carrinho", JSON.stringify(pedidos[index].itens));
+  window.location.href = "carrinho.html";
+}
+
+function remover(index){
+  pedidos.splice(index,1);
+  localStorage.setItem("pedidos", JSON.stringify(pedidos));
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>
