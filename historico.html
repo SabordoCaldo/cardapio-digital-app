@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histórico</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:#fff;
+  margin-top:60px;
+  padding-bottom:120px;
+}
+
+.topo{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background:#8B4513;
+  padding:4px;
+  display:flex;
+  justify-content:flex-end;
+}
+
+.voltar-btn{
+  width:40px;
+  height:40px;
+  background:#eee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.conteudo{
+  padding:15px;
+}
+
+.card{
+  border:1px solid #eee;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:15px;
+}
+
+.btn{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+}
+
+.repetir{background:#25D366;color:#fff;}
+.apagar{background:#ccc;}
+
+.menu{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  border-top:1px solid #eee;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topo">
+<a href="javascript:history.back()" class="voltar-btn">←</a>
+</div>
+
+<div class="conteudo">
+<h2>Últimos pedidos</h2>
+<div id="lista"></div>
+</div>
+
+<div class="menu">
+<a href="index.html">Início</a>
+<a href="#">Promoções</a>
+<a href="carrinho.html">Carrinho</a>
+<a href="perfil.html">Perfil</a>
+</div>
+
+<script>
+let lista = document.getElementById("lista");
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+
+function render(){
+  lista.innerHTML = "";
+
+  if(pedidos.length === 0){
+    lista.innerHTML = "<p>Nenhum pedido ainda</p>";
+    return;
+  }
+
+  pedidos.forEach((p, i)=>{
+
+    let itens = "";
+    p.itens.forEach(it=>{
+      itens += `${it.quantidade}x ${it.nome}<br>`;
+    });
+
+    lista.innerHTML += `
+      <div class="card">
+        <b>${p.data}</b><br><br>
+
+        ${itens}
+
+        <br><b>Total:</b> R$ ${p.total.toFixed(2)}<br><br>
+
+        Nome: ${p.nome}<br>
+        Telefone: ${p.telefone}<br>
+        Endereço: ${p.endereco}<br>
+        Pagamento: ${p.pagamento}
+
+        <div class="btn">
+          <button class="repetir" onclick="repetir(${i})">Pedir de novo</button>
+          <button class="apagar" onclick="remover(${i})">Apagar</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function repetir(i){
+  localStorage.setItem("carrinho", JSON.stringify(pedidos[i].itens));
+  window.location.href = "carrinho.html";
+}
+
+function remover(i){
+  pedidos.splice(i,1);
+  localStorage.setItem("pedidos", JSON.stringify(pedidos));
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>
