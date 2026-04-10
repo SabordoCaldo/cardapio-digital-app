@@ -75,6 +75,15 @@ body{
   margin-top:15px;
 }
 
+input, select{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+
 .botao{
   position:fixed;
   bottom:80px;
@@ -85,6 +94,7 @@ body{
   padding:14px;
   border-radius:12px;
   text-align:center;
+  font-weight:bold;
 }
 
 .menu{
@@ -128,12 +138,10 @@ body{
 </div>
 
 <div class="conteudo" id="conteudo">
-
 <h2>Seu Carrinho</h2>
-
 </div>
 
-<div class="botao">Finalizar Pedido</div>
+<div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
 <div class="menu">
 
@@ -179,7 +187,6 @@ let container = document.getElementById("conteudo");
 
 function renderizar(){
   container.innerHTML = "<h2>Seu Carrinho</h2>";
-
   let total = 0;
 
   if(carrinho.length === 0){
@@ -213,6 +220,25 @@ function renderizar(){
   });
 
   container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
+
+  // FORMULÁRIO
+  container.innerHTML += `
+    <h3>Dados do Pedido</h3>
+
+    <input id="nome" placeholder="Seu nome">
+    <input id="telefone" placeholder="Telefone">
+    <input id="endereco" placeholder="Endereço">
+    <input id="referencia" placeholder="Referência (opcional)">
+
+    <select id="pagamento" onchange="verTroco()">
+      <option value="">Forma de pagamento</option>
+      <option>Dinheiro</option>
+      <option>Pix</option>
+      <option>Cartão</option>
+    </select>
+
+    <input id="troco" placeholder="Troco para quanto?" style="display:none;">
+  `;
 }
 
 function alterar(index, valor){
@@ -226,8 +252,66 @@ function alterar(index, valor){
   renderizar();
 }
 
+function verTroco(){
+  let pagamento = document.getElementById("pagamento").value;
+  document.getElementById("troco").style.display =
+    pagamento === "Dinheiro" ? "block" : "none";
+}
+
+function finalizarPedido(){
+
+  if(carrinho.length === 0){
+    alert("Seu carrinho está vazio");
+    return;
+  }
+
+  let nome = document.getElementById("nome").value.trim();
+  let telefone = document.getElementById("telefone").value.trim();
+  let endereco = document.getElementById("endereco").value.trim();
+  let referencia = document.getElementById("referencia").value.trim();
+  let pagamento = document.getElementById("pagamento").value;
+  let troco = document.getElementById("troco").value.trim();
+
+  if(!nome || !telefone || !endereco || !pagamento){
+    alert("Preencha todos os campos obrigatórios");
+    return;
+  }
+
+  let total = 0;
+  let mensagem = "*SABOR DO CALDO*%0A";
+  mensagem += "--------------------------%0A";
+
+  carrinho.forEach(item=>{
+    let subtotal = item.quantidade * item.preco;
+    total += subtotal;
+
+    mensagem += `${item.quantidade}x ${item.nome} - R$ ${subtotal.toFixed(2)}%0A`;
+  });
+
+  mensagem += "--------------------------%0A";
+  mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
+
+  mensagem += "*CLIENTE*%0A";
+  mensagem += `${nome}%0A${telefone}%0A${endereco}%0A`;
+
+  if(referencia){
+    mensagem += `%0A*REFERÊNCIA*%0A${referencia}%0A`;
+  }
+
+  mensagem += `%0A*PAGAMENTO*%0A${pagamento}%0A`;
+
+  if(pagamento === "Dinheiro" && troco){
+    mensagem += `Troco para: R$ ${troco}%0A`;
+  }
+
+  mensagem += "%0A--------------------------%0A";
+  mensagem += "Tempo: 40 a 60 minutos";
+
+  window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
+}
+
 renderizar();
 </script>
 
 </body>
-  </html>
+</html>
