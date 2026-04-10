@@ -87,6 +87,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   font-size:12px;
   color:#555;
   text-decoration:none;
+  position:relative;
 }
 
 .item-menu svg{
@@ -101,7 +102,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <body>
 
 <div class="topo">
-<a href="index.html" class="voltar-btn">
+<a href="#" onclick="voltar()" class="voltar-btn">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
     <path d="M15 18l-6-6 6-6"/>
   </svg>
@@ -153,9 +154,7 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
     Promoções
   </a>
 
-  <!-- 🔥 CARRINHO COM CONTADOR -->
-  <a href="carrinho.html" class="item-menu" style="position:relative;">
-
+  <a href="carrinho.html" class="item-menu">
     <span id="qtdCarrinho" style="
       position:absolute;
       top:-5px;
@@ -172,7 +171,6 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
       <circle cx="17" cy="20" r="1"></circle>
       <path d="M5 6h2l1 7h9l2-5H7"></path>
     </svg>
-
     Carrinho
   </a>
 
@@ -187,13 +185,19 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 </div>
 
 <script>
+function voltar(){
+  if(history.length > 1){
+    history.back();
+  }else{
+    window.location.href = "index.html";
+  }
+}
+
 function alt(botao, valor){
   let contador = botao.parentElement.children[1];
-
   let numero = parseInt(contador.innerText) || 0;
 
   numero += valor;
-
   if(numero < 0) numero = 0;
 
   contador.innerText = numero;
@@ -223,11 +227,11 @@ function add(){
 }
 
 function atualizarCarrinho(){
-  let carrinho=JSON.parse(localStorage.getItem("carrinho"))||[];
-  let total=0;
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  let total = 0;
 
   carrinho.forEach(item=>{
-    total+=item.quantidade;
+    total += item.quantidade;
   });
 
   let badge = document.getElementById("qtdCarrinho");
