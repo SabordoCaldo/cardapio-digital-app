@@ -6,16 +6,14 @@
 <title>Carrinho</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
   margin:0;
   font-family:Arial;
   background:#fff;
   margin-top:60px;
-  padding-bottom:180px; /* 🔥 espaço para botão + menu */
+  padding-bottom:180px;
   overflow-x:hidden;
 }
 
@@ -30,7 +28,6 @@ body{
   display:flex;
   justify-content:flex-end;
   align-items:center;
-  z-index:1000;
 }
 
 .voltar-btn{
@@ -91,7 +88,6 @@ input, select{
   font-size:16px;
 }
 
-/* BOTÃO */
 .botao{
   position:fixed;
   bottom:80px;
@@ -103,7 +99,6 @@ input, select{
   border-radius:12px;
   text-align:center;
   font-weight:bold;
-  z-index:1000;
 }
 
 /* MENU */
@@ -117,7 +112,6 @@ input, select{
   display:flex;
   justify-content:space-around;
   padding:10px 0;
-  z-index:1000;
 }
 
 .item-menu{
@@ -127,6 +121,7 @@ input, select{
   font-size:12px;
   color:#555;
   text-decoration:none;
+  position:relative;
 }
 
 .item-menu svg{
@@ -135,12 +130,23 @@ input, select{
   stroke:#555;
   margin-bottom:4px;
 }
+
+/* BADGE */
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-10px;
+  background:red;
+  color:#fff;
+  font-size:10px;
+  padding:2px 6px;
+  border-radius:10px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- TOPO -->
 <div class="topo">
 <a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
@@ -149,15 +155,12 @@ input, select{
 </a>
 </div>
 
-<!-- CONTEÚDO -->
 <div class="conteudo" id="conteudo">
 <h2>Seu Carrinho</h2>
 </div>
 
-<!-- BOTÃO -->
 <div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
-<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -178,6 +181,7 @@ Promoções
 </a>
 
 <a href="carrinho.html" class="item-menu">
+<span id="badgeCarrinho" class="badge">0</span>
 <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <circle cx="9" cy="20" r="1"/>
 <circle cx="17" cy="20" r="1"/>
@@ -200,12 +204,19 @@ Perfil
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let container = document.getElementById("conteudo");
 
+function atualizarBadge(){
+  let total = 0;
+  carrinho.forEach(item=> total += item.quantidade);
+  document.getElementById("badgeCarrinho").innerText = total;
+}
+
 function renderizar(){
   container.innerHTML = "<h2>Seu Carrinho</h2>";
   let total = 0;
 
   if(carrinho.length === 0){
     container.innerHTML += "<p>Seu carrinho está vazio</p>";
+    atualizarBadge();
     return;
   }
 
@@ -253,6 +264,8 @@ function renderizar(){
 
     <input id="troco" placeholder="Troco para quanto?" style="display:none;">
   `;
+
+  atualizarBadge();
 }
 
 function alterar(index, valor){
@@ -279,6 +292,23 @@ function finalizarPedido(){
     return;
   }
 
+  let total = 0;
+  let temComida = carrinho.some(item => item.tipo === "comida");
+
+  carrinho.forEach(item=>{
+    total += item.quantidade * item.preco;
+  });
+
+  if(total < 20){
+    alert("Pedido mínimo é R$ 20,00");
+    return;
+  }
+
+  if(!temComida){
+    alert("Adicione pelo menos 1 caldo ou combo");
+    return;
+  }
+
   let nome = document.getElementById("nome").value.trim();
   let telefone = document.getElementById("telefone").value.trim();
   let endereco = document.getElementById("endereco").value.trim();
@@ -291,14 +321,10 @@ function finalizarPedido(){
     return;
   }
 
-  let total = 0;
-  let mensagem = "*SABOR DO CALDO*%0A";
-  mensagem += "--------------------------%0A";
+  let mensagem = "*SABOR DO CALDO*%0A--------------------------%0A";
 
   carrinho.forEach(item=>{
     let subtotal = item.quantidade * item.preco;
-    total += subtotal;
-
     mensagem += `${item.quantidade}x ${item.nome} - R$ ${subtotal.toFixed(2)}%0A`;
   });
 
