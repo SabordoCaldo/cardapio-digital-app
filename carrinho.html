@@ -6,15 +6,15 @@
 <title>Carrinho</title>
 
 <style>
-body {
+body{
   margin:0;
   font-family:Arial;
   background:#fff;
   margin-top:60px;
-  padding-bottom:100px; /* 🔥 IGUAL AO COMBO */
+  padding-bottom:100px;
 }
 
-.topo {
+.topo{
   position:fixed;
   top:0;
   left:0;
@@ -25,12 +25,8 @@ body {
   display:flex;
   justify-content:flex-end;
   align-items:center;
-  z-index:1000;
 }
 
-.topo a { text-decoration:none; }
-
-/* BOTÃO VOLTAR */
 .voltar-btn{
   width:40px;
   height:40px;
@@ -47,69 +43,33 @@ body {
   stroke:#8B4513;
 }
 
-.conteudo {
+.conteudo{
   padding:15px;
   padding-bottom:140px;
 }
 
-.item {
+.item{
   border-bottom:1px solid #eee;
   padding:12px 0;
 }
 
-.contador {
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.contador button {
-  width:32px;
-  height:32px;
-  border:none;
-  border-radius:8px;
-  font-size:18px;
-}
-
-.menos { background:#ccc; }
-.mais { background:#8B4513; color:#fff; }
-
-.total {
+.total{
   font-size:20px;
   font-weight:bold;
   margin-top:15px;
 }
 
-#avisoMinimo, #avisoBebida {
-  color:#d9534f;
-  font-weight:bold;
-  margin-top:10px;
-  display:none;
-}
-
-input, select {
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-  font-size:16px;
-}
-
-select { height:45px; }
-
 /* BOTÃO */
-.botao {
+.botao{
   position:fixed;
-  bottom:80px; /* 🔥 IGUAL AO COMBO */
+  bottom:80px;
   left:10px;
   right:10px;
-  text-align:center;
-  padding:14px;
-  border-radius:12px;
-  font-weight:bold;
   background:#25D366;
   color:#fff;
+  padding:14px;
+  border-radius:12px;
+  text-align:center;
 }
 
 /* MENU */
@@ -123,7 +83,6 @@ select { height:45px; }
   display:flex;
   justify-content:space-around;
   padding:10px 0;
-  z-index:1000;
 }
 
 .item-menu{
@@ -146,52 +105,35 @@ select { height:45px; }
 
 <body>
 
+<!-- TOPO -->
 <div class="topo">
-<a href="javascript:void(0)" onclick="voltar()" class="voltar-btn">
+<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
     <path d="M15 18l-6-6 6-6"/>
   </svg>
 </a>
 </div>
 
+<!-- CONTEÚDO -->
 <div class="conteudo">
 
 <h2>Seu Carrinho</h2>
 
-<div id="lista"></div>
+<div class="item">Item exemplo</div>
+<div class="item">Item exemplo</div>
 
-<div class="total" id="total"></div>
-
-<div id="avisoMinimo"></div>
-<div id="avisoBebida"></div>
-
-<h3>Dados do Pedido</h3>
-
-<input id="nome" placeholder="Seu nome">
-<input id="telefone" placeholder="Telefone">
-<input id="endereco" placeholder="Endereço">
-<input id="referencia" placeholder="Referência (opcional)">
-
-<select id="pagamento" onchange="verTroco()">
-<option value="">Forma de pagamento</option>
-<option>Dinheiro</option>
-<option>Pix</option>
-<option>Cartão</option>
-</select>
-
-<input id="troco" placeholder="Troco para quanto?" style="display:none;">
+<div class="total">Total: R$ 0,00</div>
 
 </div>
 
-<a href="#" id="btnFinalizar" class="botao" onclick="finalizarPedido()">
-Enviar Pedido
-</a>
+<!-- BOTÃO -->
+<div class="botao">Finalizar Pedido</div>
 
 <!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <path d="M3 10L12 3l9 7"></path>
 <path d="M5 10v10h14V10"></path>
 </svg>
@@ -199,7 +141,7 @@ Início
 </a>
 
 <a href="#" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <circle cx="7" cy="7" r="2"></circle>
 <circle cx="17" cy="17" r="2"></circle>
 <line x1="7" y1="17" x2="17" y2="7"></line>
@@ -208,7 +150,7 @@ Promoções
 </a>
 
 <a href="carrinho.html" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <circle cx="9" cy="20" r="1"/>
 <circle cx="17" cy="20" r="1"/>
 <path d="M5 6h2l1 7h9l2-5H7"/>
@@ -217,7 +159,7 @@ Carrinho
 </a>
 
 <a href="#" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <circle cx="12" cy="8" r="4"/>
 <path d="M4 20c2-4 14-4 16 0"/>
 </svg>
@@ -225,170 +167,6 @@ Perfil
 </a>
 
 </div>
-
-<script>
-function voltar(){
-  if(history.length > 1){
-    history.back();
-  }else{
-    window.location.href = "index.html";
-  }
-}
-
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-let lista = document.getElementById("lista");
-
-function renderizar() {
-  lista.innerHTML = "";
-  let total = 0;
-
-  if (carrinho.length === 0) {
-    lista.innerHTML = "<p>Seu carrinho está vazio</p>";
-    document.getElementById("total").innerText = "";
-    return;
-  }
-
-  carrinho.forEach((item, index) => {
-    let div = document.createElement("div");
-    div.className = "item";
-
-    div.innerHTML = `
-      <div style="width:100%;">
-        <div style="display:flex; justify-content:space-between;">
-          <span>${item.nome}</span>
-          <span>R$ ${item.preco.toFixed(2)}</span>
-        </div>
-
-        <div style="display:flex; justify-content:flex-end; margin-top:5px;">
-          <div class="contador">
-            <button class="menos" onclick="alterar(${index}, -1)">-</button>
-            <span>${item.quantidade}</span>
-            <button class="mais" onclick="alterar(${index}, 1)">+</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    lista.appendChild(div);
-    total += item.quantidade * item.preco;
-  });
-
-  document.getElementById("total").innerText = "Total: R$ " + total.toFixed(2);
-
-  let avisoMinimo = document.getElementById("avisoMinimo");
-  let avisoBebida = document.getElementById("avisoBebida");
-  let botao = document.getElementById("btnFinalizar");
-
-  let temComida = carrinho.some(item => item.tipo === "comida");
-
-  if (!temComida && total > 0) {
-    avisoBebida.style.display = "block";
-    avisoBebida.innerText = "Adicione pelo menos 1 caldo ou combo para continuar";
-  } else {
-    avisoBebida.style.display = "none";
-  }
-
-  if (total < 20 && total > 0) {
-    let falta = 20 - total;
-    avisoMinimo.style.display = "block";
-    avisoMinimo.innerText = `Faltam R$ ${falta.toFixed(2)} para o pedido mínimo`;
-  } else {
-    avisoMinimo.style.display = "none";
-  }
-
-  if (temComida && total >= 20) {
-    botao.style.opacity = "1";
-    botao.style.pointerEvents = "auto";
-  } else {
-    botao.style.opacity = "0.5";
-    botao.style.pointerEvents = "none";
-  }
-}
-
-function alterar(index, valor) {
-  carrinho[index].quantidade += valor;
-
-  if (carrinho[index].quantidade <= 0) {
-    carrinho.splice(index, 1);
-  }
-
-  localStorage.setItem("carrinho", JSON.stringify(carrinho));
-  renderizar();
-}
-
-function verTroco() {
-  let pagamento = document.getElementById("pagamento").value;
-  document.getElementById("troco").style.display =
-    pagamento === "Dinheiro" ? "block" : "none";
-}
-
-function finalizarPedido() {
-  let nome = document.getElementById("nome").value.trim();
-  let telefone = document.getElementById("telefone").value.trim();
-  let endereco = document.getElementById("endereco").value.trim();
-  let referencia = document.getElementById("referencia").value.trim();
-  let pagamento = document.getElementById("pagamento").value;
-  let troco = document.getElementById("troco").value.trim();
-
-  let total = 0;
-  carrinho.forEach(item => {
-    total += item.quantidade * item.preco;
-  });
-
-  let temComida = carrinho.some(item => item.tipo === "comida");
-
-  if (!temComida || total < 20) return;
-
-  if (!nome || !telefone || !endereco || !pagamento) {
-    alert("Preencha todos os campos obrigatórios");
-    return;
-  }
-
-  let numeroPedido = Math.floor(Math.random() * 1000);
-  let data = new Date();
-  let dataFormatada = data.toLocaleDateString("pt-BR") + " " + data.toLocaleTimeString("pt-BR");
-
-  let mensagem = "*SABOR DO CALDO*%0A";
-  mensagem += "--------------------------------%0A%0A";
-
-  mensagem += "*PEDIDO Nº " + numeroPedido + "*%0A";
-  mensagem += dataFormatada + "%0A%0A";
-
-  mensagem += "*ITENS*%0A";
-  mensagem += "--------------------------------%0A";
-
-  carrinho.forEach(item => {
-    let subtotal = item.quantidade * item.preco;
-    mensagem += `${item.quantidade}x ${item.nome}        R$ ${subtotal.toFixed(2)}%0A`;
-  });
-
-  mensagem += "%0A--------------------------------%0A";
-  mensagem += "*TOTAL*                     R$ " + total.toFixed(2) + "%0A%0A";
-
-  mensagem += "*CLIENTE*%0A";
-  mensagem += nome + "%0A";
-  mensagem += telefone + "%0A";
-  mensagem += endereco + "%0A";
-
-  if (referencia) {
-    mensagem += "%0A*REFERÊNCIA*%0A" + referencia + "%0A";
-  }
-
-  mensagem += "%0A*PAGAMENTO*%0A" + pagamento + "%0A";
-
-  if (pagamento === "Dinheiro" && troco) {
-    mensagem += "Troco para: R$ " + troco + "%0A";
-  }
-
-  mensagem += "%0A--------------------------------%0A";
-  mensagem += "TEMPO: 40 a 60 minutos%0A%0A";
-  mensagem += "Obrigado pela preferência!%0A";
-
-  window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
-}
-
-renderizar();
-</script>
 
 </body>
 </html>
