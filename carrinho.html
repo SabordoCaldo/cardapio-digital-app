@@ -166,6 +166,39 @@ Carrinho
 Perfil
 </a>
 
+<script>
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+let container = document.querySelector(".conteudo");
+let total = 0;
+
+// remove itens de exemplo
+container.innerHTML = "<h2>Seu Carrinho</h2>";
+
+if(carrinho.length === 0){
+  container.innerHTML += "<p>Seu carrinho está vazio</p>";
+}else{
+  carrinho.forEach(item => {
+    let div = document.createElement("div");
+    div.className = "item";
+
+    let subtotal = item.quantidade * item.preco;
+    total += subtotal;
+
+    div.innerHTML = `
+      <div style="display:flex; justify-content:space-between;">
+        <span>${item.quantidade}x ${item.nome}</span>
+        <span>R$ ${subtotal.toFixed(2)}</span>
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+
+  container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
+}
+  </script>
+
 </div>
 
 </body>
