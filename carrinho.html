@@ -53,13 +53,28 @@ body{
   padding:12px 0;
 }
 
+.contador{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.contador button{
+  width:32px;
+  height:32px;
+  border:none;
+  border-radius:8px;
+}
+
+.menos{background:#ccc;}
+.mais{background:#8B4513;color:#fff;}
+
 .total{
   font-size:20px;
   font-weight:bold;
   margin-top:15px;
 }
 
-/* BOTÃO */
 .botao{
   position:fixed;
   bottom:80px;
@@ -72,7 +87,6 @@ body{
   text-align:center;
 }
 
-/* MENU */
 .menu{
   position:fixed;
   bottom:0;
@@ -105,7 +119,6 @@ body{
 
 <body>
 
-<!-- TOPO -->
 <div class="topo">
 <a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
@@ -114,22 +127,14 @@ body{
 </a>
 </div>
 
-<!-- CONTEÚDO -->
-<div class="conteudo">
+<div class="conteudo" id="conteudo">
 
 <h2>Seu Carrinho</h2>
 
-<div class="item">Item exemplo</div>
-<div class="item">Item exemplo</div>
-
-<div class="total">Total: R$ 0,00</div>
-
 </div>
 
-<!-- BOTÃO -->
 <div class="botao">Finalizar Pedido</div>
 
-<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -166,19 +171,23 @@ Carrinho
 Perfil
 </a>
 
+</div>
+
 <script>
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+let container = document.getElementById("conteudo");
 
-let container = document.querySelector(".conteudo");
-let total = 0;
+function renderizar(){
+  container.innerHTML = "<h2>Seu Carrinho</h2>";
 
-// remove itens de exemplo
-container.innerHTML = "<h2>Seu Carrinho</h2>";
+  let total = 0;
 
-if(carrinho.length === 0){
-  container.innerHTML += "<p>Seu carrinho está vazio</p>";
-}else{
-  carrinho.forEach(item => {
+  if(carrinho.length === 0){
+    container.innerHTML += "<p>Seu carrinho está vazio</p>";
+    return;
+  }
+
+  carrinho.forEach((item, index)=>{
     let div = document.createElement("div");
     div.className = "item";
 
@@ -186,28 +195,39 @@ if(carrinho.length === 0){
     total += subtotal;
 
     div.innerHTML = `
-  <div style="display:flex; justify-content:space-between;">
-    <span>${item.nome}</span>
-    <span>R$ ${item.preco.toFixed(2)}</span>
-  </div>
+      <div style="display:flex; justify-content:space-between;">
+        <span>${item.nome}</span>
+        <span>R$ ${item.preco.toFixed(2)}</span>
+      </div>
 
-  <div style="display:flex; justify-content:flex-end; margin-top:5px;">
-    <div class="contador">
-      <button class="menos" onclick="alterar(${index}, -1)">-</button>
-      <span>${item.quantidade}</span>
-      <button class="mais" onclick="alterar(${index}, 1)">+</button>
-    </div>
-  </div>
-`;
+      <div style="display:flex; justify-content:flex-end; margin-top:5px;">
+        <div class="contador">
+          <button class="menos" onclick="alterar(${index}, -1)">-</button>
+          <span>${item.quantidade}</span>
+          <button class="mais" onclick="alterar(${index}, 1)">+</button>
+        </div>
+      </div>
+    `;
 
     container.appendChild(div);
   });
 
   container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
 }
-  </script>
 
-</div>
+function alterar(index, valor){
+  carrinho[index].quantidade += valor;
+
+  if(carrinho[index].quantidade <= 0){
+    carrinho.splice(index,1);
+  }
+
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  renderizar();
+}
+
+renderizar();
+</script>
 
 </body>
-</html>
+  </html>
