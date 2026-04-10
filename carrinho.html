@@ -355,7 +355,11 @@ mensagem += "Obrigado pela preferência!";
   window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
 }
 
+localStorage.removeItem("carrinho"); // 🔥 limpa carrinho
+carrinho = [];
 renderizar();
+atualizarBadge();
+  
 </script>
 
 </body>
