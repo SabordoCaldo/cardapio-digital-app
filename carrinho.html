@@ -186,11 +186,19 @@ if(carrinho.length === 0){
     total += subtotal;
 
     div.innerHTML = `
-      <div style="display:flex; justify-content:space-between;">
-        <span>${item.quantidade}x ${item.nome}</span>
-        <span>R$ ${subtotal.toFixed(2)}</span>
-      </div>
-    `;
+  <div style="display:flex; justify-content:space-between;">
+    <span>${item.nome}</span>
+    <span>R$ ${item.preco.toFixed(2)}</span>
+  </div>
+
+  <div style="display:flex; justify-content:flex-end; margin-top:5px;">
+    <div class="contador">
+      <button class="menos" onclick="alterar(${index}, -1)">-</button>
+      <span>${item.quantidade}</span>
+      <button class="mais" onclick="alterar(${index}, 1)">+</button>
+    </div>
+  </div>
+`;
 
     container.appendChild(div);
   });
