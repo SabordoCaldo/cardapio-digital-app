@@ -28,10 +28,7 @@ body {
   z-index:1000;
 }
 
-.topo a {
-  color:#fff;
-  text-decoration:none;
-}
+.topo a { text-decoration:none; }
 
 /* BOTÃO VOLTAR */
 .voltar-btn{
@@ -92,8 +89,6 @@ body {
 
 input, select {
   width:100%;
-  max-width:100%;
-  box-sizing:border-box;
   padding:12px;
   margin-top:10px;
   border-radius:8px;
@@ -113,7 +108,6 @@ select { height:45px; }
   text-align:center;
   padding:14px;
   border-radius:12px;
-  text-decoration:none;
   font-weight:bold;
   background:#25D366;
   color:#fff;
@@ -153,7 +147,7 @@ select { height:45px; }
 <body>
 
 <div class="topo">
-<a href="#" onclick="voltar()" class="voltar-btn">
+<a href="javascript:void(0)" onclick="voltar()" class="voltar-btn">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
     <path d="M15 18l-6-6 6-6"/>
   </svg>
@@ -193,42 +187,42 @@ select { height:45px; }
 Enviar Pedido
 </a>
 
-<!-- MENU INFERIOR -->
+<!-- MENU -->
 <div class="menu">
 
-  <a href="index.html" class="item-menu">
-    <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-      <path d="M3 10L12 3l9 7"></path>
-      <path d="M5 10v10h14V10"></path>
-    </svg>
-    Início
-  </a>
+<a href="index.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M3 10L12 3l9 7"></path>
+<path d="M5 10v10h14V10"></path>
+</svg>
+Início
+</a>
 
-  <a href="#" class="item-menu">
-    <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-      <circle cx="7" cy="7" r="2"></circle>
-      <circle cx="17" cy="17" r="2"></circle>
-      <line x1="7" y1="17" x2="17" y2="7"></line>
-    </svg>
-    Promoções
-  </a>
+<a href="#" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="7" cy="7" r="2"></circle>
+<circle cx="17" cy="17" r="2"></circle>
+<line x1="7" y1="17" x2="17" y2="7"></line>
+</svg>
+Promoções
+</a>
 
-  <a href="carrinho.html" class="item-menu">
-    <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-      <circle cx="9" cy="20" r="1"></circle>
-      <circle cx="17" cy="20" r="1"></circle>
-      <path d="M5 6h2l1 7h9l2-5H7"></path>
-    </svg>
-    Carrinho
-  </a>
+<a href="carrinho.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="9" cy="20" r="1"/>
+<circle cx="17" cy="20" r="1"/>
+<path d="M5 6h2l1 7h9l2-5H7"/>
+</svg>
+Carrinho
+</a>
 
-  <a href="#" class="item-menu">
-    <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-      <circle cx="12" cy="8" r="4"></circle>
-      <path d="M4 20c2-4 14-4 16 0"></path>
-    </svg>
-    Perfil
-  </a>
+<a href="#" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="12" cy="8" r="4"/>
+<path d="M4 20c2-4 14-4 16 0"/>
+</svg>
+Perfil
+</a>
 
 </div>
 
@@ -241,4 +235,160 @@ function voltar(){
   }
 }
 
-/* RESTO DO SEU SCRIPT SEM ALTERAÇÃO */
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+let lista = document.getElementById("lista");
+
+function renderizar() {
+  lista.innerHTML = "";
+  let total = 0;
+
+  if (carrinho.length === 0) {
+    lista.innerHTML = "<p>Seu carrinho está vazio</p>";
+    document.getElementById("total").innerText = "";
+    return;
+  }
+
+  carrinho.forEach((item, index) => {
+    let div = document.createElement("div");
+    div.className = "item";
+
+    div.innerHTML = `
+      <div style="width:100%;">
+        <div style="display:flex; justify-content:space-between;">
+          <span>${item.nome}</span>
+          <span>R$ ${item.preco.toFixed(2)}</span>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; margin-top:5px;">
+          <div class="contador">
+            <button class="menos" onclick="alterar(${index}, -1)">-</button>
+            <span>${item.quantidade}</span>
+            <button class="mais" onclick="alterar(${index}, 1)">+</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    lista.appendChild(div);
+    total += item.quantidade * item.preco;
+  });
+
+  document.getElementById("total").innerText = "Total: R$ " + total.toFixed(2);
+
+  let avisoMinimo = document.getElementById("avisoMinimo");
+  let avisoBebida = document.getElementById("avisoBebida");
+  let botao = document.getElementById("btnFinalizar");
+
+  let temComida = carrinho.some(item => item.tipo === "comida");
+
+  if (!temComida && total > 0) {
+    avisoBebida.style.display = "block";
+    avisoBebida.innerText = "Adicione pelo menos 1 caldo ou combo para continuar";
+  } else {
+    avisoBebida.style.display = "none";
+  }
+
+  if (total < 20 && total > 0) {
+    let falta = 20 - total;
+    avisoMinimo.style.display = "block";
+    avisoMinimo.innerText = `Faltam R$ ${falta.toFixed(2)} para o pedido mínimo`;
+  } else {
+    avisoMinimo.style.display = "none";
+  }
+
+  if (temComida && total >= 20) {
+    botao.style.opacity = "1";
+    botao.style.pointerEvents = "auto";
+  } else {
+    botao.style.opacity = "0.5";
+    botao.style.pointerEvents = "none";
+  }
+}
+
+function alterar(index, valor) {
+  carrinho[index].quantidade += valor;
+
+  if (carrinho[index].quantidade <= 0) {
+    carrinho.splice(index, 1);
+  }
+
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  renderizar();
+}
+
+function verTroco() {
+  let pagamento = document.getElementById("pagamento").value;
+  document.getElementById("troco").style.display =
+    pagamento === "Dinheiro" ? "block" : "none";
+}
+
+function finalizarPedido() {
+  let nome = document.getElementById("nome").value.trim();
+  let telefone = document.getElementById("telefone").value.trim();
+  let endereco = document.getElementById("endereco").value.trim();
+  let referencia = document.getElementById("referencia").value.trim();
+  let pagamento = document.getElementById("pagamento").value;
+  let troco = document.getElementById("troco").value.trim();
+
+  let total = 0;
+  carrinho.forEach(item => {
+    total += item.quantidade * item.preco;
+  });
+
+  let temComida = carrinho.some(item => item.tipo === "comida");
+
+  if (!temComida || total < 20) return;
+
+  if (!nome || !telefone || !endereco || !pagamento) {
+    alert("Preencha todos os campos obrigatórios");
+    return;
+  }
+
+  let numeroPedido = Math.floor(Math.random() * 1000);
+  let data = new Date();
+  let dataFormatada = data.toLocaleDateString("pt-BR") + " " + data.toLocaleTimeString("pt-BR");
+
+  let mensagem = "*SABOR DO CALDO*%0A";
+  mensagem += "--------------------------------%0A%0A";
+
+  mensagem += "*PEDIDO Nº " + numeroPedido + "*%0A";
+  mensagem += dataFormatada + "%0A%0A";
+
+  mensagem += "*ITENS*%0A";
+  mensagem += "--------------------------------%0A";
+
+  carrinho.forEach(item => {
+    let subtotal = item.quantidade * item.preco;
+    mensagem += `${item.quantidade}x ${item.nome}        R$ ${subtotal.toFixed(2)}%0A`;
+  });
+
+  mensagem += "%0A--------------------------------%0A";
+  mensagem += "*TOTAL*                     R$ " + total.toFixed(2) + "%0A%0A";
+
+  mensagem += "*CLIENTE*%0A";
+  mensagem += nome + "%0A";
+  mensagem += telefone + "%0A";
+  mensagem += endereco + "%0A";
+
+  if (referencia) {
+    mensagem += "%0A*REFERÊNCIA*%0A" + referencia + "%0A";
+  }
+
+  mensagem += "%0A*PAGAMENTO*%0A" + pagamento + "%0A";
+
+  if (pagamento === "Dinheiro" && troco) {
+    mensagem += "Troco para: R$ " + troco + "%0A";
+  }
+
+  mensagem += "%0A--------------------------------%0A";
+  mensagem += "TEMPO: 40 a 60 minutos%0A%0A";
+  mensagem += "Obrigado pela preferência!%0A";
+
+  window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
+}
+
+renderizar();
+</script>
+
+</body>
+  </html>
