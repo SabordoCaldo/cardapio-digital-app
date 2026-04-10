@@ -173,12 +173,16 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 </div>
 
 <script>
-function alt(b,v){
-  let n=b.parentElement.querySelector("span");
-  let a=parseInt(n.innerText);
-  a+=v;
-  if(a<0)a=0;
-  n.innerText=a;
+function alt(botao, valor){
+  let contador = botao.parentElement.children[1];
+
+  let numero = parseInt(contador.innerText) || 0;
+
+  numero += valor;
+
+  if(numero < 0) numero = 0;
+
+  contador.innerText = numero;
 }
 
 function add(){
@@ -211,8 +215,6 @@ function atualizarCarrinho(){
   carrinho.forEach(item=>{
     total+=item.quantidade;
   });
-
-  document.getElementById("qtdCarrinho")?.innerText = total;
 }
 
 atualizarCarrinho();
