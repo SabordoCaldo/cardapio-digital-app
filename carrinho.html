@@ -190,7 +190,8 @@ Promoções
 Carrinho
 </a>
 
-<a href="#" class="item-menu">
+<!-- 🔥 PERFIL CORRIGIDO -->
+<a href="perfil.html" class="item-menu">
 <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <circle cx="12" cy="8" r="4"/>
 <path d="M4 20c2-4 14-4 16 0"/>
@@ -293,7 +294,7 @@ function finalizarPedido(){
   }
 
   let total = 0;
-  let temComida = carrinho.some(item => item.tipo === "comida");
+  let temComida = carrinho.some(item => item.tipo === "comida" || item.tipo === undefined);
 
   carrinho.forEach(item=>{
     total += item.quantidade * item.preco;
@@ -353,15 +354,28 @@ function finalizarPedido(){
   mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
   mensagem += "Obrigado pela preferência!";
 
+  let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+
+  pedidos.unshift({
+    data: dataFormatada,
+    itens: carrinho,
+    total: total,
+    nome: nome,
+    telefone: telefone,
+    endereco: endereco,
+    pagamento: pagamento
+  });
+
+  localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
   window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
 
-  // 🔥 DELAY PARA LIMPAR CARRINHO
-  setTimeout(() => {
+  if(confirm("Você já enviou o pedido no WhatsApp?")){
     localStorage.removeItem("carrinho");
     carrinho = [];
     renderizar();
     atualizarBadge();
-  }, 500);
+  }
 }
 
 renderizar();
