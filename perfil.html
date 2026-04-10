@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Histórico</title>
+<title>Perfil</title>
 
 <style>
 *{box-sizing:border-box;}
@@ -22,7 +22,6 @@ body{
   left:0;
   right:0;
   background:#8B4513;
-  color:#fff;
   padding:4px;
   display:flex;
   justify-content:flex-end;
@@ -46,28 +45,22 @@ body{
 }
 
 .conteudo{
+  padding:20px;
+}
+
+.opcao{
+  width:100%;
   padding:15px;
-}
-
-.card{
-  border:1px solid #eee;
-  border-radius:10px;
-  padding:10px;
-  margin-bottom:15px;
-}
-
-.botao{
-  margin-top:10px;
-  padding:10px;
+  margin-bottom:10px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
+  background:#8B4513;
   color:#fff;
-  font-weight:bold;
-  cursor:pointer;
+  font-size:16px;
+  text-align:center;
+  text-decoration:none;
+  display:block;
 }
-
-.repetir{background:#25D366;}
-.excluir{background:#d9534f;}
 
 /* MENU */
 .menu{
@@ -115,7 +108,7 @@ body{
 <body>
 
 <div class="topo">
-<a href="perfil.html" class="voltar-btn">
+<a href="javascript:void(0)" onclick="voltar()" class="voltar-btn">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <path d="M15 18l-6-6 6-6"/>
 </svg>
@@ -123,8 +116,14 @@ body{
 </div>
 
 <div class="conteudo">
-<h2>Últimos pedidos</h2>
-<div id="lista"></div>
+
+<h2>Perfil</h2>
+
+<!-- 🔥 BOTÃO HISTÓRICO -->
+<a href="historico.html" class="opcao">
+Ver histórico de pedidos
+</a>
+
 </div>
 
 <!-- MENU -->
@@ -168,8 +167,13 @@ Perfil
 </div>
 
 <script>
-let lista = document.getElementById("lista");
-let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+function voltar(){
+  if(history.length > 1){
+    history.back();
+  }else{
+    window.location.href = "index.html";
+  }
+}
 
 function atualizarCarrinho(){
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
@@ -185,57 +189,8 @@ function atualizarCarrinho(){
   }
 }
 
-function render(){
-  lista.innerHTML = "";
-
-  if(pedidos.length === 0){
-    lista.innerHTML = "<p>Nenhum pedido ainda</p>";
-    return;
-  }
-
-  pedidos.forEach((pedido, index)=>{
-    let div = document.createElement("div");
-    div.className = "card";
-
-    let itens = "";
-    pedido.itens.forEach(i=>{
-      itens += `${i.quantidade}x ${i.nome}<br>`;
-    });
-
-    div.innerHTML = `
-      <strong>${pedido.data}</strong><br><br>
-      ${itens}<br>
-      <strong>Total: R$ ${pedido.total.toFixed(2)}</strong><br><br>
-
-      ${pedido.nome}<br>
-      ${pedido.telefone}<br>
-      ${pedido.endereco}<br>
-      ${pedido.pagamento}<br>
-
-      <button class="botao repetir" onclick="repetir(${index})">Pedir novamente</button>
-      <button class="botao excluir" onclick="excluir(${index})">Apagar</button>
-    `;
-
-    lista.appendChild(div);
-  });
-}
-
-function repetir(index){
-  let carrinho = pedidos[index].itens;
-  localStorage.setItem("carrinho", JSON.stringify(carrinho));
-  window.location.href = "carrinho.html";
-}
-
-function excluir(index){
-  pedidos.splice(index,1);
-  localStorage.setItem("pedidos", JSON.stringify(pedidos));
-  render();
-}
-
 // 🔥 EXECUTA
 atualizarCarrinho();
-render();
-
 </script>
 
 </body>
