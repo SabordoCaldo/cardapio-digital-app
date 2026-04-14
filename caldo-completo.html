@@ -127,7 +127,8 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 <h3>Adicionais</h3>
 <div id="extras"></div>
 
-<div class="preco">R$ 25,00</div>
+<!-- 🔥 PREÇO DINÂMICO -->
+<div class="preco">Total: R$ <span id="totalPreco">25.00</span></div>
 
 <div class="item">
 <span>Caldo Completo</span>
@@ -197,10 +198,23 @@ function renderExtras(){
 }
 
 function altExtra(id, valor){
+
+  let qtdCaldo = parseInt(document.querySelector(".contador span").innerText) || 0;
+
+  if(qtdCaldo <= 0){
+    alert("Selecione o caldo primeiro");
+    return;
+  }
+
   extrasSelecionados[id] += valor;
-  if(extrasSelecionados[id] < 0) extrasSelecionados[id] = 0;
+
+  if(extrasSelecionados[id] < 0){
+    extrasSelecionados[id] = 0;
+  }
 
   document.getElementById(`extra-${id}`).innerText = extrasSelecionados[id];
+
+  atualizarTotal();
 }
 
 function voltar(){
@@ -219,6 +233,35 @@ function alt(botao, valor){
   if(numero < 0) numero = 0;
 
   contador.innerText = numero;
+
+  validarBotao();
+  atualizarTotal();
+}
+
+function validarBotao(){
+  let qtd = parseInt(document.querySelector(".contador span").innerText);
+  let botao = document.querySelector(".botao");
+
+  if(qtd <= 0){
+    botao.style.opacity = "0.5";
+    botao.style.pointerEvents = "none";
+  }else{
+    botao.style.opacity = "1";
+    botao.style.pointerEvents = "auto";
+  }
+}
+
+function atualizarTotal(){
+  let qtdCaldo = parseInt(document.querySelector(".contador span").innerText) || 0;
+
+  let total = qtdCaldo * 25;
+
+  adicionais.forEach(item=>{
+    let qtdExtra = extrasSelecionados[item.id] || 0;
+    total += qtdExtra * item.preco;
+  });
+
+  document.getElementById("totalPreco").innerText = total.toFixed(2);
 }
 
 function add(){
@@ -275,6 +318,8 @@ function atualizarCarrinho(){
 
 renderExtras();
 atualizarCarrinho();
+atualizarTotal();
+validarBotao();
 
 </script>
 
