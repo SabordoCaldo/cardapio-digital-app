@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -20,8 +21,6 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   justify-content:flex-end;
   align-items:center;
 }
-
-.topo a{color:#fff;text-decoration:none;}
 
 .img{width:100%;height:320px;object-fit:cover;}
 
@@ -69,6 +68,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   padding:14px;
   border-radius:12px;
   text-align:center;
+  font-weight:bold;
 }
 
 /* MENU */
@@ -106,7 +106,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <body>
 
 <div class="topo">
-<a href="#" onclick="voltar()" class="voltar-btn">
+<a href="#" onclick="history.back()" class="voltar-btn">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
     <path d="M15 18l-6-6 6-6"/>
   </svg>
@@ -120,11 +120,9 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <h2>Caldo Completo</h2>
 
 <p>
-Pote 500g - Feijão cremoso e bem temperado, recheado com calabresa, bacon, 3 ovos de codorna e mussarela em cubos.<br><br>
-Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
+Pote 500g - Feijão cremoso com calabresa, bacon, ovos e mussarela.
 </p>
 
-<!-- 🔥 CALDO (AGORA CORRETO) -->
 <div class="item">
 <span>Caldo Completo</span>
 
@@ -138,39 +136,64 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 <h3>Adicionais</h3>
 <div id="extras"></div>
 
-<!-- 🔥 PREÇO DINÂMICO -->
 <div class="preco">Total: R$ <span id="totalPreco">25.00</span></div>
 
 </div>
 
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
-<!-- MENU -->
+<!-- MENU COM ÍCONES -->
 <div class="menu">
 
-<a href="index.html" class="item-menu">Início</a>
-<a href="#" class="item-menu">Promoções</a>
+<a href="index.html" class="item-menu">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
+<path d="M3 10L12 3l9 7"></path>
+<path d="M5 10v10h14V10"></path>
+</svg>
+Início
+</a>
+
+<a href="#" class="item-menu">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="7" cy="7" r="2"></circle>
+<circle cx="17" cy="17" r="2"></circle>
+<line x1="7" y1="17" x2="17" y2="7"></line>
+</svg>
+Promoções
+</a>
 
 <a href="carrinho.html" class="item-menu">
 <span id="qtdCarrinho" style="position:absolute;top:-5px;right:-10px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;">0</span>
+
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="9" cy="20" r="1"/>
+<circle cx="17" cy="20" r="1"/>
+<path d="M5 6h2l1 7h9l2-5H7"/>
+</svg>
 Carrinho
 </a>
 
-<a href="#" class="item-menu">Perfil</a>
+<a href="perfil.html" class="item-menu">
+<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="8" r="4"/>
+<path d="M4 20c2-4 14-4 16 0"/>
+</svg>
+Perfil
+</a>
 
 </div>
 
 <script>
 
 let adicionais = [
-{id:1,nome:"Cheiro verde extra",preco:1.00},
-{id:2,nome:"Ovo de codorna (1 un)",preco:1.00},
-{id:3,nome:"Pimenta biquinho (3 un)",preco:1.00},
-{id:4,nome:"Torrada (3 un)",preco:1.50},
-{id:5,nome:"Torresmo (20g)",preco:5.00},
-{id:6,nome:"Calabresa (50g)",preco:5.00},
-{id:7,nome:"Bacon (50g)",preco:5.00},
-{id:8,nome:"Mussarela (50g)",preco:6.00}
+{id:1,nome:"Cheiro verde extra",preco:1},
+{id:2,nome:"Ovo de codorna",preco:1},
+{id:3,nome:"Pimenta biquinho",preco:1},
+{id:4,nome:"Torrada",preco:1.5},
+{id:5,nome:"Torresmo",preco:5},
+{id:6,nome:"Calabresa",preco:5},
+{id:7,nome:"Bacon",preco:5},
+{id:8,nome:"Mussarela",preco:6}
 ];
 
 let extrasSelecionados = {};
@@ -186,7 +209,6 @@ function renderExtras(){
 
     div.innerHTML = `
       <span>${item.nome} (R$ ${item.preco.toFixed(2)})</span>
-
       <div class="contador">
         <button class="menos" onclick="altExtra(${item.id}, -1)">-</button>
         <span id="extra-${item.id}">0</span>
@@ -198,94 +220,61 @@ function renderExtras(){
   });
 }
 
-function altExtra(id, valor){
+function alt(valor){
+  let span = document.querySelector("#contadorCaldo span");
+  let n = parseInt(span.innerText)||0;
+  n+=valor;
+  if(n<0)n=0;
+  span.innerText=n;
+  atualizarTotal();
+}
 
-  let qtdCaldo = parseInt(document.querySelector("#contadorCaldo span").innerText) || 0;
+function altExtra(id,valor){
+  let qtdCaldo=parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
 
-  if(qtdCaldo <= 0){
+  if(qtdCaldo<=0){
     alert("Selecione o caldo primeiro");
     return;
   }
 
-  extrasSelecionados[id] += valor;
+  let totalExtras=0;
+  Object.values(extrasSelecionados).forEach(q=>totalExtras+=q);
 
-  if(extrasSelecionados[id] < 0){
-    extrasSelecionados[id] = 0;
-  }
+  if(valor>0 && totalExtras>=qtdCaldo*5)return;
 
-  document.getElementById(`extra-${id}`).innerText = extrasSelecionados[id];
+  extrasSelecionados[id]+=valor;
+  if(extrasSelecionados[id]<0)extrasSelecionados[id]=0;
 
+  document.getElementById(`extra-${id}`).innerText=extrasSelecionados[id];
   atualizarTotal();
-}
-
-function voltar(){
-  if(history.length > 1){
-    history.back();
-  }else{
-    window.location.href = "index.html";
-  }
-}
-
-function alt(valor){
-  let span = document.querySelector("#contadorCaldo span");
-  let numero = parseInt(span.innerText) || 0;
-
-  numero += valor;
-  if(numero < 0) numero = 0;
-
-  span.innerText = numero;
-
-  validarBotao();
-  atualizarTotal();
-}
-
-function validarBotao(){
-  let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
-  let botao = document.querySelector(".botao");
-
-  if(qtd <= 0){
-    botao.style.opacity = "0.5";
-    botao.style.pointerEvents = "none";
-  }else{
-    botao.style.opacity = "1";
-    botao.style.pointerEvents = "auto";
-  }
 }
 
 function atualizarTotal(){
-  let qtdCaldo = parseInt(document.querySelector("#contadorCaldo span").innerText) || 0;
-
-  let total = qtdCaldo * 25;
+  let qtd=parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
+  let total=qtd*25;
 
   adicionais.forEach(item=>{
-    let qtdExtra = extrasSelecionados[item.id] || 0;
-    total += qtdExtra * item.preco;
+    total+=(extrasSelecionados[item.id]||0)*item.preco;
   });
 
-  document.getElementById("totalPreco").innerText = total.toFixed(2);
+  document.getElementById("totalPreco").innerText=total.toFixed(2);
 }
 
 function add(){
-  let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
+  let qtd=parseInt(document.querySelector("#contadorCaldo span").innerText);
 
-  if(qtd <= 0){
+  if(qtd<=0){
     alert("Selecione pelo menos 1 item");
     return;
   }
 
-  let c = JSON.parse(localStorage.getItem("carrinho")) || [];
+  let c=JSON.parse(localStorage.getItem("carrinho"))||[];
 
-  let extrasArray = [];
-
+  let extrasArray=[];
   adicionais.forEach(item=>{
-    let qtdExtra = extrasSelecionados[item.id];
-
-    if(qtdExtra > 0){
-      extrasArray.push({
-        nome: item.nome,
-        quantidade: qtdExtra,
-        preco: item.preco
-      });
+    let q=extrasSelecionados[item.id];
+    if(q>0){
+      extrasArray.push({nome:item.nome,quantidade:q,preco:item.preco});
     }
   });
 
@@ -294,33 +283,39 @@ function add(){
     quantidade:qtd,
     preco:25,
     tipo:"comida",
-    extras: extrasArray
+    extras:extrasArray
   });
 
-  localStorage.setItem("carrinho", JSON.stringify(c));
+  localStorage.setItem("carrinho",JSON.stringify(c));
 
-  atualizarCarrinho();
+  // reset
+  extrasSelecionados={};
+  document.querySelectorAll("[id^='extra-']").forEach(el=>el.innerText="0");
+  document.querySelector("#contadorCaldo span").innerText="0";
+
+  atualizarTotal();
+
   alert("Adicionado ao carrinho");
 }
 
 function atualizarCarrinho(){
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
   let total = 0;
-
-  carrinho.forEach(item=>{
-    total += item.quantidade;
-  });
-
+  carrinho.forEach(item=> total += item.quantidade);
   let badge = document.getElementById("qtdCarrinho");
-  if(badge){
-    badge.innerText = total;
-  }
+  if(badge){ badge.innerText = total; }
 }
 
+// 🔥 RESET AO VOLTAR
+window.addEventListener("pageshow", function(event){
+  if(event.persisted){
+    location.reload();
+  }
+});
+
 renderExtras();
-atualizarCarrinho();
 atualizarTotal();
-validarBotao();
+atualizarCarrinho();
 
 </script>
 
