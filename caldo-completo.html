@@ -124,21 +124,22 @@ Pote 500g - Feijão cremoso e bem temperado, recheado com calabresa, bacon, 3 ov
 Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 </p>
 
+<!-- 🔥 CALDO (AGORA CORRETO) -->
+<div class="item">
+<span>Caldo Completo</span>
+
+<div class="contador" id="contadorCaldo">
+<button class="menos" onclick="alt(-1)">-</button>
+<span>0</span>
+<button class="mais" onclick="alt(1)">+</button>
+</div>
+</div>
+
 <h3>Adicionais</h3>
 <div id="extras"></div>
 
 <!-- 🔥 PREÇO DINÂMICO -->
 <div class="preco">Total: R$ <span id="totalPreco">25.00</span></div>
-
-<div class="item">
-<span>Caldo Completo</span>
-
-<div class="contador">
-<button class="menos" onclick="alt(this,-1)">-</button>
-<span>0</span>
-<button class="mais" onclick="alt(this,1)">+</button>
-</div>
-</div>
 
 </div>
 
@@ -199,7 +200,7 @@ function renderExtras(){
 
 function altExtra(id, valor){
 
-  let qtdCaldo = parseInt(document.querySelector(".contador span").innerText) || 0;
+  let qtdCaldo = parseInt(document.querySelector("#contadorCaldo span").innerText) || 0;
 
   if(qtdCaldo <= 0){
     alert("Selecione o caldo primeiro");
@@ -225,21 +226,21 @@ function voltar(){
   }
 }
 
-function alt(botao, valor){
-  let contador = botao.parentElement.children[1];
-  let numero = parseInt(contador.innerText) || 0;
+function alt(valor){
+  let span = document.querySelector("#contadorCaldo span");
+  let numero = parseInt(span.innerText) || 0;
 
   numero += valor;
   if(numero < 0) numero = 0;
 
-  contador.innerText = numero;
+  span.innerText = numero;
 
   validarBotao();
   atualizarTotal();
 }
 
 function validarBotao(){
-  let qtd = parseInt(document.querySelector(".contador span").innerText);
+  let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
   let botao = document.querySelector(".botao");
 
   if(qtd <= 0){
@@ -252,7 +253,7 @@ function validarBotao(){
 }
 
 function atualizarTotal(){
-  let qtdCaldo = parseInt(document.querySelector(".contador span").innerText) || 0;
+  let qtdCaldo = parseInt(document.querySelector("#contadorCaldo span").innerText) || 0;
 
   let total = qtdCaldo * 25;
 
@@ -265,7 +266,7 @@ function atualizarTotal(){
 }
 
 function add(){
-  let qtd = parseInt(document.querySelector(".contador span").innerText);
+  let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
 
   if(qtd <= 0){
     alert("Selecione pelo menos 1 item");
