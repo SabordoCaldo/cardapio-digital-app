@@ -296,7 +296,6 @@ function add(){
 
   localStorage.setItem("carrinho", JSON.stringify(c));
 
-  // 🔥 RESET CORRIGIDO
   extrasSelecionados = {};
   adicionais.forEach(item=>{
     extrasSelecionados[item.id] = 0;
