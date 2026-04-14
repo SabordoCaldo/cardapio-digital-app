@@ -131,7 +131,6 @@ input, select{
   margin-bottom:4px;
 }
 
-/* BADGE */
 .badge{
   position:absolute;
   top:-5px;
@@ -149,9 +148,9 @@ input, select{
 
 <div class="topo">
 <a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
-  <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-    <path d="M15 18l-6-6 6-6"/>
-  </svg>
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M15 18l-6-6 6-6"/>
+</svg>
 </a>
 </div>
 
@@ -205,218 +204,234 @@ let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let container = document.getElementById("conteudo");
 
 function atualizarBadge(){
-  let total = 0;
-  carrinho.forEach(item=> total += item.quantidade);
-  document.getElementById("badgeCarrinho").innerText = total;
+let total = 0;
+carrinho.forEach(item=> total += item.quantidade);
+document.getElementById("badgeCarrinho").innerText = total;
 }
 
 function renderizar(){
-  container.innerHTML = "<h2>Seu Carrinho</h2>";
-  let total = 0;
+container.innerHTML = "<h2>Seu Carrinho</h2>";
+let total = 0;
 
-  if(carrinho.length === 0){
-    container.innerHTML += "<p>Seu carrinho está vazio</p>";
-    atualizarBadge();
-    return;
-  }
+if(carrinho.length === 0){
+container.innerHTML += "<p>Seu carrinho está vazio</p>";
+atualizarBadge();
+return;
+}
 
-  carrinho.forEach((item, index)=>{
-    let div = document.createElement("div");
-    div.className = "item";
+carrinho.forEach((item, index)=>{
+let div = document.createElement("div");
+div.className = "item";
 
-    let subtotal = item.quantidade * item.preco;
+let subtotal = item.quantidade * item.preco;
+let extrasHtml = "";
 
-    let extrasHtml = "";
+if(item.extras){
+item.extras.forEach((extra, i)=>{
+let subExtra = extra.quantidade * extra.preco;
+subtotal += subExtra;
 
-    if(item.extras){
-      item.extras.forEach(extra=>{
-        let subExtra = extra.quantidade * extra.preco;
-        subtotal += subExtra;
+extrasHtml += `
+<div style="display:flex; justify-content:space-between; align-items:center; margin-left:10px;">
+<span>+${extra.quantidade}x ${extra.nome}</span>
 
-        extrasHtml += `
-          <div style="font-size:13px; margin-left:10px;">
-            ${extra.quantidade}x add ${extra.nome} - R$ ${subExtra.toFixed(2)}
-          </div>
-        `;
-      });
-    }
+<div style="display:flex; align-items:center; gap:6px;">
+<button class="menos" onclick="alterarExtra(${index}, ${i}, -1)">-</button>
+<span>${extra.quantidade}</span>
+<button class="mais" onclick="alterarExtra(${index}, ${i}, 1)">+</button>
+<span>R$ ${subExtra.toFixed(2)}</span>
+</div>
+</div>
+`;
+});
+}
 
-    total += subtotal;
+total += subtotal;
 
-    div.innerHTML = `
-      <div style="display:flex; justify-content:space-between;">
-        <span>${item.nome}</span>
-        <span>R$ ${(item.quantidade * item.preco).toFixed(2)}</span>
-      </div>
+div.innerHTML = `
+<div style="display:flex; justify-content:space-between;">
+<span>${item.nome}</span>
+<span>R$ ${(item.quantidade * item.preco).toFixed(2)}</span>
+</div>
 
-      ${extrasHtml}
+${extrasHtml}
 
-      <div style="display:flex; justify-content:flex-end; margin-top:5px;">
-        <div class="contador">
-          <button class="menos" onclick="alterar(${index}, -1)">-</button>
-          <span>${item.quantidade}</span>
-          <button class="mais" onclick="alterar(${index}, 1)">+</button>
-        </div>
-      </div>
-    `;
+<div style="display:flex; justify-content:flex-end; margin-top:5px;">
+<div class="contador">
+<button class="menos" onclick="alterar(${index}, -1)">-</button>
+<span>${item.quantidade}</span>
+<button class="mais" onclick="alterar(${index}, 1)">+</button>
+</div>
+</div>
+`;
 
-    container.appendChild(div);
-  });
+container.appendChild(div);
+});
 
-  container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
+container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
 
-  container.innerHTML += `
-    <h3>Dados do Pedido</h3>
+container.innerHTML += `
+<h3>Dados do Pedido</h3>
 
-    <input id="nome" placeholder="Seu nome">
-    <input id="telefone" placeholder="Telefone">
-    <input id="endereco" placeholder="Endereço">
-    <input id="referencia" placeholder="Referência (opcional)">
+<input id="nome" placeholder="Seu nome">
+<input id="telefone" placeholder="Telefone">
+<input id="endereco" placeholder="Endereço">
+<input id="referencia" placeholder="Referência (opcional)">
 
-    <select id="pagamento" onchange="verTroco()">
-      <option value="">Forma de pagamento</option>
-      <option>Dinheiro</option>
-      <option>Pix</option>
-      <option>Cartão</option>
-    </select>
+<select id="pagamento" onchange="verTroco()">
+<option value="">Forma de pagamento</option>
+<option>Dinheiro</option>
+<option>Pix</option>
+<option>Cartão</option>
+</select>
 
-    <input id="troco" placeholder="Troco para quanto?" style="display:none;">
-  `;
+<input id="troco" placeholder="Troco para quanto?" style="display:none;">
+`;
 
-  atualizarBadge();
+atualizarBadge();
+}
+
+function alterarExtra(indexItem, indexExtra, valor){
+let item = carrinho[indexItem];
+let extra = item.extras[indexExtra];
+
+extra.quantidade += valor;
+
+if(extra.quantidade <= 0){
+item.extras.splice(indexExtra,1);
+}
+
+localStorage.setItem("carrinho", JSON.stringify(carrinho));
+renderizar();
 }
 
 function alterar(index, valor){
-  carrinho[index].quantidade += valor;
+carrinho[index].quantidade += valor;
 
-  if(carrinho[index].quantidade <= 0){
-    carrinho.splice(index,1);
-  }
+if(carrinho[index].quantidade <= 0){
+carrinho.splice(index,1);
+}
 
-  localStorage.setItem("carrinho", JSON.stringify(carrinho));
-  renderizar();
+localStorage.setItem("carrinho", JSON.stringify(carrinho));
+renderizar();
 }
 
 function verTroco(){
-  let pagamento = document.getElementById("pagamento").value;
-  document.getElementById("troco").style.display =
-    pagamento === "Dinheiro" ? "block" : "none";
+let pagamento = document.getElementById("pagamento").value;
+document.getElementById("troco").style.display =
+pagamento === "Dinheiro" ? "block" : "none";
 }
 
 function finalizarPedido(){
 
-  if(carrinho.length === 0){
-    alert("Seu carrinho está vazio");
-    return;
-  }
+if(carrinho.length === 0){
+alert("Seu carrinho está vazio");
+return;
+}
 
-  let total = 0;
-  let temComida = carrinho.some(item => item.tipo === "comida" || item.tipo === undefined);
+let total = 0;
+let temComida = carrinho.some(item => item.tipo === "comida" || item.tipo === undefined);
 
-  carrinho.forEach(item=>{
-    let subtotal = item.quantidade * item.preco;
+carrinho.forEach(item=>{
+let subtotal = item.quantidade * item.preco;
 
-    if(item.extras){
-      item.extras.forEach(extra=>{
-        subtotal += extra.quantidade * extra.preco;
-      });
-    }
+if(item.extras){
+item.extras.forEach(extra=>{
+subtotal += extra.quantidade * extra.preco;
+});
+}
 
-    total += subtotal;
-  });
+total += subtotal;
+});
 
-  if(total < 20){
-    alert("Pedido mínimo é R$ 20,00");
-    return;
-  }
+if(total < 20){
+alert("Pedido mínimo é R$ 20,00");
+return;
+}
 
-  if(!temComida){
-    alert("Adicione pelo menos 1 caldo ou combo");
-    return;
-  }
+if(!temComida){
+alert("Adicione pelo menos 1 caldo ou combo");
+return;
+}
 
-  let nome = document.getElementById("nome").value.trim();
-  let telefone = document.getElementById("telefone").value.trim();
-  let endereco = document.getElementById("endereco").value.trim();
-  let referencia = document.getElementById("referencia").value.trim();
-  let pagamento = document.getElementById("pagamento").value;
-  let troco = document.getElementById("troco").value.trim();
+let nome = document.getElementById("nome").value.trim();
+let telefone = document.getElementById("telefone").value.trim();
+let endereco = document.getElementById("endereco").value.trim();
+let referencia = document.getElementById("referencia").value.trim();
+let pagamento = document.getElementById("pagamento").value;
+let troco = document.getElementById("troco").value.trim();
 
-  if(!nome || !telefone || !endereco || !pagamento){
-    alert("Preencha todos os campos obrigatórios");
-    return;
-  }
+if(!nome || !telefone || !endereco || !pagamento){
+alert("Preencha todos os campos obrigatórios");
+return;
+}
 
-  let data = new Date();
-  let dataFormatada = data.toLocaleDateString("pt-BR") + " - " + data.toLocaleTimeString("pt-BR");
+let data = new Date();
+let dataFormatada = data.toLocaleDateString("pt-BR") + " - " + data.toLocaleTimeString("pt-BR");
 
-  let mensagem = "*SABOR DO CALDO*%0A";
-  mensagem += dataFormatada + "%0A";
-  mensagem += "--------------------------%0A";
+let mensagem = "*SABOR DO CALDO*%0A";
+mensagem += dataFormatada + "%0A";
+mensagem += "--------------------------%0A";
 
-  carrinho.forEach(item=>{
-    let subtotalItem = item.quantidade * item.preco;
+carrinho.forEach(item=>{
+let subtotalItem = item.quantidade * item.preco;
 
-    mensagem += `${item.quantidade}x ${item.nome} - R$ ${subtotalItem.toFixed(2)}%0A`;
+mensagem += `${item.quantidade}x ${item.nome} - R$ ${subtotalItem.toFixed(2)}%0A`;
 
-    let totalExtras = 0;
+if(item.extras){
+item.extras.forEach(extra=>{
+let subExtra = extra.quantidade * extra.preco;
+subtotalItem += subExtra;
 
-    if(item.extras){
-      item.extras.forEach(extra=>{
-        let subExtra = extra.quantidade * extra.preco;
-        totalExtras += subExtra;
+mensagem += `${extra.quantidade}x add ${extra.nome} - R$ ${subExtra.toFixed(2)}%0A`;
+});
+}
 
-        mensagem += `${extra.quantidade}x add ${extra.nome} - R$ ${subExtra.toFixed(2)}%0A`;
-      });
-    }
+mensagem += `Subtotal: R$ ${subtotalItem.toFixed(2)}%0A`;
+mensagem += "--------------------------%0A";
+});
 
-    let totalItem = subtotalItem + totalExtras;
+mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
 
-    mensagem += `Subtotal: R$ ${totalItem.toFixed(2)}%0A`;
-    mensagem += "--------------------------%0A";
-  });
+mensagem += "*CLIENTE*%0A";
+mensagem += `${nome}%0A${telefone}%0A${endereco}%0A`;
 
-  mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
+if(referencia){
+mensagem += `%0A*REFERÊNCIA*%0A${referencia}%0A`;
+}
 
-  mensagem += "*CLIENTE*%0A";
-  mensagem += `${nome}%0A${telefone}%0A${endereco}%0A`;
+mensagem += `%0A*PAGAMENTO*%0A${pagamento}%0A`;
 
-  if(referencia){
-    mensagem += `%0A*REFERÊNCIA*%0A${referencia}%0A`;
-  }
+if(pagamento === "Dinheiro" && troco){
+mensagem += `Troco para: R$ ${troco}%0A`;
+}
 
-  mensagem += `%0A*PAGAMENTO*%0A${pagamento}%0A`;
+mensagem += "%0A--------------------------%0A";
+mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
+mensagem += "Obrigado pela preferência!";
 
-  if(pagamento === "Dinheiro" && troco){
-    mensagem += `Troco para: R$ ${troco}%0A`;
-  }
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
 
-  mensagem += "%0A--------------------------%0A";
-  mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
-  mensagem += "Obrigado pela preferência!";
+pedidos.unshift({
+data: dataFormatada,
+itens: carrinho,
+total: total,
+nome: nome,
+telefone: telefone,
+endereco: endereco,
+pagamento: pagamento
+});
 
-  let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+localStorage.setItem("pedidos", JSON.stringify(pedidos));
 
-  pedidos.unshift({
-    data: dataFormatada,
-    itens: carrinho,
-    total: total,
-    nome: nome,
-    telefone: telefone,
-    endereco: endereco,
-    pagamento: pagamento
-  });
+window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
 
-  localStorage.setItem("pedidos", JSON.stringify(pedidos));
-
-  window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
-
-  if(confirm("Você já enviou o pedido no WhatsApp?")){
-    localStorage.removeItem("carrinho");
-    carrinho = [];
-    renderizar();
-    atualizarBadge();
-  }
+if(confirm("Você já enviou o pedido no WhatsApp?")){
+localStorage.removeItem("carrinho");
+carrinho = [];
+renderizar();
+atualizarBadge();
+}
 }
 
 renderizar();
