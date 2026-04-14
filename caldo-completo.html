@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -119,9 +118,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 <h2>Caldo Completo</h2>
 
-<p>
-Pote 500g - Feijão cremoso com calabresa, bacon, ovos e mussarela.
-</p>
+<p>Pote 500g - Feijão cremoso com calabresa, bacon, ovos e mussarela.</p>
 
 <div class="item">
 <span>Caldo Completo</span>
@@ -142,7 +139,7 @@ Pote 500g - Feijão cremoso com calabresa, bacon, ovos e mussarela.
 
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
-<!-- MENU COM ÍCONES -->
+<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -230,50 +227,61 @@ function alt(valor){
 }
 
 function altExtra(id,valor){
-  let qtdCaldo=parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
 
-  if(qtdCaldo<=0){
+  let qtdCaldo = parseInt(document.querySelector("#contadorCaldo span").innerText) || 0;
+
+  if(qtdCaldo <= 0){
     alert("Selecione o caldo primeiro");
     return;
   }
 
-  let totalExtras=0;
-  Object.values(extrasSelecionados).forEach(q=>totalExtras+=q);
+  if(!extrasSelecionados[id]){
+    extrasSelecionados[id] = 0;
+  }
 
-  if(valor>0 && totalExtras>=qtdCaldo*5)return;
+  let totalExtras = 0;
+  Object.values(extrasSelecionados).forEach(q=> totalExtras += q || 0);
 
-  extrasSelecionados[id]+=valor;
-  if(extrasSelecionados[id]<0)extrasSelecionados[id]=0;
+  if(valor > 0 && totalExtras >= qtdCaldo * 5) return;
 
-  document.getElementById(`extra-${id}`).innerText=extrasSelecionados[id];
+  extrasSelecionados[id] += valor;
+
+  if(extrasSelecionados[id] < 0){
+    extrasSelecionados[id] = 0;
+  }
+
+  document.getElementById(`extra-${id}`).innerText = extrasSelecionados[id];
+
   atualizarTotal();
 }
 
 function atualizarTotal(){
-  let qtd=parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
-  let total=qtd*25;
+  let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText) || 0;
+  let total = qtd * 25;
 
   adicionais.forEach(item=>{
-    total+=(extrasSelecionados[item.id]||0)*item.preco;
+    let q = extrasSelecionados[item.id] || 0;
+    total += q * item.preco;
   });
 
-  document.getElementById("totalPreco").innerText=total.toFixed(2);
+  document.getElementById("totalPreco").innerText = total.toFixed(2);
 }
 
 function add(){
-  let qtd=parseInt(document.querySelector("#contadorCaldo span").innerText);
+  let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
 
-  if(qtd<=0){
+  if(qtd <= 0){
     alert("Selecione pelo menos 1 item");
     return;
   }
 
-  let c=JSON.parse(localStorage.getItem("carrinho"))||[];
+  let c = JSON.parse(localStorage.getItem("carrinho")) || [];
 
-  let extrasArray=[];
+  let extrasArray = [];
+
   adicionais.forEach(item=>{
-    let q=extrasSelecionados[item.id];
-    if(q>0){
+    let q = extrasSelecionados[item.id];
+    if(q > 0){
       extrasArray.push({nome:item.nome,quantidade:q,preco:item.preco});
     }
   });
@@ -286,10 +294,14 @@ function add(){
     extras:extrasArray
   });
 
-  localStorage.setItem("carrinho",JSON.stringify(c));
+  localStorage.setItem("carrinho", JSON.stringify(c));
 
-  // reset
-  extrasSelecionados={};
+  // 🔥 RESET CORRIGIDO
+  extrasSelecionados = {};
+  adicionais.forEach(item=>{
+    extrasSelecionados[item.id] = 0;
+  });
+
   document.querySelectorAll("[id^='extra-']").forEach(el=>el.innerText="0");
   document.querySelector("#contadorCaldo span").innerText="0";
 
@@ -306,7 +318,6 @@ function atualizarCarrinho(){
   if(badge){ badge.innerText = total; }
 }
 
-// 🔥 RESET AO VOLTAR
 window.addEventListener("pageshow", function(event){
   if(event.persisted){
     location.reload();
@@ -320,4 +331,4 @@ atualizarCarrinho();
 </script>
 
 </body>
-</html>
+  </html>
