@@ -190,7 +190,6 @@ Promoções
 Carrinho
 </a>
 
-<!-- 🔥 PERFIL CORRIGIDO -->
 <a href="perfil.html" class="item-menu">
 <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <circle cx="12" cy="8" r="4"/>
@@ -226,13 +225,31 @@ function renderizar(){
     div.className = "item";
 
     let subtotal = item.quantidade * item.preco;
+
+    let extrasHtml = "";
+
+    if(item.extras){
+      item.extras.forEach(extra=>{
+        let subExtra = extra.quantidade * extra.preco;
+        subtotal += subExtra;
+
+        extrasHtml += `
+          <div style="font-size:13px; margin-left:10px;">
+            ${extra.quantidade}x add ${extra.nome} - R$ ${subExtra.toFixed(2)}
+          </div>
+        `;
+      });
+    }
+
     total += subtotal;
 
     div.innerHTML = `
       <div style="display:flex; justify-content:space-between;">
         <span>${item.nome}</span>
-        <span>R$ ${item.preco.toFixed(2)}</span>
+        <span>R$ ${(item.quantidade * item.preco).toFixed(2)}</span>
       </div>
+
+      ${extrasHtml}
 
       <div style="display:flex; justify-content:flex-end; margin-top:5px;">
         <div class="contador">
@@ -297,7 +314,15 @@ function finalizarPedido(){
   let temComida = carrinho.some(item => item.tipo === "comida" || item.tipo === undefined);
 
   carrinho.forEach(item=>{
-    total += item.quantidade * item.preco;
+    let subtotal = item.quantidade * item.preco;
+
+    if(item.extras){
+      item.extras.forEach(extra=>{
+        subtotal += extra.quantidade * extra.preco;
+      });
+    }
+
+    total += subtotal;
   });
 
   if(total < 20){
@@ -330,11 +355,27 @@ function finalizarPedido(){
   mensagem += "--------------------------%0A";
 
   carrinho.forEach(item=>{
-    let subtotal = item.quantidade * item.preco;
-    mensagem += `${item.quantidade}x ${item.nome} - R$ ${subtotal.toFixed(2)}%0A`;
+    let subtotalItem = item.quantidade * item.preco;
+
+    mensagem += `${item.quantidade}x ${item.nome} - R$ ${subtotalItem.toFixed(2)}%0A`;
+
+    let totalExtras = 0;
+
+    if(item.extras){
+      item.extras.forEach(extra=>{
+        let subExtra = extra.quantidade * extra.preco;
+        totalExtras += subExtra;
+
+        mensagem += `${extra.quantidade}x add ${extra.nome} - R$ ${subExtra.toFixed(2)}%0A`;
+      });
+    }
+
+    let totalItem = subtotalItem + totalExtras;
+
+    mensagem += `Subtotal: R$ ${totalItem.toFixed(2)}%0A`;
+    mensagem += "--------------------------%0A";
   });
 
-  mensagem += "--------------------------%0A";
   mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
 
   mensagem += "*CLIENTE*%0A";
