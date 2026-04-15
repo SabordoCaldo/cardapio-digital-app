@@ -201,7 +201,6 @@ return;
 }
 
 carrinho.forEach((item, index)=>{
-
 let div = document.createElement("div");
 div.className = "item";
 
@@ -243,7 +242,6 @@ Subtotal: R$ ${subtotal.toFixed(2)}
 `;
 
 container.appendChild(div);
-
 });
 
 container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
@@ -254,57 +252,24 @@ container.innerHTML += `
 <input id="nome" placeholder="Seu nome">
 <input id="telefone" placeholder="Telefone">
 <input id="endereco" placeholder="Endereço">
-<input id="referencia" placeholder="Referência (opcional)">
 
-<select id="pagamento" onchange="verTroco()">
+<select id="pagamento">
 <option value="">Forma de pagamento</option>
 <option>Dinheiro</option>
 <option>Pix</option>
 <option>Cartão</option>
 </select>
-
-<input id="troco" placeholder="Troco para quanto?" style="display:none;">
 `;
 
 atualizarBadge();
 }
 
-function editarItem(index){
-let item = carrinho[index];
-
-localStorage.setItem("editandoItem", JSON.stringify({
-index:index,
-...item
-}));
-
-window.location.href = "caldo-completo.html";
-}
-
-function removerItem(index){
-carrinho.splice(index,1);
-localStorage.setItem("carrinho", JSON.stringify(carrinho));
-renderizar();
-}
-
-function verTroco(){
-let pagamento = document.getElementById("pagamento").value;
-document.getElementById("troco").style.display =
-pagamento === "Dinheiro" ? "block" : "none";
-}
-
 function finalizarPedido(){
-
-if(carrinho.length === 0){
-alert("Seu carrinho está vazio");
-return;
-}
 
 let nome = document.getElementById("nome").value.trim();
 let telefone = document.getElementById("telefone").value.trim();
 let endereco = document.getElementById("endereco").value.trim();
-let referencia = document.getElementById("referencia").value.trim();
 let pagamento = document.getElementById("pagamento").value;
-let troco = document.getElementById("troco").value.trim();
 
 if(!nome || !telefone || !endereco || !pagamento){
 alert("Preencha todos os campos obrigatórios");
@@ -315,7 +280,6 @@ let total = 0;
 let mensagem = "*SABOR DO CALDO*%0A--------------------------%0A";
 
 carrinho.forEach(item=>{
-
 let subtotal = item.quantidade * item.preco;
 
 mensagem += `${item.quantidade}x ${item.nome} - R$ ${(item.quantidade * item.preco).toFixed(2)}%0A`;
@@ -324,7 +288,6 @@ if(item.extras){
 item.extras.forEach(extra=>{
 let totalExtra = extra.quantidade * extra.preco;
 subtotal += totalExtra;
-
 mensagem += `${extra.quantidade}x ${extra.nome} - R$ ${totalExtra.toFixed(2)}%0A`;
 });
 }
@@ -333,30 +296,12 @@ mensagem += `Subtotal: R$ ${subtotal.toFixed(2)}%0A`;
 mensagem += "--------------------------%0A";
 
 total += subtotal;
-
 });
 
-mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
-
-mensagem += "*CLIENTE*%0A";
-mensagem += `${nome}%0A${telefone}%0A${endereco}%0A`;
-
-if(referencia){
-mensagem += `%0A*REFERÊNCIA*%0A${referencia}%0A`;
-}
-
-mensagem += `%0A*PAGAMENTO*%0A${pagamento}%0A`;
-
-if(pagamento === "Dinheiro" && troco){
-mensagem += `Troco para: R$ ${troco}%0A`;
-}
-
 mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A`;
-
 mensagem += "%0A--------------------------%0A";
 mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
 mensagem += "Obrigado pela preferência!";
-}
 
 window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
 }
