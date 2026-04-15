@@ -309,6 +309,11 @@ alert("Preencha todos os campos obrigatórios");
 return;
 }
 
+if(pagamento === "Dinheiro" && !troco){
+alert("Preencha o campo Troco para quanto?");
+return;
+}
+  
 let total = 0;
 
 // DATA E HORA
