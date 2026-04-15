@@ -104,10 +104,10 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <body>
 
 <div class="topo">
-<a href="#" onclick="history.back()">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<path d="M15 18l-6-6 6-6"/>
-</svg>
+<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
 </a>
 </div>
 
@@ -117,7 +117,11 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 <h2>Caldo Completo</h2>
 
-<p>Pote 500g - Feijão cremoso com calabresa, bacon, ovos e mussarela.</p>
+<p>
+Pote 500g - Feijão cremoso e bem temperado, recheado com calabresa, bacon, 3 ovos de codorna e mussarela em cubos.<br><br>
+Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.<br><br>
+<b>R$ 25,00</b>
+</p>
 
 <div class="item">
 <span>Caldo Completo</span>
@@ -179,11 +183,6 @@ Perfil
 </div>
 
 <script>
-
-// 🔥 CORREÇÃO: limpa lixo do localStorage
-if(localStorage.getItem("editandoItem") === "undefined"){
-  localStorage.removeItem("editandoItem");
-}
 
 let adicionais = [
 {id:1,nome:"Cheiro verde extra",preco:1},
@@ -262,33 +261,6 @@ total += (extrasSelecionados[item.id]||0)*item.preco;
 document.getElementById("totalPreco").innerText = total.toFixed(2);
 }
 
-function carregarEdicao(){
-
-let editando = JSON.parse(localStorage.getItem("editandoItem"));
-
-if(!editando || editando.nome !== "Caldo Completo"){
-localStorage.removeItem("editandoItem");
-return;
-}
-
-document.querySelector("#contadorCaldo span").innerText = editando.quantidade || 0;
-
-if(editando.extras){
-editando.extras.forEach(extra=>{
-let item = adicionais.find(a=>a.nome === extra.nome);
-if(item){
-extrasSelecionados[item.id] = extra.quantidade;
-}
-});
-}
-
-adicionais.forEach(item=>{
-document.getElementById(`extra-${item.id}`).innerText = extrasSelecionados[item.id] || 0;
-});
-
-atualizarTotal();
-}
-
 function add(){
 
 let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
@@ -299,12 +271,6 @@ return;
 }
 
 let c = JSON.parse(localStorage.getItem("carrinho"))||[];
-let editando = JSON.parse(localStorage.getItem("editandoItem"));
-
-if(editando){
-c.splice(editando.index,1);
-localStorage.removeItem("editandoItem");
-}
 
 let extrasArray = [];
 
@@ -346,7 +312,6 @@ if(badge) badge.innerText = total;
 }
 
 renderExtras();
-carregarEdicao();
 atualizarTotal();
 atualizarCarrinho();
 
