@@ -83,7 +83,6 @@ input, select{
   font-weight:bold;
 }
 
-/* MENU */
 .menu{
   position:fixed;
   bottom:0;
@@ -142,9 +141,7 @@ input, select{
 
 <div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
-<!-- MENU COM ÍCONES -->
 <div class="menu">
-
 <a href="index.html" class="item-menu">
 <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <path d="M3 10L12 3l9 7"></path>
@@ -179,7 +176,6 @@ Carrinho
 </svg>
 Perfil
 </a>
-
 </div>
 
 <script>
@@ -203,21 +199,20 @@ return;
 }
 
 carrinho.forEach((item, index)=>{
-let div = document.createElement("div");
-div.className = "item";
 
-let subtotal = item.quantidade * item.preco;
+for(let i=0; i<item.quantidade; i++){
+
+let subtotal = item.preco;
 let extrasHtml = "";
 
 if(item.extras){
 item.extras.forEach(extra=>{
-let subExtra = extra.quantidade * extra.preco;
-subtotal += subExtra;
+subtotal += extra.preco;
 
 extrasHtml += `
 <div style="display:flex; justify-content:space-between; margin-left:10px;">
-<span>+${extra.quantidade}x ${extra.nome}</span>
-<span>R$ ${subExtra.toFixed(2)}</span>
+<span>+1x ${extra.nome}</span>
+<span>R$ ${extra.preco.toFixed(2)}</span>
 </div>
 `;
 });
@@ -225,10 +220,12 @@ extrasHtml += `
 
 total += subtotal;
 
-div.innerHTML = `
+container.innerHTML += `
+<div class="item">
+
 <div style="display:flex; justify-content:space-between;">
-<span>${item.nome}</span>
-<span>R$ ${(item.quantidade * item.preco).toFixed(2)}</span>
+<span>1x ${item.nome}</span>
+<span>R$ ${item.preco.toFixed(2)}</span>
 </div>
 
 ${extrasHtml}
@@ -241,9 +238,11 @@ Subtotal: R$ ${subtotal.toFixed(2)}
 <button onclick="editarItem(${index})">Editar</button>
 <button onclick="removerItem(${index})" style="background:red;color:#fff;">Excluir</button>
 </div>
-`;
 
-container.appendChild(div);
+</div>
+`;
+}
+
 });
 
 container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
@@ -299,47 +298,57 @@ alert("Seu carrinho está vazio");
 return;
 }
 
-let total = 0;
-
-carrinho.forEach(item=>{
-let subtotal = item.quantidade * item.preco;
-
-if(item.extras){
-item.extras.forEach(extra=>{
-subtotal += extra.quantidade * extra.preco;
-});
-}
-
-total += subtotal;
-});
-
 let nome = document.getElementById("nome").value.trim();
 let telefone = document.getElementById("telefone").value.trim();
 let endereco = document.getElementById("endereco").value.trim();
+let referencia = document.getElementById("referencia").value.trim();
 let pagamento = document.getElementById("pagamento").value;
+let troco = document.getElementById("troco").value.trim();
 
 if(!nome || !telefone || !endereco || !pagamento){
-alert("Preencha todos os campos");
+alert("Preencha todos os campos obrigatórios");
 return;
 }
 
-let mensagem = "*SABOR DO CALDO*%0A";
+let total = 0;
+let mensagem = "*SABOR DO CALDO*%0A--------------------------%0A";
 
 carrinho.forEach(item=>{
-mensagem += `${item.quantidade}x ${item.nome}%0A`;
+for(let i=0;i<item.quantidade;i++){
+
+let subtotal = item.preco;
+
+mensagem += `1x ${item.nome} - R$ ${item.preco.toFixed(2)}%0A`;
 
 if(item.extras){
 item.extras.forEach(extra=>{
-mensagem += `+${extra.quantidade}x ${extra.nome}%0A`;
+subtotal += extra.preco;
+mensagem += `+1x ${extra.nome} - R$ ${extra.preco.toFixed(2)}%0A`;
 });
 }
 
-mensagem += "%0A";
+mensagem += `Subtotal: R$ ${subtotal.toFixed(2)}%0A--------------------------%0A`;
+
+total += subtotal;
+}
 });
 
-mensagem += `*TOTAL: R$ ${total.toFixed(2)}*`;
+mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
 
-window.open(`https://wa.me/5535999711358?text=${mensagem}`);
+mensagem += "*CLIENTE*%0A";
+mensagem += `${nome}%0A${telefone}%0A${endereco}%0A`;
+
+if(referencia){
+mensagem += `%0A*REFERÊNCIA*%0A${referencia}%0A`;
+}
+
+mensagem += `%0A*PAGAMENTO*%0A${pagamento}%0A`;
+
+if(pagamento === "Dinheiro" && troco){
+mensagem += `Troco para: R$ ${troco}%0A`;
+}
+
+window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
 }
 
 renderizar();
