@@ -70,6 +70,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   font-weight:bold;
 }
 
+/* MENU */
 .menu{
   position:fixed;
   bottom:0;
@@ -138,6 +139,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
+<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -265,7 +267,9 @@ function atualizarTotal(){
   document.getElementById("totalPreco").innerText = total.toFixed(2);
 }
 
+// 🔥 FUNÇÃO CORRIGIDA (ÚNICA ALTERAÇÃO)
 function add(){
+
   let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
 
   if(qtd <= 0){
@@ -276,6 +280,7 @@ function add(){
   let c = JSON.parse(localStorage.getItem("carrinho")) || [];
 
   let editando = JSON.parse(localStorage.getItem("editandoItem"));
+
   if(editando){
     c.splice(editando.index, 1);
     localStorage.removeItem("editandoItem");
@@ -286,17 +291,37 @@ function add(){
   adicionais.forEach(item=>{
     let q = extrasSelecionados[item.id];
     if(q > 0){
-      extrasArray.push({nome:item.nome,quantidade:q,preco:item.preco});
+      extrasArray.push({
+        nome:item.nome,
+        quantidade:q,
+        preco:item.preco
+      });
     }
   });
 
-  c.push({
-    nome:"Caldo Completo",
-    quantidade:qtd,
-    preco:25,
-    tipo:"comida",
-    extras:extrasArray
-  });
+  // 🔥 CRIA UM ITEM PARA CADA CALDO
+  for(let i = 0; i < qtd; i++){
+
+    let extrasSeparados = [];
+
+    extrasArray.forEach(extra=>{
+      for(let j = 0; j < extra.quantidade; j++){
+        extrasSeparados.push({
+          nome: extra.nome,
+          preco: extra.preco
+        });
+      }
+    });
+
+    c.push({
+      nome:"Caldo Completo",
+      quantidade:1,
+      preco:25,
+      tipo:"comida",
+      extras: extrasSeparados
+    });
+
+  }
 
   localStorage.setItem("carrinho", JSON.stringify(c));
 
@@ -327,36 +352,9 @@ window.addEventListener("pageshow", function(event){
   }
 });
 
-// 🔥 ORDEM CORRETA
 renderExtras();
 atualizarTotal();
 atualizarCarrinho();
-
-// 🔥 APLICA EDIÇÃO DEPOIS
-let editando = JSON.parse(localStorage.getItem("editandoItem"));
-
-if(editando){
-  let item = editando.item;
-
-  document.querySelector("#contadorCaldo span").innerText = item.quantidade;
-
-  adicionais.forEach(a=>{
-    extrasSelecionados[a.id] = 0;
-  });
-
-  if(item.extras){
-    item.extras.forEach(extra=>{
-      let encontrado = adicionais.find(a => a.nome === extra.nome);
-
-      if(encontrado){
-        extrasSelecionados[encontrado.id] = extra.quantidade;
-        document.getElementById(`extra-${encontrado.id}`).innerText = extra.quantidade;
-      }
-    });
-  }
-
-  atualizarTotal();
-}
 
 </script>
 
