@@ -70,7 +70,6 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
   font-weight:bold;
 }
 
-/* MENU */
 .menu{
   position:fixed;
   bottom:0;
@@ -139,7 +138,6 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
-<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -235,10 +233,6 @@ function altExtra(id,valor){
     return;
   }
 
-  if(!extrasSelecionados[id]){
-    extrasSelecionados[id] = 0;
-  }
-
   let totalExtras = 0;
   Object.values(extrasSelecionados).forEach(q=> totalExtras += q || 0);
 
@@ -276,6 +270,13 @@ function add(){
   }
 
   let c = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  // 🔥 EDIÇÃO (NOVA PARTE)
+  let editando = JSON.parse(localStorage.getItem("editandoItem"));
+  if(editando){
+    c.splice(editando.index, 1);
+    localStorage.removeItem("editandoItem");
+  }
 
   let extrasArray = [];
 
@@ -315,6 +316,32 @@ function atualizarCarrinho(){
   carrinho.forEach(item=> total += item.quantidade);
   let badge = document.getElementById("qtdCarrinho");
   if(badge){ badge.innerText = total; }
+}
+
+// 🔥 CARREGAR EDIÇÃO
+let editando = JSON.parse(localStorage.getItem("editandoItem"));
+
+if(editando){
+  let item = editando.item;
+
+  document.querySelector("#contadorCaldo span").innerText = item.quantidade;
+
+  adicionais.forEach(a=>{
+    extrasSelecionados[a.id] = 0;
+  });
+
+  if(item.extras){
+    item.extras.forEach(extra=>{
+      let encontrado = adicionais.find(a => a.nome === extra.nome);
+
+      if(encontrado){
+        extrasSelecionados[encontrado.id] = extra.quantidade;
+        document.getElementById(`extra-${encontrado.id}`).innerText = extra.quantidade;
+      }
+    });
+  }
+
+  atualizarTotal();
 }
 
 window.addEventListener("pageshow", function(event){
