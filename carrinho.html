@@ -142,6 +142,7 @@ input, select{
 <div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
 <div class="menu">
+
 <a href="index.html" class="item-menu">
 <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
 <path d="M3 10L12 3l9 7"></path>
@@ -176,6 +177,7 @@ Carrinho
 </svg>
 Perfil
 </a>
+
 </div>
 
 <script>
@@ -200,19 +202,21 @@ return;
 
 carrinho.forEach((item, index)=>{
 
-for(let i=0; i<item.quantidade; i++){
+let div = document.createElement("div");
+div.className = "item";
 
-let subtotal = item.preco;
+let subtotal = item.quantidade * item.preco;
 let extrasHtml = "";
 
 if(item.extras){
 item.extras.forEach(extra=>{
-subtotal += extra.preco;
+let totalExtra = extra.quantidade * extra.preco;
+subtotal += totalExtra;
 
 extrasHtml += `
 <div style="display:flex; justify-content:space-between; margin-left:10px;">
-<span>+1x ${extra.nome}</span>
-<span>R$ ${extra.preco.toFixed(2)}</span>
+<span>+${extra.quantidade}x ${extra.nome}</span>
+<span>R$ ${totalExtra.toFixed(2)}</span>
 </div>
 `;
 });
@@ -220,12 +224,10 @@ extrasHtml += `
 
 total += subtotal;
 
-container.innerHTML += `
-<div class="item">
-
+div.innerHTML = `
 <div style="display:flex; justify-content:space-between;">
-<span>1x ${item.nome}</span>
-<span>R$ ${item.preco.toFixed(2)}</span>
+<span>${item.quantidade}x ${item.nome}</span>
+<span>R$ ${(item.quantidade * item.preco).toFixed(2)}</span>
 </div>
 
 ${extrasHtml}
@@ -238,10 +240,9 @@ Subtotal: R$ ${subtotal.toFixed(2)}
 <button onclick="editarItem(${index})">Editar</button>
 <button onclick="removerItem(${index})" style="background:red;color:#fff;">Excluir</button>
 </div>
-
-</div>
 `;
-}
+
+container.appendChild(div);
 
 });
 
@@ -273,7 +274,7 @@ let item = carrinho[index];
 
 localStorage.setItem("editandoItem", JSON.stringify({
 index:index,
-item:item
+...item
 }));
 
 window.location.href = "caldo-completo.html";
@@ -314,23 +315,25 @@ let total = 0;
 let mensagem = "*SABOR DO CALDO*%0A--------------------------%0A";
 
 carrinho.forEach(item=>{
-for(let i=0;i<item.quantidade;i++){
 
-let subtotal = item.preco;
+let subtotal = item.quantidade * item.preco;
 
-mensagem += `1x ${item.nome} - R$ ${item.preco.toFixed(2)}%0A`;
+mensagem += `${item.quantidade}x ${item.nome} - R$ ${(item.quantidade * item.preco).toFixed(2)}%0A`;
 
 if(item.extras){
 item.extras.forEach(extra=>{
-subtotal += extra.preco;
-mensagem += `+1x ${extra.nome} - R$ ${extra.preco.toFixed(2)}%0A`;
+let totalExtra = extra.quantidade * extra.preco;
+subtotal += totalExtra;
+
+mensagem += `${extra.quantidade}x ${extra.nome} - R$ ${totalExtra.toFixed(2)}%0A`;
 });
 }
 
-mensagem += `Subtotal: R$ ${subtotal.toFixed(2)}%0A--------------------------%0A`;
+mensagem += `Subtotal: R$ ${subtotal.toFixed(2)}%0A`;
+mensagem += "--------------------------%0A";
 
 total += subtotal;
-}
+
 });
 
 mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
