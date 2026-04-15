@@ -178,18 +178,6 @@ Perfil
 
 </div>
 
-<a href="index.html" class="item-menu">Início</a>
-<a href="#" class="item-menu">Promoções</a>
-
-<a href="carrinho.html" class="item-menu">
-<span id="qtdCarrinho" style="position:absolute;top:-5px;right:-10px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;">0</span>
-Carrinho
-</a>
-
-<a href="perfil.html" class="item-menu">Perfil</a>
-
-</div>
-
 <script>
 
 // 🔥 CORREÇÃO: limpa lixo do localStorage
@@ -253,7 +241,6 @@ return;
 
 let totalExtras = Object.values(extrasSelecionados).reduce((a,b)=>a+(b||0),0);
 
-// 🔥 limite 10
 if(valor>0 && totalExtras >= qtdCaldo*10) return;
 
 extrasSelecionados[id]+=valor;
@@ -275,12 +262,10 @@ total += (extrasSelecionados[item.id]||0)*item.preco;
 document.getElementById("totalPreco").innerText = total.toFixed(2);
 }
 
-// 🔥 CORREÇÃO PRINCIPAL
 function carregarEdicao(){
 
 let editando = JSON.parse(localStorage.getItem("editandoItem"));
 
-// validação forte
 if(!editando || editando.nome !== "Caldo Completo"){
 localStorage.removeItem("editandoItem");
 return;
@@ -340,7 +325,6 @@ extras:extrasArray
 
 localStorage.setItem("carrinho",JSON.stringify(c));
 
-// reset
 extrasSelecionados={};
 adicionais.forEach(item=>extrasSelecionados[item.id]=0);
 
