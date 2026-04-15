@@ -233,6 +233,10 @@ function altExtra(id,valor){
     return;
   }
 
+  if(!extrasSelecionados[id]){
+    extrasSelecionados[id] = 0;
+  }
+
   let totalExtras = 0;
   Object.values(extrasSelecionados).forEach(q=> totalExtras += q || 0);
 
@@ -271,7 +275,6 @@ function add(){
 
   let c = JSON.parse(localStorage.getItem("carrinho")) || [];
 
-  // 🔥 EDIÇÃO (NOVA PARTE)
   let editando = JSON.parse(localStorage.getItem("editandoItem"));
   if(editando){
     c.splice(editando.index, 1);
@@ -318,7 +321,18 @@ function atualizarCarrinho(){
   if(badge){ badge.innerText = total; }
 }
 
-// 🔥 CARREGAR EDIÇÃO
+window.addEventListener("pageshow", function(event){
+  if(event.persisted){
+    location.reload();
+  }
+});
+
+// 🔥 ORDEM CORRETA
+renderExtras();
+atualizarTotal();
+atualizarCarrinho();
+
+// 🔥 APLICA EDIÇÃO DEPOIS
 let editando = JSON.parse(localStorage.getItem("editandoItem"));
 
 if(editando){
@@ -343,16 +357,6 @@ if(editando){
 
   atualizarTotal();
 }
-
-window.addEventListener("pageshow", function(event){
-  if(event.persisted){
-    location.reload();
-  }
-});
-
-renderExtras();
-atualizarTotal();
-atualizarCarrinho();
 
 </script>
 
