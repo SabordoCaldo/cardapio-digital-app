@@ -343,6 +343,20 @@ mensagem += "--------------------------%0A";
 total += subtotal;
 });
 
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+
+pedidos.unshift({
+data: dataFormatada,
+itens: carrinho,
+total: total,
+nome: nome,
+telefone: telefone,
+endereco: endereco,
+pagamento: pagamento
+});
+
+localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
 mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
 
 mensagem += "*CLIENTE*%0A";
