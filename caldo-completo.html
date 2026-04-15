@@ -3,19 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carrinho</title>
+<title>Caldo Completo</title>
 
 <style>
-*{box-sizing:border-box;}
-
-body{
-  margin:0;
-  font-family:Arial;
-  background:#fff;
-  margin-top:60px;
-  padding-bottom:180px;
-  overflow-x:hidden;
-}
+body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:100px;}
 
 .topo{
   position:fixed;
@@ -30,45 +21,41 @@ body{
   align-items:center;
 }
 
-.voltar-btn{
-  width:40px;
-  height:40px;
-  background:#eee;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.voltar-btn svg{
-  width:20px;
-  height:20px;
-  stroke:#8B4513;
-}
+.img{width:100%;height:320px;object-fit:cover;}
 
 .conteudo{
   padding:15px;
-  padding-bottom:40px;
+  padding-bottom:140px;
+}
+
+.preco{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:10px;
 }
 
 .item{
-  border-bottom:1px solid #eee;
-  padding:12px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px;
 }
 
-.total{
-  font-size:20px;
-  font-weight:bold;
-  margin-top:15px;
+.contador{
+  display:flex;
+  gap:8px;
+  align-items:center;
 }
 
-input, select{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
+.contador button{
+  width:32px;
+  height:32px;
+  border:none;
   border-radius:8px;
-  border:1px solid #ccc;
 }
+
+.menos{background:#ccc;}
+.mais{background:#8B4513;color:#fff;}
 
 .botao{
   position:fixed;
@@ -99,28 +86,17 @@ input, select{
   display:flex;
   flex-direction:column;
   align-items:center;
-  font-size:13px;
+  font-size:12px;
   color:#555;
   text-decoration:none;
   position:relative;
 }
 
 .item-menu svg{
-  width:26px;
-  height:26px;
+  width:24px;
+  height:24px;
   stroke:#555;
   margin-bottom:4px;
-}
-
-.badge{
-  position:absolute;
-  top:-5px;
-  right:-10px;
-  background:red;
-  color:#fff;
-  font-size:10px;
-  padding:2px 6px;
-  border-radius:10px;
 }
 </style>
 </head>
@@ -128,217 +104,230 @@ input, select{
 <body>
 
 <div class="topo">
-<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
+<a href="#" onclick="history.back()">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <path d="M15 18l-6-6 6-6"/>
 </svg>
 </a>
 </div>
 
-<div class="conteudo" id="conteudo">
-<h2>Seu Carrinho</h2>
+<img src="img/banners/completo_banner.jpg" class="img">
+
+<div class="conteudo">
+
+<h2>Caldo Completo</h2>
+
+<p>Pote 500g - Feijão cremoso com calabresa, bacon, ovos e mussarela.</p>
+
+<div class="item">
+<span>Caldo Completo</span>
+
+<div class="contador" id="contadorCaldo">
+<button class="menos" onclick="alt(-1)">-</button>
+<span>0</span>
+<button class="mais" onclick="alt(1)">+</button>
+</div>
 </div>
 
-<div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
+<h3>Adicionais</h3>
+<div id="extras"></div>
+
+<div class="preco">Total: R$ <span id="totalPreco">25.00</span></div>
+
+</div>
+
+<a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
 <div class="menu">
 
-<a href="index.html" class="item-menu">
-<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-<path d="M3 10L12 3l9 7"></path>
-<path d="M5 10v10h14V10"></path>
-</svg>
-Início
-</a>
-
-<a href="#" class="item-menu">
-<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-<circle cx="7" cy="7" r="2"></circle>
-<circle cx="17" cy="17" r="2"></circle>
-<line x1="7" y1="17" x2="17" y2="7"></line>
-</svg>
-Promoções
-</a>
+<a href="index.html" class="item-menu">Início</a>
+<a href="#" class="item-menu">Promoções</a>
 
 <a href="carrinho.html" class="item-menu">
-<span id="badgeCarrinho" class="badge">0</span>
-<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-<circle cx="9" cy="20" r="1"/>
-<circle cx="17" cy="20" r="1"/>
-<path d="M5 6h2l1 7h9l2-5H7"/>
-</svg>
+<span id="qtdCarrinho" style="position:absolute;top:-5px;right:-10px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;">0</span>
 Carrinho
 </a>
 
-<a href="perfil.html" class="item-menu">
-<svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-<circle cx="12" cy="8" r="4"/>
-<path d="M4 20c2-4 14-4 16 0"/>
-</svg>
-Perfil
-</a>
+<a href="perfil.html" class="item-menu">Perfil</a>
 
 </div>
 
 <script>
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-let container = document.getElementById("conteudo");
 
-function atualizarBadge(){
-let total = 0;
-carrinho.forEach(item=> total += item.quantidade);
-document.getElementById("badgeCarrinho").innerText = total;
+// 🔥 CORREÇÃO: limpa lixo do localStorage
+if(localStorage.getItem("editandoItem") === "undefined"){
+  localStorage.removeItem("editandoItem");
 }
 
-function renderizar(){
-container.innerHTML = "<h2>Seu Carrinho</h2>";
-let total = 0;
+let adicionais = [
+{id:1,nome:"Cheiro verde extra",preco:1},
+{id:2,nome:"Ovo de codorna",preco:1},
+{id:3,nome:"Pimenta biquinho",preco:1},
+{id:4,nome:"Torrada",preco:1.5},
+{id:5,nome:"Torresmo",preco:5},
+{id:6,nome:"Calabresa",preco:5},
+{id:7,nome:"Bacon",preco:5},
+{id:8,nome:"Mussarela",preco:6}
+];
 
-if(carrinho.length === 0){
-container.innerHTML += "<p>Seu carrinho está vazio</p>";
-atualizarBadge();
-return;
-}
+let extrasSelecionados = {};
 
-carrinho.forEach((item, index)=>{
+function renderExtras(){
+let container = document.getElementById("extras");
+container.innerHTML = "";
+
+adicionais.forEach(item=>{
+extrasSelecionados[item.id] = 0;
 
 let div = document.createElement("div");
 div.className = "item";
 
-let subtotal = item.quantidade * item.preco;
-let extrasHtml = "";
-
-if(item.extras){
-item.extras.forEach(extra=>{
-let totalExtra = extra.quantidade * extra.preco;
-subtotal += totalExtra;
-
-extrasHtml += `
-<div style="display:flex; justify-content:space-between; margin-left:10px;">
-<span>+${extra.quantidade}x ${extra.nome}</span>
-<span>R$ ${totalExtra.toFixed(2)}</span>
-</div>
-`;
-});
-}
-
-total += subtotal;
-
 div.innerHTML = `
-<div style="display:flex; justify-content:space-between;">
-<span>${item.quantidade}x ${item.nome}</span>
-<span>R$ ${(item.quantidade * item.preco).toFixed(2)}</span>
-</div>
-
-${extrasHtml}
-
-<div style="font-weight:bold; margin-top:5px;">
-Subtotal: R$ ${subtotal.toFixed(2)}
-</div>
-
-<div style="display:flex; gap:10px; margin-top:8px;">
-<button onclick="editarItem(${index})">Editar</button>
-<button onclick="removerItem(${index})" style="background:red;color:#fff;">Excluir</button>
+<span>${item.nome} (R$ ${item.preco.toFixed(2)})</span>
+<div class="contador">
+<button onclick="altExtra(${item.id}, -1)">-</button>
+<span id="extra-${item.id}">0</span>
+<button onclick="altExtra(${item.id}, 1)">+</button>
 </div>
 `;
 
 container.appendChild(div);
-
 });
-
-container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
-
-container.innerHTML += `
-<h3>Dados do Pedido</h3>
-
-<input id="nome" placeholder="Seu nome">
-<input id="telefone" placeholder="Telefone">
-<input id="endereco" placeholder="Endereço">
-<input id="referencia" placeholder="Referência (opcional)">
-
-<select id="pagamento" onchange="verTroco()">
-<option value="">Forma de pagamento</option>
-<option>Dinheiro</option>
-<option>Pix</option>
-<option>Cartão</option>
-</select>
-
-<input id="troco" placeholder="Troco para quanto?" style="display:none;">
-`;
-
-atualizarBadge();
 }
 
-function editarItem(index){
-let item = carrinho[index];
-
-localStorage.setItem("editandoItem", JSON.stringify({
-index:index,
-...item
-}));
-
-window.location.href = "caldo-completo.html";
+function alt(valor){
+let span = document.querySelector("#contadorCaldo span");
+let n = parseInt(span.innerText)||0;
+n+=valor;
+if(n<0)n=0;
+span.innerText=n;
+atualizarTotal();
 }
 
-function removerItem(index){
-carrinho.splice(index,1);
-localStorage.setItem("carrinho", JSON.stringify(carrinho));
-renderizar();
-}
+function altExtra(id,valor){
 
-function verTroco(){
-let pagamento = document.getElementById("pagamento").value;
-document.getElementById("troco").style.display =
-pagamento === "Dinheiro" ? "block" : "none";
-}
+let qtdCaldo = parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
 
-function finalizarPedido(){
-
-let nome = document.getElementById("nome").value.trim();
-let telefone = document.getElementById("telefone").value.trim();
-let endereco = document.getElementById("endereco").value.trim();
-let pagamento = document.getElementById("pagamento").value;
-
-if(!nome || !telefone || !endereco || !pagamento){
-alert("Preencha todos os campos obrigatórios");
+if(qtdCaldo<=0){
+alert("Selecione o caldo primeiro");
 return;
 }
 
+let totalExtras = Object.values(extrasSelecionados).reduce((a,b)=>a+(b||0),0);
+
+// 🔥 limite 10
+if(valor>0 && totalExtras >= qtdCaldo*10) return;
+
+extrasSelecionados[id]+=valor;
+if(extrasSelecionados[id]<0) extrasSelecionados[id]=0;
+
+document.getElementById(`extra-${id}`).innerText = extrasSelecionados[id];
+
+atualizarTotal();
+}
+
+function atualizarTotal(){
+let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
+let total = qtd*25;
+
+adicionais.forEach(item=>{
+total += (extrasSelecionados[item.id]||0)*item.preco;
+});
+
+document.getElementById("totalPreco").innerText = total.toFixed(2);
+}
+
+// 🔥 CORREÇÃO PRINCIPAL
+function carregarEdicao(){
+
+let editando = JSON.parse(localStorage.getItem("editandoItem"));
+
+// validação forte
+if(!editando || editando.nome !== "Caldo Completo"){
+localStorage.removeItem("editandoItem");
+return;
+}
+
+document.querySelector("#contadorCaldo span").innerText = editando.quantidade || 0;
+
+if(editando.extras){
+editando.extras.forEach(extra=>{
+let item = adicionais.find(a=>a.nome === extra.nome);
+if(item){
+extrasSelecionados[item.id] = extra.quantidade;
+}
+});
+}
+
+adicionais.forEach(item=>{
+document.getElementById(`extra-${item.id}`).innerText = extrasSelecionados[item.id] || 0;
+});
+
+atualizarTotal();
+}
+
+function add(){
+
+let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
+
+if(qtd<=0){
+alert("Selecione pelo menos 1 item");
+return;
+}
+
+let c = JSON.parse(localStorage.getItem("carrinho"))||[];
+let editando = JSON.parse(localStorage.getItem("editandoItem"));
+
+if(editando){
+c.splice(editando.index,1);
+localStorage.removeItem("editandoItem");
+}
+
+let extrasArray = [];
+
+adicionais.forEach(item=>{
+let q = extrasSelecionados[item.id];
+if(q>0){
+extrasArray.push({nome:item.nome,quantidade:q,preco:item.preco});
+}
+});
+
+c.push({
+nome:"Caldo Completo",
+quantidade:qtd,
+preco:25,
+tipo:"comida",
+extras:extrasArray
+});
+
+localStorage.setItem("carrinho",JSON.stringify(c));
+
+// reset
+extrasSelecionados={};
+adicionais.forEach(item=>extrasSelecionados[item.id]=0);
+
+document.querySelectorAll("[id^='extra-']").forEach(el=>el.innerText="0");
+document.querySelector("#contadorCaldo span").innerText="0";
+
+atualizarTotal();
+atualizarCarrinho();
+
+alert("Adicionado ao carrinho");
+}
+
+function atualizarCarrinho(){
+let carrinho = JSON.parse(localStorage.getItem("carrinho"))||[];
 let total = 0;
-let mensagem = "*SABOR DO CALDO*%0A--------------------------%0A";
-
-carrinho.forEach(item=>{
-
-let subtotal = item.quantidade * item.preco;
-
-mensagem += `${item.quantidade}x ${item.nome} - R$ ${(item.quantidade * item.preco).toFixed(2)}%0A`;
-
-if(item.extras){
-item.extras.forEach(extra=>{
-let totalExtra = extra.quantidade * extra.preco;
-subtotal += totalExtra;
-
-mensagem += `${extra.quantidade}x ${extra.nome} - R$ ${totalExtra.toFixed(2)}%0A`;
-});
+carrinho.forEach(item=> total += item.quantidade);
+let badge = document.getElementById("qtdCarrinho");
+if(badge) badge.innerText = total;
 }
 
-mensagem += `Subtotal: R$ ${subtotal.toFixed(2)}%0A`;
-mensagem += "--------------------------%0A";
+renderExtras();
+carregarEdicao();
+atualizarTotal();
+atualizarCarrinho();
 
-total += subtotal;
-
-});
-
-mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A`;
-
-mensagem += "%0A--------------------------%0A";
-mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
-mensagem += "Obrigado pela preferência!";
-
-window.open(`https://wa.me/5535999711358?text=${mensagem}`);
-}
-
-renderizar();
 </script>
 
 </body>
