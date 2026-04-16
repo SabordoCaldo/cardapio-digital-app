@@ -141,7 +141,6 @@ input, select{
 
 <div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
-<!-- 🔥 MENU CORRIGIDO -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -298,6 +297,31 @@ alert("Seu carrinho está vazio");
 return;
 }
 
+/* 🔒 BLOQUEIO BEBIDA */
+let temComida = carrinho.some(item => item.tipo === "comida");
+if(!temComida){
+alert("Adicione pelo menos 1 caldo ao pedido");
+return;
+}
+
+/* 💰 PEDIDO MÍNIMO */
+let totalPedido = 0;
+
+carrinho.forEach(item=>{
+totalPedido += item.quantidade * item.preco;
+
+if(item.extras){
+item.extras.forEach(extra=>{
+totalPedido += extra.quantidade * extra.preco;
+});
+}
+});
+
+if(totalPedido < 20){
+alert("Pedido mínimo de R$20,00");
+return;
+}
+
 let nome = document.getElementById("nome").value.trim();
 let telefone = document.getElementById("telefone").value.trim();
 let endereco = document.getElementById("endereco").value.trim();
@@ -314,7 +338,7 @@ if(pagamento === "Dinheiro" && !troco){
 alert("Preencha o campo Troco para quanto?");
 return;
 }
-  
+
 let total = 0;
 
 let data = new Date();
@@ -383,4 +407,4 @@ renderizar();
 </script>
 
 </body>
-  </html>
+</html>
