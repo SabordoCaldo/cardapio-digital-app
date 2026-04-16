@@ -159,6 +159,7 @@ Promoções
 
 <a href="carrinho.html" class="item-menu">
 <span id="badgeCarrinho" class="badge">0</span>
+
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <circle cx="9" cy="21" r="1"/>
 <circle cx="20" cy="21" r="1"/>
@@ -249,6 +250,7 @@ container.innerHTML += `
 <input id="nome" placeholder="Seu nome">
 <input id="telefone" placeholder="Telefone">
 <input id="endereco" placeholder="Endereço">
+<input id="observacao" placeholder="Observação (opcional)">
 
 <select id="pagamento" onchange="verTroco()">
 <option value="">Forma de pagamento</option>
@@ -280,6 +282,7 @@ function finalizarPedido(){
 let nome = document.getElementById("nome").value.trim();
 let telefone = document.getElementById("telefone").value.trim();
 let endereco = document.getElementById("endereco").value.trim();
+let observacao = document.getElementById("observacao").value.trim();
 let pagamento = document.getElementById("pagamento").value;
 let troco = document.getElementById("troco").value.trim();
 
@@ -294,7 +297,13 @@ return;
 }
 
 let total = 0;
-let mensagem = "*SABOR DO CALDO*%0A--------------------------%0A";
+
+let data = new Date();
+let dataFormatada = data.toLocaleDateString("pt-BR") + " - " + data.toLocaleTimeString("pt-BR");
+
+let mensagem = "*SABOR DO CALDO*%0A";
+mensagem += dataFormatada + "%0A";
+mensagem += "--------------------------%0A";
 
 carrinho.forEach(item=>{
 let subtotal = item.quantidade * item.preco;
@@ -315,17 +324,37 @@ mensagem += "--------------------------%0A";
 total += subtotal;
 });
 
-// salvar pedido
 let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+
 pedidos.unshift({
-data: new Date().toLocaleString("pt-BR"),
+data: dataFormatada,
 itens: carrinho,
 total: total,
-nome: nome
+nome: nome,
+telefone: telefone,
+endereco: endereco,
+observacao: observacao,
+pagamento: pagamento,
+troco: troco
 });
+
 localStorage.setItem("pedidos", JSON.stringify(pedidos));
 
-mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A`;
+mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
+
+mensagem += "*CLIENTE*%0A";
+mensagem += `${nome}%0A${telefone}%0A${endereco}%0A`;
+
+if(observacao){
+mensagem += `%0A*OBSERVAÇÃO*%0A${observacao}%0A`;
+}
+
+mensagem += `%0A*PAGAMENTO*%0A${pagamento}%0A`;
+
+if(pagamento === "Dinheiro"){
+mensagem += `Troco para: R$ ${troco}%0A`;
+}
+
 mensagem += "%0A--------------------------%0A";
 mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
 mensagem += "Obrigado pela preferência!";
