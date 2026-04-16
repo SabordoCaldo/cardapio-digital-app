@@ -125,7 +125,6 @@ input, select{
 
 <body>
 
-<!-- TOPO -->
 <div class="topo">
 <a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
@@ -134,15 +133,12 @@ input, select{
 </a>
 </div>
 
-<!-- CONTEÚDO -->
 <div class="conteudo" id="conteudo">
 <h2>Seu Carrinho</h2>
 </div>
 
-<!-- BOTÃO -->
 <div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
-<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -163,7 +159,6 @@ Promoções
 
 <a href="carrinho.html" class="item-menu">
 <span id="badgeCarrinho" class="badge">0</span>
-
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <circle cx="9" cy="21" r="1"/>
 <circle cx="20" cy="21" r="1"/>
@@ -248,6 +243,23 @@ container.appendChild(div);
 
 container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
 
+container.innerHTML += `
+<h3>Dados do Pedido</h3>
+
+<input id="nome" placeholder="Seu nome">
+<input id="telefone" placeholder="Telefone">
+<input id="endereco" placeholder="Endereço">
+
+<select id="pagamento" onchange="verTroco()">
+<option value="">Forma de pagamento</option>
+<option>Dinheiro</option>
+<option>Pix</option>
+<option>Cartão</option>
+</select>
+
+<input id="troco" placeholder="Troco para quanto?" style="display:none;">
+`;
+
 atualizarBadge();
 }
 
@@ -257,8 +269,68 @@ localStorage.setItem("carrinho", JSON.stringify(carrinho));
 renderizar();
 }
 
+function verTroco(){
+let pagamento = document.getElementById("pagamento").value;
+document.getElementById("troco").style.display =
+pagamento === "Dinheiro" ? "block" : "none";
+}
+
 function finalizarPedido(){
-alert("Pedido enviado!");
+
+let nome = document.getElementById("nome").value.trim();
+let telefone = document.getElementById("telefone").value.trim();
+let endereco = document.getElementById("endereco").value.trim();
+let pagamento = document.getElementById("pagamento").value;
+let troco = document.getElementById("troco").value.trim();
+
+if(!nome || !telefone || !endereco || !pagamento){
+alert("Preencha todos os campos obrigatórios");
+return;
+}
+
+if(pagamento === "Dinheiro" && !troco){
+alert("Preencha o campo Troco para quanto?");
+return;
+}
+
+let total = 0;
+let mensagem = "*SABOR DO CALDO*%0A--------------------------%0A";
+
+carrinho.forEach(item=>{
+let subtotal = item.quantidade * item.preco;
+
+mensagem += `${item.quantidade}x ${item.nome} - R$ ${(item.quantidade * item.preco).toFixed(2)}%0A`;
+
+if(item.extras){
+item.extras.forEach(extra=>{
+let totalExtra = extra.quantidade * extra.preco;
+subtotal += totalExtra;
+mensagem += `${extra.quantidade}x ${extra.nome} - R$ ${totalExtra.toFixed(2)}%0A`;
+});
+}
+
+mensagem += `Subtotal: R$ ${subtotal.toFixed(2)}%0A`;
+mensagem += "--------------------------%0A";
+
+total += subtotal;
+});
+
+// salvar pedido
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+pedidos.unshift({
+data: new Date().toLocaleString("pt-BR"),
+itens: carrinho,
+total: total,
+nome: nome
+});
+localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
+mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A`;
+mensagem += "%0A--------------------------%0A";
+mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
+mensagem += "Obrigado pela preferência!";
+
+window.open(`https://wa.me/5535999711358?text=${mensagem}`);
 }
 
 renderizar();
