@@ -1,13 +1,5 @@
 <script>
-let carrinho = [];
-
-try{
-  carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-}catch(e){
-  localStorage.removeItem("carrinho");
-  carrinho = [];
-}
-
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let container = document.getElementById("conteudo");
 
 function atualizarBadge(){
@@ -93,16 +85,57 @@ container.innerHTML += `
 atualizarBadge();
 }
 
-/* 🔥 ÚNICA CORREÇÃO AQUI */
+/* 🔥 FUNÇÃO EDITAR CORRIGIDA */
 function editarItem(index){
-let item = carrinho[index];
+  let item = carrinho[index];
 
-localStorage.setItem("editandoItem", JSON.stringify({
-index:index,
-...item
-}));
+  localStorage.setItem("editandoItem", JSON.stringify({
+    index:index,
+    ...item
+  }));
 
-window.location.href = item.pagina || "index.html";
+  let pagina = "";
+
+  let nome = item.nome.toLowerCase();
+
+  if(nome.includes("tradicional")){
+    pagina = "caldo-tradicional.html";
+  }
+  else if(nome.includes("completo")){
+    pagina = "caldo-completo.html";
+  }
+  else if(nome.includes("calabresa")){
+    pagina = "caldo-calabresa.html";
+  }
+  else if(nome.includes("ovo")){
+    pagina = "caldo-ovo.html";
+  }
+  else if(nome.includes("mussarela")){
+    pagina = "caldo-mussarela.html";
+  }
+  else if(nome.includes("individual")){
+    pagina = "combo-individual.html";
+  }
+  else if(nome.includes("casal")){
+    pagina = "combo-casal.html";
+  }
+  else if(nome.includes("família") || nome.includes("familia")){
+    pagina = "combo-familia.html";
+  }
+  else if(nome.includes("2 completos")){
+    pagina = "combo-2-completo.html";
+  }
+  else if(nome.includes("3 completos")){
+    pagina = "combo-3-completo.html";
+  }
+  else if(nome.includes("4 tradicionais")){
+    pagina = "combo-4-tradicional.html";
+  }
+  else{
+    pagina = "index.html";
+  }
+
+  window.location.href = pagina;
 }
 
 function removerItem(index){
