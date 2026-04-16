@@ -95,41 +95,30 @@ function editarItem(index){
   }));
 
   let pagina = "";
-
   let nome = item.nome.toLowerCase();
 
-  if(nome.includes("tradicional")){
-    pagina = "caldo-tradicional.html";
-  }
-  else if(nome.includes("completo")){
-    pagina = "caldo-completo.html";
-  }
-  else if(nome.includes("calabresa")){
-    pagina = "caldo-calabresa.html";
-  }
-  else if(nome.includes("ovo")){
-    pagina = "caldo-ovo.html";
-  }
-  else if(nome.includes("mussarela")){
-    pagina = "caldo-mussarela.html";
-  }
-  else if(nome.includes("individual")){
-    pagina = "combo-individual.html";
-  }
-  else if(nome.includes("casal")){
-    pagina = "combo-casal.html";
-  }
-  else if(nome.includes("família") || nome.includes("familia")){
-    pagina = "combo-familia.html";
-  }
-  else if(nome.includes("2 completos")){
-    pagina = "combo-2-completo.html";
+  // 🔥 ORDEM CORRETA (ESPECÍFICO → GENÉRICO)
+
+  if(nome.includes("4 tradicionais")){
+    pagina = "combo-4-tradicional.html";
   }
   else if(nome.includes("3 completos")){
     pagina = "combo-3-completo.html";
   }
-  else if(nome.includes("4 tradicionais")){
-    pagina = "combo-4-tradicional.html";
+  else if(nome.includes("2 completos")){
+    pagina = "combo-2-completo.html";
+  }
+  else if(nome.includes("família") || nome.includes("familia")){
+    pagina = "combo-familia.html";
+  }
+  else if(nome.includes("casal")){
+    pagina = "combo-casal.html";
+  }
+  else if(nome.includes("completo")){
+    pagina = "caldo-completo.html";
+  }
+  else if(nome.includes("tradicional")){
+    pagina = "caldo-tradicional.html";
   }
   else{
     pagina = "index.html";
