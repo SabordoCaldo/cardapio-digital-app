@@ -10,15 +10,41 @@ body{
   margin:0;
   font-family:Arial;
   background:#fff;
-  padding-bottom:120px;
+  margin-top:60px;
+  padding-bottom:180px;
 }
 
+/* TOPO */
 .topo{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
   background:#8B4513;
   color:#fff;
-  padding:12px;
+  padding:4px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
 }
 
+.voltar-btn{
+  width:40px;
+  height:40px;
+  background:#eee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.voltar-btn svg{
+  width:20px;
+  height:20px;
+  stroke:#8B4513;
+}
+
+/* CONTEÚDO */
 .conteudo{
   padding:15px;
 }
@@ -42,9 +68,10 @@ input, select{
   border:1px solid #ccc;
 }
 
+/* BOTÃO */
 .botao{
   position:fixed;
-  bottom:10px;
+  bottom:80px;
   left:10px;
   right:10px;
   background:#25D366;
@@ -54,169 +81,175 @@ input, select{
   text-align:center;
   font-weight:bold;
 }
+
+/* MENU */
+.menu{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  border-top:1px solid #eee;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+
+.item-menu{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:13px;
+  color:#555;
+  text-decoration:none;
+  position:relative;
+}
+
+.item-menu svg{
+  width:26px;
+  height:26px;
+  stroke:#555;
+  margin-bottom:4px;
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-10px;
+  background:red;
+  color:#fff;
+  font-size:10px;
+  padding:2px 6px;
+  border-radius:10px;
+}
 </style>
 </head>
 
 <body>
 
+<!-- TOPO -->
 <div class="topo">
-<h2>Seu Carrinho</h2>
+<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M15 18l-6-6 6-6"/>
+</svg>
+</a>
 </div>
 
+<!-- CONTEÚDO -->
 <div class="conteudo" id="conteudo"></div>
 
+<!-- BOTÃO -->
 <div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
+<!-- MENU -->
+<div class="menu">
+
+<a href="index.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M3 10 L12 3 L21 10 V21 H3 Z"/>
+</svg>
+Início
+</a>
+
+<a href="#" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="7" cy="7" r="2"></circle>
+<circle cx="17" cy="17" r="2"></circle>
+<line x1="7" y1="17" x2="17" y2="7"></line>
+</svg>
+Promoções
+</a>
+
+<a href="carrinho.html" class="item-menu">
+<span id="badgeCarrinho" class="badge">0</span>
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="9" cy="21" r="1"/>
+<circle cx="20" cy="21" r="1"/>
+<path d="M1 1 H5 L7 14 H19 L23 6 H6"/>
+</svg>
+Carrinho
+</a>
+
+<a href="perfil.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="12" cy="8" r="4"/>
+<path d="M4 21 C4 16,20 16,20 21"/>
+</svg>
+Perfil
+</a>
+
+</div>
+
 <script>
-let carrinho = [];
-
-try{
-  carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-}catch(e){
-  carrinho = [];
-}
-
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let container = document.getElementById("conteudo");
 
+function atualizarBadge(){
+let total = 0;
+carrinho.forEach(item=> total += item.quantidade);
+let badge = document.getElementById("badgeCarrinho");
+if(badge) badge.innerText = total;
+}
+
 function renderizar(){
+if(!container) return;
 
-  if(!container) return;
+container.innerHTML = "<h2>Seu Carrinho</h2>";
+let total = 0;
 
-  container.innerHTML = "";
-  let total = 0;
+if(carrinho.length === 0){
+container.innerHTML += "<p>Seu carrinho está vazio</p>";
+atualizarBadge();
+return;
+}
 
-  if(!Array.isArray(carrinho) || carrinho.length === 0){
-    container.innerHTML = "<p>Seu carrinho está vazio</p>";
-    return;
-  }
+carrinho.forEach((item, index)=>{
+if(!item || !item.nome) return;
 
-  carrinho.forEach((item, index)=>{
+let div = document.createElement("div");
+div.className = "item";
 
-    // 🛑 PROTEÇÃO TOTAL
-    if(!item || !item.nome || !item.quantidade){
-      return;
-    }
+let subtotal = (item.quantidade || 0) * (item.preco || 0);
 
-    let preco = Number(item.preco) || 0;
-    let quantidade = Number(item.quantidade) || 0;
+total += subtotal;
 
-    let subtotal = preco * quantidade;
-    let extrasHtml = "";
+div.innerHTML = `
+<div style="display:flex; justify-content:space-between;">
+<span>${item.quantidade}x ${item.nome}</span>
+<span>R$ ${(item.quantidade * item.preco).toFixed(2)}</span>
+</div>
 
-    if(item.extras && Array.isArray(item.extras)){
-      item.extras.forEach(extra=>{
-        if(!extra) return;
+<div style="font-weight:bold; margin-top:5px;">
+Subtotal: R$ ${subtotal.toFixed(2)}
+</div>
 
-        let q = Number(extra.quantidade) || 0;
-        let p = Number(extra.preco) || 0;
+<button onclick="removerItem(${index})" style="margin-top:8px;background:red;color:#fff;border:none;padding:6px 10px;border-radius:6px;">
+Excluir
+</button>
+`;
 
-        let totalExtra = q * p;
-        subtotal += totalExtra;
+container.appendChild(div);
+});
 
-        extrasHtml += `
-        <div style="display:flex; justify-content:space-between; margin-left:10px;">
-          <span>+${q}x ${extra.nome}</span>
-          <span>R$ ${totalExtra.toFixed(2)}</span>
-        </div>
-        `;
-      });
-    }
+container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
 
-    total += subtotal;
-
-    let div = document.createElement("div");
-    div.className = "item";
-
-    div.innerHTML = `
-      <div style="display:flex; justify-content:space-between;">
-        <span>${quantidade}x ${item.nome}</span>
-        <span>R$ ${(quantidade * preco).toFixed(2)}</span>
-      </div>
-
-      ${extrasHtml}
-
-      <div style="font-weight:bold; margin-top:5px;">
-        Subtotal: R$ ${subtotal.toFixed(2)}
-      </div>
-
-      <button onclick="removerItem(${index})" style="margin-top:10px;background:red;color:#fff;padding:6px 10px;border:none;border-radius:6px;">
-        Excluir
-      </button>
-    `;
-
-    container.appendChild(div);
-  });
-
-  container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
-
-  container.innerHTML += `
-    <h3>Dados do Pedido</h3>
-
-    <input id="nome" placeholder="Seu nome">
-    <input id="telefone" placeholder="Telefone">
-    <input id="endereco" placeholder="Endereço">
-
-    <select id="pagamento">
-      <option value="">Forma de pagamento</option>
-      <option>Dinheiro</option>
-      <option>Pix</option>
-      <option>Cartão</option>
-    </select>
-  `;
+atualizarBadge();
 }
 
 function removerItem(index){
-  carrinho.splice(index,1);
-  localStorage.setItem("carrinho", JSON.stringify(carrinho));
-  renderizar();
+carrinho.splice(index,1);
+localStorage.setItem("carrinho", JSON.stringify(carrinho));
+renderizar();
 }
 
 function finalizarPedido(){
-
-  if(!Array.isArray(carrinho) || carrinho.length === 0){
-    alert("Seu carrinho está vazio");
-    return;
-  }
-
-  let temComida = carrinho.some(item => item.tipo === "comida");
-
-  if(!temComida){
-    alert("Adicione pelo menos 1 caldo ao pedido");
-    return;
-  }
-
-  let total = 0;
-
-  carrinho.forEach(item=>{
-    total += (item.quantidade || 0) * (item.preco || 0);
-
-    if(item.extras){
-      item.extras.forEach(extra=>{
-        total += (extra.quantidade || 0) * (extra.preco || 0);
-      });
-    }
-  });
-
-  if(total < 20){
-    alert("Pedido mínimo de R$20,00");
-    return;
-  }
-
-  let nome = document.getElementById("nome").value.trim();
-  let telefone = document.getElementById("telefone").value.trim();
-  let endereco = document.getElementById("endereco").value.trim();
-  let pagamento = document.getElementById("pagamento").value;
-
-  if(!nome || !telefone || !endereco || !pagamento){
-    alert("Preencha todos os campos");
-    return;
-  }
-
-  alert("Pedido enviado com sucesso!");
+alert("Pedido enviado!");
 }
 
 renderizar();
 </script>
 
 </body>
-</html>
+  </html>
