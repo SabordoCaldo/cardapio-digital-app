@@ -85,46 +85,17 @@ container.innerHTML += `
 atualizarBadge();
 }
 
-/* 🔥 FUNÇÃO EDITAR CORRIGIDA */
+/* 🔙 VERSÃO ANTIGA (FUNCIONAVA) */
 function editarItem(index){
-  let item = carrinho[index];
+let item = carrinho[index];
 
-  localStorage.setItem("editandoItem", JSON.stringify({
-    index:index,
-    ...item
-  }));
+localStorage.setItem("editandoItem", JSON.stringify({
+index:index,
+...item
+}));
 
-  let pagina = "";
-  let nome = item.nome.toLowerCase();
-
-  // 🔥 ORDEM CORRETA (ESPECÍFICO → GENÉRICO)
-
-  if(nome.includes("4 tradicionais")){
-    pagina = "combo-4-tradicional.html";
-  }
-  else if(nome.includes("3 completos")){
-    pagina = "combo-3-completo.html";
-  }
-  else if(nome.includes("2 completos")){
-    pagina = "combo-2-completo.html";
-  }
-  else if(nome.includes("família") || nome.includes("familia")){
-    pagina = "combo-familia.html";
-  }
-  else if(nome.includes("casal")){
-    pagina = "combo-casal.html";
-  }
-  else if(nome.includes("completo")){
-    pagina = "caldo-completo.html";
-  }
-  else if(nome.includes("tradicional")){
-    pagina = "caldo-tradicional.html";
-  }
-  else{
-    pagina = "index.html";
-  }
-
-  window.location.href = pagina;
+// sempre voltava pra mesma página
+window.location.href = "caldo-completo.html";
 }
 
 function removerItem(index){
@@ -253,4 +224,4 @@ window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
 }
 
 renderizar();
-</script>
+                     </script>
