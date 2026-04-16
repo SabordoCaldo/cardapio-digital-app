@@ -1,185 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carrinho</title>
-
-<style>
-*{box-sizing:border-box;}
-
-body{
-  margin:0;
-  font-family:Arial;
-  background:#fff;
-  margin-top:60px;
-  padding-bottom:180px;
-  overflow-x:hidden;
-}
-
-.topo{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  background:#8B4513;
-  color:#fff;
-  padding:4px;
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-}
-
-.voltar-btn{
-  width:40px;
-  height:40px;
-  background:#eee;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.voltar-btn svg{
-  width:20px;
-  height:20px;
-  stroke:#8B4513;
-}
-
-.conteudo{
-  padding:15px;
-  padding-bottom:40px;
-}
-
-.item{
-  border-bottom:1px solid #eee;
-  padding:12px 0;
-}
-
-.total{
-  font-size:20px;
-  font-weight:bold;
-  margin-top:15px;
-}
-
-input, select{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-
-.botao{
-  position:fixed;
-  bottom:80px;
-  left:10px;
-  right:10px;
-  background:#25D366;
-  color:#fff;
-  padding:14px;
-  border-radius:12px;
-  text-align:center;
-  font-weight:bold;
-}
-
-.menu{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#fff;
-  border-top:1px solid #eee;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-}
-
-.item-menu{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  font-size:13px;
-  color:#555;
-  text-decoration:none;
-  position:relative;
-}
-
-.item-menu svg{
-  width:26px;
-  height:26px;
-  stroke:#555;
-  margin-bottom:4px;
-}
-
-.badge{
-  position:absolute;
-  top:-5px;
-  right:-10px;
-  background:red;
-  color:#fff;
-  font-size:10px;
-  padding:2px 6px;
-  border-radius:10px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="topo">
-<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<path d="M15 18l-6-6 6-6"/>
-</svg>
-</a>
-</div>
-
-<div class="conteudo" id="conteudo">
-<h2>Seu Carrinho</h2>
-</div>
-
-<div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
-
-<div class="menu">
-
-<a href="index.html" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<path d="M3 10 L12 3 L21 10 V21 H3 Z"/>
-</svg>
-Início
-</a>
-
-<a href="#" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<circle cx="7" cy="7" r="2"></circle>
-<circle cx="17" cy="17" r="2"></circle>
-<line x1="7" y1="17" x2="17" y2="7"></line>
-</svg>
-Promoções
-</a>
-
-<a href="carrinho.html" class="item-menu">
-<span id="badgeCarrinho" class="badge">0</span>
-
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<circle cx="9" cy="21" r="1"/>
-<circle cx="20" cy="21" r="1"/>
-<path d="M1 1 H5 L7 14 H19 L23 6 H6"/>
-</svg>
-Carrinho
-</a>
-
-<a href="perfil.html" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<circle cx="12" cy="8" r="4"/>
-<path d="M4 21 C4 16,20 16,20 21"/>
-</svg>
-Perfil
-</a>
-
-</div>
-
 <script>
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let container = document.getElementById("conteudo");
@@ -267,6 +85,7 @@ container.innerHTML += `
 atualizarBadge();
 }
 
+/* 🔥 ÚNICA CORREÇÃO AQUI */
 function editarItem(index){
 let item = carrinho[index];
 
@@ -275,7 +94,7 @@ index:index,
 ...item
 }));
 
-window.location.href = "index.html";
+window.location.href = item.pagina || "index.html";
 }
 
 function removerItem(index){
@@ -405,6 +224,3 @@ window.open(`https://wa.me/5535999711358?text=${mensagem}`, "_blank");
 
 renderizar();
 </script>
-
-</body>
-</html>
