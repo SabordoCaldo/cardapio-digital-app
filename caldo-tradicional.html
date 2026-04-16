@@ -6,20 +6,68 @@
 <title>Caldo Tradicional</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#fff;margin-top:60px;}
-.topo{position:fixed;top:0;left:0;right:0;background:#8B4513;color:#fff;padding:12px;}
-.topo a{color:#fff;text-decoration:none;}
-#iconeCarrinho{float:right;color:#fff;}
+body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:100px;}
+
+.topo{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background:#8B4513;
+  color:#fff;
+  padding:4px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+
+.voltar-btn{
+  width:40px;
+  height:40px;
+  background:#eee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.voltar-btn svg{
+  width:20px;
+  height:20px;
+  stroke:#8B4513;
+}
 
 .img{width:100%;height:320px;object-fit:cover;}
-.conteudo{padding:15px;padding-bottom:120px;}
-.preco{font-size:22px;font-weight:bold;margin-top:10px;}
 
-.item{display:flex;justify-content:space-between;align-items:center;padding:10px;}
-.contador{display:flex;gap:8px;align-items:center;}
+.conteudo{
+  padding:15px;
+  padding-bottom:140px;
+}
+
+.preco{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px;
+}
+
+.contador{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
 
 .contador button{
-  width:32px;height:32px;border:none;border-radius:8px;
+  width:32px;
+  height:32px;
+  border:none;
+  border-radius:8px;
 }
 
 .menos{background:#ccc;}
@@ -27,7 +75,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;}
 
 .botao{
   position:fixed;
-  bottom:10px;
+  bottom:80px;
   left:10px;
   right:10px;
   background:#25D366;
@@ -35,6 +83,37 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;}
   padding:14px;
   border-radius:12px;
   text-align:center;
+  font-weight:bold;
+}
+
+/* MENU */
+.menu{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  border-top:1px solid #eee;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+
+.item-menu{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:12px;
+  color:#555;
+  text-decoration:none;
+  position:relative;
+}
+
+.item-menu svg{
+  width:26px;
+  height:26px;
+  stroke:#555;
+  margin-bottom:4px;
 }
 </style>
 </head>
@@ -42,15 +121,17 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;}
 <body>
 
 <div class="topo">
-<a href="index.html">← Voltar</a>
-<a href="carrinho.html" id="iconeCarrinho">
-🛒 <span id="qtdCarrinho">0</span>
+<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
 </a>
 </div>
 
 <img src="img/banners/tradicional_banner.jpg" class="img">
 
 <div class="conteudo">
+
 <h2>Caldo Tradicional</h2>
 
 <p>
@@ -62,61 +143,121 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.
 
 <div class="item">
 <span>Caldo Tradicional</span>
+
 <div class="contador">
-<button class="menos" onclick="alt(this,-1)">-</button>
-<span>0</span>
-<button class="mais" onclick="alt(this,1)">+</button>
+<button class="menos" onclick="alt(-1)">-</button>
+<span id="qtd">0</span>
+<button class="mais" onclick="alt(1)">+</button>
 </div>
 </div>
+
+<div class="preco">Total: R$ <span id="total">20.00</span></div>
+
 </div>
 
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
+<!-- 🔥 MENU PADRÃO -->
+<div class="menu">
+
+<a href="index.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M3 10 L12 3 L21 10 V21 H3 Z"/>
+</svg>
+Início
+</a>
+
+<a href="#" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="7" cy="7" r="2"></circle>
+<circle cx="17" cy="17" r="2"></circle>
+<line x1="7" y1="17" x2="17" y2="7"></line>
+</svg>
+Promoções
+</a>
+
+<a href="carrinho.html" class="item-menu">
+<span id="qtdCarrinho" style="position:absolute;top:-5px;right:-10px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;">0</span>
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="9" cy="21" r="1"/>
+<circle cx="20" cy="21" r="1"/>
+<path d="M1 1 H5 L7 14 H19 L23 6 H6"/>
+</svg>
+Carrinho
+</a>
+
+<a href="perfil.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="12" cy="8" r="4"/>
+<path d="M4 21 C4 16,20 16,20 21"/>
+</svg>
+Perfil
+</a>
+
+</div>
+
 <script>
-function alt(b,v){
-  let n=b.parentElement.querySelector("span");
-  let a=parseInt(n.innerText);
-  a+=v;
-  if(a<0)a=0;
-  n.innerText=a;
+
+function alt(v){
+let span = document.getElementById("qtd");
+let n = parseInt(span.innerText)||0;
+n+=v;
+if(n<0)n=0;
+span.innerText=n;
+atualizarTotal();
+}
+
+function atualizarTotal(){
+let qtd = parseInt(document.getElementById("qtd").innerText)||0;
+let total = qtd*20;
+document.getElementById("total").innerText = total.toFixed(2);
 }
 
 function add(){
-  let qtd=parseInt(document.querySelector(".contador span").innerText);
 
-  if(qtd<=0){
-    alert("Selecione pelo menos 1 item");
-    return;
-  }
+let qtd = parseInt(document.getElementById("qtd").innerText);
 
-  let c=JSON.parse(localStorage.getItem("carrinho"))||[];
+if(qtd<=0){
+alert("Selecione pelo menos 1 item");
+return;
+}
 
-  c.push({
-    nome:"Caldo Tradicional",
-    quantidade:qtd,
-    preco:20,
-    tipo:"comida"
-  });
+let c = JSON.parse(localStorage.getItem("carrinho"))||[];
 
-  localStorage.setItem("carrinho",JSON.stringify(c));
+c.push({
+nome:"Caldo Tradicional",
+quantidade:qtd,
+preco:20,
+tipo:"comida"
+});
 
-  atualizarCarrinho(); // 🔥 ESSENCIAL
-  alert("Adicionado ao carrinho");
+localStorage.setItem("carrinho",JSON.stringify(c));
+
+document.getElementById("qtd").innerText = "0";
+atualizarTotal();
+atualizarCarrinho();
+
+alert("Adicionado ao carrinho");
 }
 
 function atualizarCarrinho(){
-  let carrinho=JSON.parse(localStorage.getItem("carrinho"))||[];
-  let total=0;
+let carrinho = JSON.parse(localStorage.getItem("carrinho"))||[];
+let total = 0;
 
-  carrinho.forEach(item=>{
-    total+=item.quantidade;
-  });
+carrinho.forEach(item=>{
+total += item.quantidade;
+});
 
-  document.getElementById("qtdCarrinho").innerText=total;
+let badge = document.getElementById("qtdCarrinho");
+if(badge){
+badge.innerText = total;
+}
 }
 
-// 🔥 atualiza ao abrir a página
+atualizarTotal();
 atualizarCarrinho();
+
 </script>
 
 </body>
