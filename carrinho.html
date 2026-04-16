@@ -39,6 +39,12 @@ body{
   justify-content:center;
 }
 
+.voltar-btn svg{
+  width:20px;
+  height:20px;
+  stroke:#8B4513;
+}
+
 .conteudo{
   padding:15px;
 }
@@ -86,31 +92,106 @@ input, select{
   justify-content:space-around;
   padding:10px 0;
 }
+
+.item-menu{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:13px;
+  color:#555;
+  text-decoration:none;
+  position:relative;
+}
+
+.item-menu svg{
+  width:26px;
+  height:26px;
+  stroke:#555;
+  margin-bottom:4px;
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-10px;
+  background:red;
+  color:#fff;
+  font-size:10px;
+  padding:2px 6px;
+  border-radius:10px;
+}
 </style>
 </head>
 
 <body>
 
+<!-- TOPO -->
 <div class="topo">
-<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">←</a>
+<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M15 18l-6-6 6-6"/>
+</svg>
+</a>
 </div>
 
+<!-- CONTEÚDO -->
 <div class="conteudo" id="conteudo">
 <h2>Seu Carrinho</h2>
 </div>
 
+<!-- BOTÃO -->
 <div class="botao" onclick="finalizarPedido()">Finalizar Pedido</div>
 
+<!-- MENU -->
 <div class="menu">
-<a href="index.html">Início</a>
-<a href="#">Promoções</a>
-<a href="carrinho.html">Carrinho</a>
-<a href="perfil.html">Perfil</a>
+
+<a href="index.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M3 10 L12 3 L21 10 V21 H3 Z"/>
+</svg>
+Início
+</a>
+
+<a href="#" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="7" cy="7" r="2"></circle>
+<circle cx="17" cy="17" r="2"></circle>
+<line x1="7" y1="17" x2="17" y2="7"></line>
+</svg>
+Promoções
+</a>
+
+<a href="carrinho.html" class="item-menu">
+<span id="badgeCarrinho" class="badge">0</span>
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="9" cy="21" r="1"/>
+<circle cx="20" cy="21" r="1"/>
+<path d="M1 1 H5 L7 14 H19 L23 6 H6"/>
+</svg>
+Carrinho
+</a>
+
+<a href="perfil.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="12" cy="8" r="4"/>
+<path d="M4 21 C4 16,20 16,20 21"/>
+</svg>
+Perfil
+</a>
+
 </div>
 
 <script>
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let container = document.getElementById("conteudo");
+
+function atualizarBadge(){
+let total = 0;
+carrinho.forEach(item=> total += item.quantidade);
+let badge = document.getElementById("badgeCarrinho");
+if(badge) badge.innerText = total;
+}
 
 function renderizar(){
 container.innerHTML = "<h2>Seu Carrinho</h2>";
@@ -118,6 +199,7 @@ let total = 0;
 
 if(carrinho.length === 0){
 container.innerHTML += "<p>Seu carrinho está vazio</p>";
+atualizarBadge();
 return;
 }
 
@@ -128,7 +210,6 @@ div.className = "item";
 let subtotal = item.quantidade * item.preco;
 let extrasHtml = "";
 
-/* 🔥 ADICIONAIS VOLTARAM AQUI */
 if(item.extras){
 item.extras.forEach(extra=>{
 let totalExtra = extra.quantidade * extra.preco;
@@ -166,6 +247,8 @@ container.appendChild(div);
 });
 
 container.innerHTML += `<div class="total">Total: R$ ${total.toFixed(2)}</div>`;
+
+atualizarBadge();
 }
 
 function removerItem(index){
