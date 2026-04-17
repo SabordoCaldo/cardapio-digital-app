@@ -2,7 +2,65 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin</title>
+
+<style>
+body{
+  font-family:Arial;
+  margin:0;
+  padding:20px;
+  background:#f5f5f5;
+}
+
+h2{
+  text-align:center;
+}
+
+.card{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.status{
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.ativo{ color:green; }
+.inativo{ color:red; }
+
+button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn-on{
+  background:#25D366;
+  color:#fff;
+}
+
+.btn-off{
+  background:#d9534f;
+  color:#fff;
+}
+
+input{
+  width:100%;
+  padding:8px;
+  margin-top:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+</style>
+
 </head>
 
 <body>
@@ -11,27 +69,96 @@
 let senha = prompt("Acesso restrito:");
 
 if(senha !== "Dsrr@230885#Caldo"){
-  document.body.innerHTML = "Acesso negado";
+  document.body.innerHTML = "<h2>Acesso negado</h2>";
 }
 </script>
 
 <h2>Painel de Controle</h2>
 
-<button onclick="toggle('caldo1')">Caldo Tradicional</button><br><br>
-<button onclick="toggle('caldo2')">Caldo Completo</button><br><br>
+<div id="lista"></div>
 
 <script>
+
+let produtos = [
+
+  // 🔥 PRODUTOS
+  {id:"caldo1", nome:"Caldo Tradicional", tipo:"produto"},
+  {id:"caldo2", nome:"Caldo Completo", tipo:"produto"},
+
+  // 🔥 ADICIONAIS
+  {id:"extra_torresmo", nome:"Torresmo", tipo:"extra"},
+  {id:"extra_calabresa", nome:"Calabresa", tipo:"extra"},
+  {id:"extra_bacon", nome:"Bacon", tipo:"extra"},
+  {id:"extra_mussarela", nome:"Mussarela", tipo:"extra"}
+
+];
+
+function render(){
+
+  let lista = document.getElementById("lista");
+  lista.innerHTML = "";
+
+  produtos.forEach(prod=>{
+
+    let status = localStorage.getItem("estoque_" + prod.id);
+    let qtd = localStorage.getItem("qtd_" + prod.id);
+
+    // padrão inicial
+    if(!status){
+      localStorage.setItem("estoque_" + prod.id, "on");
+      status = "on";
+    }
+
+    if(qtd === null){
+      localStorage.setItem("qtd_" + prod.id, 10);
+      qtd = 10;
+    }
+
+    let ativo = status === "on";
+
+    let div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <div class="status ${ativo ? 'ativo' : 'inativo'}">
+        ${prod.nome} - ${ativo ? 'ATIVO' : 'DESATIVADO'}
+      </div>
+
+      <button 
+        class="${ativo ? 'btn-off' : 'btn-on'}"
+        onclick="toggle('${prod.id}')">
+        ${ativo ? 'Desativar' : 'Ativar'}
+      </button>
+
+      <input type="number" min="0"
+        value="${qtd}"
+        onchange="salvarQtd('${prod.id}', this.value)">
+    `;
+
+    lista.appendChild(div);
+  });
+
+}
+
 function toggle(id){
+
   let status = localStorage.getItem("estoque_" + id);
 
   if(status === "off"){
     localStorage.setItem("estoque_" + id, "on");
-    alert("Ativado");
   } else {
     localStorage.setItem("estoque_" + id, "off");
-    alert("Desativado");
   }
+
+  render();
 }
+
+function salvarQtd(id, valor){
+  localStorage.setItem("qtd_" + id, valor);
+}
+
+render();
+
 </script>
 
 </body>
