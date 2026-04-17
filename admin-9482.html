@@ -17,11 +17,15 @@ h2{
   text-align:center;
 }
 
+h3{
+  margin-top:25px;
+}
+
 .card{
   background:#fff;
   padding:15px;
   border-radius:10px;
-  margin-bottom:15px;
+  margin-bottom:10px;
   box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -42,15 +46,8 @@ button{
   cursor:pointer;
 }
 
-.btn-on{
-  background:#25D366;
-  color:#fff;
-}
-
-.btn-off{
-  background:#d9534f;
-  color:#fff;
-}
+.btn-on{ background:#25D366; color:#fff; }
+.btn-off{ background:#d9534f; color:#fff; }
 
 input{
   width:100%;
@@ -79,69 +76,99 @@ if(senha !== "Dsrr@230885#Caldo"){
 
 <script>
 
-let produtos = [
+let categorias = {
 
-  // 🔥 PRODUTOS
-  {id:"caldo1", nome:"Caldo Tradicional", tipo:"produto"},
-  {id:"caldo2", nome:"Caldo Completo", tipo:"produto"},
+  "🍲 Caldos":[
+    {id:"caldo1", nome:"Caldo Tradicional"},
+    {id:"caldo2", nome:"Caldo Calabresa e Bacon"},
+    {id:"caldo3", nome:"Caldo com Ovo de Codorna"},
+    {id:"caldo4", nome:"Caldo com Mussarela"},
+    {id:"caldo5", nome:"Caldo Completo"}
+  ],
 
-  // 🔥 ADICIONAIS
-  {id:"extra_torresmo", nome:"Torresmo", tipo:"extra"},
-  {id:"extra_calabresa", nome:"Calabresa", tipo:"extra"},
-  {id:"extra_bacon", nome:"Bacon", tipo:"extra"},
-  {id:"extra_mussarela", nome:"Mussarela", tipo:"extra"}
+  "🍲 Combos":[
+    {id:"combo2", nome:"2 Completos"},
+    {id:"combo3", nome:"3 Completos"},
+    {id:"combo4", nome:"4 Tradicionais"},
+    {id:"combo_individual", nome:"Combo Individual"},
+    {id:"combo_casal", nome:"Combo Casal"},
+    {id:"combo_familia", nome:"Combo Família"}
+  ],
 
-];
+  "🥤 Bebidas":[
+    {id:"bebida1", nome:"Refrigerante Lata"},
+    {id:"bebida2", nome:"Refrigerante 1L"},
+    {id:"bebida3", nome:"Refrigerante 2L"}
+  ],
+
+  "➕ Adicionais":[
+    {id:"extra_cheiro", nome:"Cheiro Verde Extra"},
+    {id:"extra_ovo", nome:"Ovo de Codorna"},
+    {id:"extra_pimenta", nome:"Pimenta Biquinho"},
+    {id:"extra_torrada", nome:"Torrada"},
+    {id:"extra_torresmo", nome:"Torresmo"},
+    {id:"extra_calabresa", nome:"Calabresa"},
+    {id:"extra_bacon", nome:"Bacon"},
+    {id:"extra_mussarela", nome:"Mussarela"}
+  ]
+
+};
 
 function render(){
 
   let lista = document.getElementById("lista");
   lista.innerHTML = "";
 
-  produtos.forEach(prod=>{
+  Object.keys(categorias).forEach(cat=>{
 
-    let status = localStorage.getItem("estoque_" + prod.id);
-    let qtd = localStorage.getItem("qtd_" + prod.id);
+    let titulo = document.createElement("h3");
+    titulo.innerText = cat;
+    lista.appendChild(titulo);
 
-    // padrão inicial
-    if(!status){
-      localStorage.setItem("estoque_" + prod.id, "on");
-      status = "on";
-    }
+    categorias[cat].forEach(prod=>{
 
-    if(qtd === null){
-      localStorage.setItem("qtd_" + prod.id, 10);
-      qtd = 10;
-    }
+      let status = localStorage.getItem("estoque_" + prod.id);
+      let qtd = localStorage.getItem("qtd_" + prod.id);
 
-    let ativo = status === "on";
+      if(!status){
+        localStorage.setItem("estoque_" + prod.id, "on");
+        status = "on";
+      }
 
-    let div = document.createElement("div");
-    div.className = "card";
+      if(qtd === null){
+        localStorage.setItem("qtd_" + prod.id, 10);
+        qtd = 10;
+      }
 
-    div.innerHTML = `
-      <div class="status ${ativo ? 'ativo' : 'inativo'}">
-        ${prod.nome} - ${ativo ? 'ATIVO' : 'DESATIVADO'}
-      </div>
+      let ativo = status === "on";
 
-      <button 
-        class="${ativo ? 'btn-off' : 'btn-on'}"
-        onclick="toggle('${prod.id}')">
-        ${ativo ? 'Desativar' : 'Ativar'}
-      </button>
+      let div = document.createElement("div");
+      div.className = "card";
 
-      <input type="number" min="0"
-        value="${qtd}"
-        onchange="salvarQtd('${prod.id}', this.value)">
-    `;
+      div.innerHTML = `
+        <div class="status ${ativo ? 'ativo' : 'inativo'}">
+          ${prod.nome} - ${ativo ? 'ATIVO' : 'DESATIVADO'}
+        </div>
 
-    lista.appendChild(div);
+        <button 
+          class="${ativo ? 'btn-off' : 'btn-on'}"
+          onclick="toggle('${prod.id}')">
+          ${ativo ? 'Desativar' : 'Ativar'}
+        </button>
+
+        <input type="number" min="0"
+          value="${qtd}"
+          onchange="salvarQtd('${prod.id}', this.value)">
+      `;
+
+      lista.appendChild(div);
+    });
+
   });
 
 }
 
 function toggle(id){
-
   let status = localStorage.getItem("estoque_" + id);
 
   if(status === "off"){
