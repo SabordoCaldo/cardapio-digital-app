@@ -52,7 +52,6 @@ input{
   border:1px solid #ccc;
 }
 </style>
-
 </head>
 
 <body>
@@ -60,8 +59,9 @@ input{
 <script>
 let senha = prompt("Acesso restrito:");
 
-if(senha !== "142574"){
+if(!senha || senha !== "142574"){
   document.body.innerHTML = "<h2>Acesso negado</h2>";
+  throw new Error("Acesso bloqueado");
 }
 </script>
 
