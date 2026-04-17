@@ -238,18 +238,16 @@ ${extrasHtml}
 Subtotal: R$ ${subtotal.toFixed(2)}
 </div>
 
-<div style="display:flex; gap:8px; margin-top:8px; align-items:center;">
-
+<div style="margin-top:8px;">
 <input 
 placeholder="Observação (ex: sem cheiro verde)" 
 value="${item.observacao || ""}"
 oninput="salvarObs(${index}, this.value)"
-style="flex:1; padding:8px; border-radius:6px; border:1px solid #ccc;">
+style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
 
-<button onclick="removerItem(${index})" style="background:red;color:#fff; padding:8px 12px;">
-Excluir
+<button onclick="removerItem(${index})" style="background:red;color:#fff; padding:8px; width:100%; margin-top:6px;">
+Excluir item
 </button>
-
 </div>
 `;
 
@@ -292,7 +290,76 @@ pagamento === "Dinheiro" ? "block" : "none";
 }
 
 function finalizarPedido(){
-alert("Pedido enviado!");
+
+let nome = document.getElementById("nome").value.trim();
+let telefone = document.getElementById("telefone").value.trim();
+let endereco = document.getElementById("endereco").value.trim();
+let observacaoPedido = document.getElementById("observacao").value.trim();
+let pagamento = document.getElementById("pagamento").value;
+let troco = document.getElementById("troco").value.trim();
+
+if(!nome || !telefone || !endereco || !pagamento){
+alert("Preencha todos os campos obrigatórios");
+return;
+}
+
+if(pagamento === "Dinheiro" && !troco){
+alert("Preencha o campo Troco para quanto?");
+return;
+}
+
+let total = 0;
+
+let data = new Date();
+let dataFormatada = data.toLocaleDateString("pt-BR") + " - " + data.toLocaleTimeString("pt-BR");
+
+let mensagem = "*SABOR DO CALDO*%0A";
+mensagem += dataFormatada + "%0A";
+mensagem += "--------------------------%0A";
+
+carrinho.forEach(item=>{
+let subtotal = item.quantidade * item.preco;
+
+mensagem += `${item.quantidade}x ${item.nome} - R$ ${(item.quantidade * item.preco).toFixed(2)}%0A`;
+
+if(item.observacao){
+mensagem += `Obs: ${item.observacao}%0A`;
+}
+
+if(item.extras){
+item.extras.forEach(extra=>{
+let totalExtra = extra.quantidade * extra.preco;
+subtotal += totalExtra;
+mensagem += `${extra.quantidade}x ${extra.nome} - R$ ${totalExtra.toFixed(2)}%0A`;
+});
+}
+
+mensagem += `Subtotal: R$ ${subtotal.toFixed(2)}%0A`;
+mensagem += "--------------------------%0A";
+
+total += subtotal;
+});
+
+mensagem += `*TOTAL: R$ ${total.toFixed(2)}*%0A%0A`;
+
+mensagem += "*CLIENTE*%0A";
+mensagem += `${nome}%0A${telefone}%0A${endereco}%0A`;
+
+if(observacaoPedido){
+mensagem += `%0A*OBSERVAÇÃO*%0A${observacaoPedido}%0A`;
+}
+
+mensagem += `%0A*PAGAMENTO*%0A${pagamento}%0A`;
+
+if(pagamento === "Dinheiro"){
+mensagem += `Troco para: R$ ${troco}%0A`;
+}
+
+mensagem += "%0A--------------------------%0A";
+mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
+mensagem += "Obrigado pela preferência!";
+
+window.open(`https://wa.me/5535999711358?text=${mensagem}`);
 }
 
 renderizar();
