@@ -69,7 +69,6 @@ body{
 .repetir{background:#25D366;}
 .excluir{background:#d9534f;}
 
-/* MENU */
 .menu{
   position:fixed;
   bottom:0;
@@ -127,7 +126,6 @@ body{
 <div id="lista"></div>
 </div>
 
-<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -208,6 +206,14 @@ function render(){
     let itens = "";
     pedido.itens.forEach(i=>{
       itens += `${i.quantidade}x ${i.nome}<br>`;
+
+      // 🔥 ADICIONAIS
+      if(i.extras){
+        i.extras.forEach(extra=>{
+          itens += `+${extra.quantidade}x ${extra.nome}<br>`;
+        });
+      }
+
     });
 
     div.innerHTML = `
@@ -240,7 +246,6 @@ function excluir(index){
   render();
 }
 
-// 🔥 EXECUTA
 atualizarCarrinho();
 render();
 
