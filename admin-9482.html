@@ -13,13 +13,8 @@ body{
   background:#f5f5f5;
 }
 
-h2{
-  text-align:center;
-}
-
-h3{
-  margin-top:25px;
-}
+h2{text-align:center;}
+h3{margin-top:25px;}
 
 .card{
   background:#fff;
@@ -34,8 +29,8 @@ h3{
   margin-bottom:10px;
 }
 
-.ativo{ color:green; }
-.inativo{ color:red; }
+.ativo{color:green;}
+.inativo{color:red;}
 
 button{
   width:100%;
@@ -46,8 +41,8 @@ button{
   cursor:pointer;
 }
 
-.btn-on{ background:#25D366; color:#fff; }
-.btn-off{ background:#d9534f; color:#fff; }
+.btn-on{background:#25D366;color:#fff;}
+.btn-off{background:#d9534f;color:#fff;}
 
 input{
   width:100%;
@@ -65,7 +60,7 @@ input{
 <script>
 let senha = prompt("Acesso restrito:");
 
-if(senha !== "Dsrr@230885#Caldo"){
+if(senha !== "142574"){
   document.body.innerHTML = "<h2>Acesso negado</h2>";
 }
 </script>
@@ -78,110 +73,124 @@ if(senha !== "Dsrr@230885#Caldo"){
 
 let categorias = {
 
-  "🍲 Caldos":[
-    {id:"caldo1", nome:"Caldo Tradicional"},
-    {id:"caldo2", nome:"Caldo Calabresa e Bacon"},
-    {id:"caldo3", nome:"Caldo com Ovo de Codorna"},
-    {id:"caldo4", nome:"Caldo com Mussarela"},
-    {id:"caldo5", nome:"Caldo Completo"}
-  ],
+"🍲 Caldos":[
+{id:"caldo1", nome:"Caldo Tradicional"},
+{id:"caldo2", nome:"Caldo Calabresa e Bacon"},
+{id:"caldo3", nome:"Caldo com Ovo de Codorna"},
+{id:"caldo4", nome:"Caldo com Mussarela"},
+{id:"caldo5", nome:"Caldo Completo"}
+],
 
-  "🍲 Combos":[
-    {id:"combo2", nome:"2 Completos"},
-    {id:"combo3", nome:"3 Completos"},
-    {id:"combo4", nome:"4 Tradicionais"},
-    {id:"combo_individual", nome:"Combo Individual"},
-    {id:"combo_casal", nome:"Combo Casal"},
-    {id:"combo_familia", nome:"Combo Família"}
-  ],
+"🍲 Combos":[
+{id:"combo2", nome:"2 Completos"},
+{id:"combo3", nome:"3 Completos"},
+{id:"combo4", nome:"4 Tradicionais"},
+{id:"combo_individual", nome:"Combo Individual"},
+{id:"combo_casal", nome:"Combo Casal"},
+{id:"combo_familia", nome:"Combo Família"}
+],
 
-  "🥤 Bebidas":[
-    {id:"bebida1", nome:"Refrigerante Lata"},
-    {id:"bebida2", nome:"Refrigerante 1L"},
-    {id:"bebida3", nome:"Refrigerante 2L"}
-  ],
+"🥤 Bebidas - Lata":[
+{id:"lata_coca", nome:"Lata Coca-Cola"},
+{id:"lata_cocazero", nome:"Lata Coca-Cola Zero"},
+{id:"lata_fanta", nome:"Lata Fanta"},
+{id:"lata_guarana", nome:"Lata Guaraná"}
+],
 
-  "➕ Adicionais":[
-    {id:"extra_cheiro", nome:"Cheiro Verde Extra"},
-    {id:"extra_ovo", nome:"Ovo de Codorna"},
-    {id:"extra_pimenta", nome:"Pimenta Biquinho"},
-    {id:"extra_torrada", nome:"Torrada"},
-    {id:"extra_torresmo", nome:"Torresmo"},
-    {id:"extra_calabresa", nome:"Calabresa"},
-    {id:"extra_bacon", nome:"Bacon"},
-    {id:"extra_mussarela", nome:"Mussarela"}
-  ]
+"🥤 Bebidas - 1L":[
+{id:"refri1_pepsi", nome:"1L Pepsi"},
+{id:"refri1_sukita", nome:"1L Sukita"},
+{id:"refri1_guarana", nome:"1L Guaraná"}
+],
+
+"🥤 Bebidas - 2L":[
+{id:"refri2_coca", nome:"2L Coca-Cola"},
+{id:"refri2_fanta", nome:"2L Fanta"},
+{id:"refri2_guarana", nome:"2L Guaraná"}
+],
+
+"➕ Adicionais":[
+{id:"extra_cheiro", nome:"Cheiro Verde Extra"},
+{id:"extra_ovo", nome:"Ovo de Codorna"},
+{id:"extra_pimenta", nome:"Pimenta Biquinho"},
+{id:"extra_torrada", nome:"Torrada"},
+{id:"extra_torresmo", nome:"Torresmo"},
+{id:"extra_calabresa", nome:"Calabresa"},
+{id:"extra_bacon", nome:"Bacon"},
+{id:"extra_mussarela", nome:"Mussarela"}
+]
 
 };
 
 function render(){
 
-  let lista = document.getElementById("lista");
-  lista.innerHTML = "";
+let lista = document.getElementById("lista");
+lista.innerHTML = "";
 
-  Object.keys(categorias).forEach(cat=>{
+Object.keys(categorias).forEach(cat=>{
 
-    let titulo = document.createElement("h3");
-    titulo.innerText = cat;
-    lista.appendChild(titulo);
+let titulo = document.createElement("h3");
+titulo.innerText = cat;
+lista.appendChild(titulo);
 
-    categorias[cat].forEach(prod=>{
+categorias[cat].forEach(prod=>{
 
-      let status = localStorage.getItem("estoque_" + prod.id);
-      let qtd = localStorage.getItem("qtd_" + prod.id);
+let status = localStorage.getItem("estoque_" + prod.id);
+let qtd = localStorage.getItem("qtd_" + prod.id);
 
-      if(!status){
-        localStorage.setItem("estoque_" + prod.id, "on");
-        status = "on";
-      }
+if(!status){
+localStorage.setItem("estoque_" + prod.id, "on");
+status = "on";
+}
 
-      if(qtd === null){
-        localStorage.setItem("qtd_" + prod.id, 10);
-        qtd = 10;
-      }
+if(qtd === null){
+localStorage.setItem("qtd_" + prod.id, 10);
+qtd = 10;
+}
 
-      let ativo = status === "on";
+let ativo = status === "on";
 
-      let div = document.createElement("div");
-      div.className = "card";
+let div = document.createElement("div");
+div.className = "card";
 
-      div.innerHTML = `
-        <div class="status ${ativo ? 'ativo' : 'inativo'}">
-          ${prod.nome} - ${ativo ? 'ATIVO' : 'DESATIVADO'}
-        </div>
+div.innerHTML = `
+<div class="status ${ativo ? 'ativo' : 'inativo'}">
+${prod.nome} - ${ativo ? 'ATIVO' : 'DESATIVADO'}
+</div>
 
-        <button 
-          class="${ativo ? 'btn-off' : 'btn-on'}"
-          onclick="toggle('${prod.id}')">
-          ${ativo ? 'Desativar' : 'Ativar'}
-        </button>
+<button 
+class="${ativo ? 'btn-off' : 'btn-on'}"
+onclick="toggle('${prod.id}')">
+${ativo ? 'Desativar' : 'Ativar'}
+</button>
 
-        <input type="number" min="0"
-          value="${qtd}"
-          onchange="salvarQtd('${prod.id}', this.value)">
-      `;
+<input type="number" min="0"
+value="${qtd}"
+onchange="salvarQtd('${prod.id}', this.value)">
+`;
 
-      lista.appendChild(div);
-    });
+lista.appendChild(div);
 
-  });
+});
+
+});
 
 }
 
 function toggle(id){
-  let status = localStorage.getItem("estoque_" + id);
+let status = localStorage.getItem("estoque_" + id);
 
-  if(status === "off"){
-    localStorage.setItem("estoque_" + id, "on");
-  } else {
-    localStorage.setItem("estoque_" + id, "off");
-  }
+if(status === "off"){
+localStorage.setItem("estoque_" + id, "on");
+}else{
+localStorage.setItem("estoque_" + id, "off");
+}
 
-  render();
+render();
 }
 
 function salvarQtd(id, valor){
-  localStorage.setItem("qtd_" + id, valor);
+localStorage.setItem("qtd_" + id, valor);
 }
 
 render();
