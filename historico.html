@@ -85,7 +85,7 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  font-size:13px;
+  font-size:12px; /* 🔥 CORRIGIDO */
   color:#555;
   text-decoration:none;
   position:relative;
@@ -207,13 +207,11 @@ function render(){
     pedido.itens.forEach(i=>{
       itens += `${i.quantidade}x ${i.nome}<br>`;
 
-      // 🔥 ADICIONAIS
       if(i.extras){
         i.extras.forEach(extra=>{
           itens += `+${extra.quantidade}x ${extra.nome}<br>`;
         });
       }
-
     });
 
     div.innerHTML = `
@@ -248,7 +246,6 @@ function excluir(index){
 
 atualizarCarrinho();
 render();
-
 </script>
 
 </body>
