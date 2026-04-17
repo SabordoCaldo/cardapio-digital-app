@@ -329,5 +329,44 @@ function atualizarCarrinho(){
 atualizarCarrinho();
 </script>
 
+<!-- 🔥 NOVA LÓGICA DE ESTOQUE -->
+<script>
+function verificarEstoque(){
+
+  let produtos = [
+    {id:"caldo1", link:"caldo-tradicional.html"},
+    {id:"caldo2", link:"caldo-calabresa.html"},
+    {id:"caldo3", link:"caldo-ovo.html"},
+    {id:"caldo4", link:"caldo-mussarela.html"},
+    {id:"caldo5", link:"caldo-completo.html"},
+
+    {id:"combo2", link:"combo-2-completo.html"},
+    {id:"combo3", link:"combo-3-completo.html"},
+    {id:"combo4", link:"combo-4-tradicional.html"},
+    {id:"combo_individual", link:"combo-individual.html"},
+    {id:"combo_casal", link:"combo-casal.html"},
+    {id:"combo_familia", link:"combo-familia.html"},
+
+    {id:"bebida1", link:"lata.html"},
+    {id:"bebida2", link:"refri-1l.html"},
+    {id:"bebida3", link:"refri-2l.html"}
+  ];
+
+  produtos.forEach(prod=>{
+    let status = localStorage.getItem("estoque_" + prod.id);
+    let item = document.querySelector(`a[href="${prod.link}"]`);
+
+    if(!item) return;
+
+    if(status === "off"){
+      item.style.display = "none";
+    }
+  });
+
+}
+
+verificarEstoque();
+</script>
+
 </body>
-</html>
+  </html>
