@@ -159,42 +159,10 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.<br><br>
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
 <div class="menu">
-
-<a href="index.html" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<path d="M3 10 L12 3 L21 10 V21 H3 Z"/>
-</svg>
-Início
-</a>
-
-<a href="#" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<circle cx="7" cy="7" r="2"></circle>
-<circle cx="17" cy="17" r="2"></circle>
-<line x1="7" y1="17" x2="17" y2="7"></line>
-</svg>
-Promoções
-</a>
-
-<a href="carrinho.html" class="item-menu">
-<span id="qtdCarrinho" style="position:absolute;top:-5px;right:-10px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;">0</span>
-
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<circle cx="9" cy="21" r="1"/>
-<circle cx="20" cy="21" r="1"/>
-<path d="M1 1 H5 L7 14 H19 L23 6 H6"/>
-</svg>
-Carrinho
-</a>
-
-<a href="perfil.html" class="item-menu">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-<circle cx="12" cy="8" r="4"/>
-<path d="M4 21 C4 16,20 16,20 21"/>
-</svg>
-Perfil
-</a>
-
+<a href="index.html" class="item-menu">Início</a>
+<a href="#" class="item-menu">Promoções</a>
+<a href="carrinho.html" class="item-menu">Carrinho</a>
+<a href="perfil.html" class="item-menu">Perfil</a>
 </div>
 
 <script>
@@ -245,23 +213,16 @@ atualizarTotal();
 }
 
 function altExtra(id,valor){
-
 let qtdCaldo = parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
-
-if(qtdCaldo<=0){
-alert("Selecione o caldo primeiro");
-return;
-}
+if(qtdCaldo<=0){ alert("Selecione o caldo primeiro"); return; }
 
 let totalExtras = Object.values(extrasSelecionados).reduce((a,b)=>a+(b||0),0);
-
 if(valor>0 && totalExtras >= qtdCaldo*10) return;
 
 extrasSelecionados[id]+=valor;
 if(extrasSelecionados[id]<0) extrasSelecionados[id]=0;
 
 document.getElementById(`extra-${id}`).innerText = extrasSelecionados[id];
-
 atualizarTotal();
 }
 
@@ -297,7 +258,7 @@ extrasArray.push({nome:item.nome,quantidade:q,preco:item.preco});
 });
 
 c.push({
-id: "caldo1"
+id: "caldo2", // 🔥 ÚNICA ALTERAÇÃO
 nome:"Caldo com Calabresa e Bacon",
 quantidade:qtd,
 preco:22,
