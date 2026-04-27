@@ -379,7 +379,7 @@ mensagem += "%0A--------------------------%0A";
 mensagem += "Tempo para entrega: 40 a 60 minutos%0A";
 mensagem += "Obrigado pela preferência!";
 
-<script>
+/* 🔥 BAIXAR ESTOQUE */
 carrinho.forEach(item=>{
   let id = item.id;
 
@@ -392,7 +392,6 @@ carrinho.forEach(item=>{
     localStorage.setItem("qtd_" + id, novaQtd);
   }
 });
-</script>
 
 window.open(`https://wa.me/5535999711358?text=${mensagem}`);
 }
