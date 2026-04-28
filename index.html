@@ -50,7 +50,6 @@ a {
   color:inherit; 
 }
 
-/* MENU INFERIOR */
 .menu {
   position:fixed;
   bottom:0;
@@ -94,7 +93,6 @@ a {
 <p>Pedido mínimo 20,00 - Entrega grátis</p>
 </header>
 
-<!-- MAIS PEDIDOS -->
 <div class="categoria">🔥 Mais Pedidos</div>
 
 <a href="caldo-completo.html">
@@ -124,7 +122,6 @@ R$ 81,00</div>
 </div>
 </a>
 
-<!-- CALDOS -->
 <div class="categoria">🍲 Caldos</div>
 
 <a href="caldo-tradicional.html">
@@ -172,7 +169,6 @@ R$ 25,00</div>
 </div>
 </a>
 
-<!-- COMBOS SIMPLES -->
 <div class="categoria">🍲 Mais por Menos</div>
 
 <a href="combo-2-completo.html">
@@ -202,7 +198,6 @@ R$ 70,00</div>
 </div>
 </a>
 
-<!-- COMBOS COM REFRI -->
 <div class="categoria">🍲🥤 Combos Caldo + Refri</div>
 
 <a href="combo-individual.html">
@@ -232,7 +227,6 @@ R$ 81,00</div>
 </div>
 </a>
 
-<!-- BEBIDAS -->
 <div class="categoria">🥤 Bebidas</div>
 
 <a href="lata.html">
@@ -262,7 +256,6 @@ R$ 16,00</div>
 </div>
 </a>
 
-<!-- MENU -->
 <div class="menu">
 
 <a href="index.html">
@@ -282,16 +275,7 @@ Promoções
 </a>
 
 <a href="carrinho.html" style="position:relative;">
-<span id="qtdCarrinho" style="
-position:absolute;
-top:-5px;
-right:-10px;
-background:red;
-color:#fff;
-font-size:10px;
-padding:2px 6px;
-border-radius:10px;
-">0</span>
+<span id="qtdCarrinho" style="position:absolute;top:-5px;right:-10px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;">0</span>
 
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <circle cx="9" cy="21" r="1"/>
@@ -349,7 +333,9 @@ function verificarEstoque(){
 
   produtos.forEach(prod=>{
     let status = localStorage.getItem("estoque_" + prod.id);
-    let qtd = parseInt(localStorage.getItem("qtd_" + prod.id)) || 0;
+
+    let qtdSalva = localStorage.getItem("qtd_" + prod.id);
+    let qtd = qtdSalva === null ? 999 : parseInt(qtdSalva);
 
     let itens = document.querySelectorAll(`a[href="${prod.link}"]`);
 
