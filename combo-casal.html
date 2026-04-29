@@ -159,7 +159,6 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.<br><br>
 
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
-<!-- ✅ MENU CORRIGIDO (ÚNICA ALTERAÇÃO) -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -281,13 +280,6 @@ let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
 if(qtd<=0){
 alert("Selecione pelo menos 1 item");
 return;
-}
-
-let estoque = parseInt(localStorage.getItem("qtd_combo_casal")) || 0;
-
-if(qtd > estoque){
-  alert("Quantidade indisponível em estoque");
-  return;
 }
 
 let c = JSON.parse(localStorage.getItem("carrinho"))||[];
