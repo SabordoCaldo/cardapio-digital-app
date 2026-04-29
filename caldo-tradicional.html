@@ -3,276 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sabor do Caldo</title>
+<title>Caldo Tradicional</title>
 
 <style>
-body { 
-  margin:0; 
-  font-family:Arial; 
-  background:#fff;
-  padding-bottom:90px;
-}
+body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:100px;}
 
-header {
+.topo{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
   background:#8B4513;
   color:#fff;
-  text-align:center;
-  padding:15px;
-}
-
-header img { width:120px; }
-
-.categoria {
-  padding:10px;
-  font-weight:bold;
-  font-size:18px;
-  background:#f5f5f5;
-}
-
-.produto {
+  padding:4px;
   display:flex;
-  gap:10px;
+  justify-content:flex-end;
+  align-items:center;
+}
+
+.voltar-btn{
+  width:40px;
+  height:40px;
+  background:#eee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.voltar-btn svg{
+  width:20px;
+  height:20px;
+  stroke:#8B4513;
+}
+
+.img{width:100%;height:320px;object-fit:cover;}
+
+.conteudo{
+  padding:15px;
+  padding-bottom:140px;
+}
+
+.preco{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   padding:10px;
-  border-bottom:1px solid #eee;
 }
 
-.produto img {
-  width:90px;
-  height:90px;
-  border-radius:10px;
-  object-fit:cover;
+.contador{
+  display:flex;
+  gap:8px;
+  align-items:center;
 }
 
-small { color:#555; }
-
-a { 
-  text-decoration:none; 
-  color:inherit; 
+.contador button{
+  width:32px;
+  height:32px;
+  border:none;
+  border-radius:8px;
 }
 
-/* MENU INFERIOR */
-.menu {
+.menos{background:#ccc;}
+.mais{background:#8B4513;color:#fff;}
+
+.botao{
+  position:fixed;
+  bottom:80px;
+  left:10px;
+  right:10px;
+  background:#25D366;
+  color:#fff;
+  padding:14px;
+  border-radius:12px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.menu{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
   background:#fff;
+  border-top:1px solid #eee;
   display:flex;
   justify-content:space-around;
   padding:10px 0;
-  border-top:1px solid #eee;
 }
 
-.menu a {
-  text-align:center;
+.item-menu{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   font-size:12px;
   color:#555;
   text-decoration:none;
+  position:relative;
 }
 
-.menu svg {
+.item-menu svg{
   width:26px;
   height:26px;
-  display:block;
-  margin:auto;
-  margin-bottom:4px;
   stroke:#555;
+  margin-bottom:4px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<img src="img/logo/logo.png">
-<h1>Sabor do Caldo</h1>
-
-<p>Passos-mg</p>
-
-<p>Sabor, qualidade e rapidez</p>
-
-<p>Pedido mínimo 20,00 - Entrega grátis</p>
-</header>
-
-<!-- MAIS PEDIDOS -->
-<div class="categoria">🔥 Mais Pedidos</div>
-
-<a href="caldo-completo.html">
-<div class="produto">
-<img src="img/produtos/completo.jpg">
-<div><b>Caldo Completo</b><br>
-<small>Com calabresa, bacon, ovos e mussarela</small><br>
-R$ 25,00</div>
-</div>
+<div class="topo">
+<a href="javascript:void(0)" onclick="history.back()" class="voltar-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
 </a>
-
-<a href="combo-4-tradicional.html">
-<div class="produto">
-<img src="img/produtos/combo_4_tradicional.jpg">
-<div><b>Combo 4 Tradicionais</b><br>
-<small>4 caldos tradicionais</small><br>
-R$ 70,00</div>
 </div>
-</a>
 
-<a href="combo-familia.html">
-<div class="produto">
-<img src="img/produtos/combo_familia.jpg">
-<div><b>Combo Família</b><br>
-<small>3 caldos completos + refrigerante 2L</small><br>
-R$ 81,00</div>
+<img src="img/banners/tradicional_banner.jpg" class="img">
+
+<div class="conteudo">
+
+<h2>Caldo Tradicional</h2>
+
+<p>
+Pote 500g - Feijão cremoso e bem temperado.<br><br>
+Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.<br><br>
+<b>R$ 20,00</b>
+</p>
+
+<div class="item">
+<span>Caldo Tradicional</span>
+
+<div class="contador" id="contadorCaldo">
+<button class="menos" onclick="alt(-1)">-</button>
+<span>0</span>
+<button class="mais" onclick="alt(1)">+</button>
 </div>
-</a>
-
-<!-- CALDOS -->
-<div class="categoria">🍲 Caldos</div>
-
-<a href="caldo-tradicional.html">
-<div class="produto">
-<img src="img/produtos/tradicional.jpg">
-<div><b>Caldo Tradicional</b><br>
-<small>Feijão cremoso e bem temperado</small><br>
-R$ 20,00</div>
 </div>
-</a>
 
-<a href="caldo-calabresa.html">
-<div class="produto">
-<img src="img/produtos/calabresa_bacon.jpg">
-<div><b>Caldo Calabresa e Bacon</b><br>
-<small>Com calabresa e bacon</small><br>
-R$ 22,00</div>
+<h3>Adicionais</h3>
+<div id="extras"></div>
+
+<div class="preco">Total: R$ <span id="totalPreco">20.00</span></div>
+
 </div>
-</a>
 
-<a href="caldo-ovo.html">
-<div class="produto">
-<img src="img/produtos/ovo_codorna.jpg">
-<div><b>Caldo com Ovo de Codorna</b><br>
-<small>Com calabresa, bacon e ovos</small><br>
-R$ 23,00</div>
-</div>
-</a>
+<a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
-<a href="caldo-mussarela.html">
-<div class="produto">
-<img src="img/produtos/mussarela.jpg">
-<div><b>Caldo com Mussarela</b><br>
-<small>Com calabresa, bacon e mussarela</small><br>
-R$ 24,00</div>
-</div>
-</a>
-
-<a href="caldo-completo.html">
-<div class="produto">
-<img src="img/produtos/completo.jpg">
-<div><b>Caldo Completo</b><br>
-<small>Com calabresa, bacon, ovos e mussarela</small><br>
-R$ 25,00</div>
-</div>
-</a>
-
-<!-- COMBOS SIMPLES -->
-<div class="categoria">🍲 Mais por Menos</div>
-
-<a href="combo-2-completo.html">
-<div class="produto">
-<img src="img/produtos/combo_2_completo.jpg">
-<div><b>2 Completos</b><br>
-<small>2 caldos completos</small><br>
-R$ 46,00</div>
-</div>
-</a>
-
-<a href="combo-3-completo.html">
-<div class="produto">
-<img src="img/produtos/combo_3_completo.jpg">
-<div><b>3 Completos</b><br>
-<small>3 caldos completos</small><br>
-R$ 69,00</div>
-</div>
-</a>
-
-<a href="combo-4-tradicional.html">
-<div class="produto">
-<img src="img/produtos/combo_4_tradicional.jpg">
-<div><b>4 Tradicionais</b><br>
-<small>4 caldos tradicionais</small><br>
-R$ 70,00</div>
-</div>
-</a>
-
-<!-- COMBOS COM REFRI -->
-<div class="categoria">🍲🥤 Combos Caldo + Refri</div>
-
-<a href="combo-individual.html">
-<div class="produto">
-<img src="img/produtos/combo_individual.jpg">
-<div><b>Combo Individual</b><br>
-<small>1 completo + refri lata</small><br>
-R$ 29,00</div>
-</div>
-</a>
-
-<a href="combo-casal.html">
-<div class="produto">
-<img src="img/produtos/combo_casal.jpg">
-<div><b>Combo Casal</b><br>
-<small>2 completos + refri 1L</small><br>
-R$ 55,00</div>
-</div>
-</a>
-
-<a href="combo-familia.html">
-<div class="produto">
-<img src="img/produtos/combo_familia.jpg">
-<div><b>Combo Família</b><br>
-<small>3 completos + refri 2L</small><br>
-R$ 81,00</div>
-</div>
-</a>
-
-<!-- BEBIDAS -->
-<div class="categoria">🥤 Bebidas</div>
-
-<a href="lata.html">
-<div class="produto">
-<img src="img/bebidas/lata.jpg">
-<div><b>Refrigerante Lata</b><br>
-<small>Coca, Fanta ou Guaraná</small><br>
-R$ 6,50</div>
-</div>
-</a>
-
-<a href="refri-1l.html">
-<div class="produto">
-<img src="img/bebidas/1litro.jpg">
-<div><b>Refrigerante 1L</b><br>
-<small>Pepsi, Sukita ou Guaraná</small><br>
-R$ 10,00</div>
-</div>
-</a>
-
-<a href="refri-2l.html">
-<div class="produto">
-<img src="img/bebidas/2litros.jpg">
-<div><b>Refrigerante 2L</b><br>
-<small>Coca, Fanta ou Guaraná</small><br>
-R$ 16,00</div>
-</div>
-</a>
-
-<!-- MENU -->
 <div class="menu">
 
-<a href="index.html">
+<a href="index.html" class="item-menu">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <path d="M3 10 L12 3 L21 10 V21 H3 Z"/>
 </svg>
 Início
 </a>
 
-<a href="#">
+<a href="#" class="item-menu">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <circle cx="7" cy="7" r="2"></circle>
 <circle cx="17" cy="17" r="2"></circle>
@@ -281,17 +176,8 @@ Início
 Promoções
 </a>
 
-<a href="carrinho.html" style="position:relative;">
-<span id="qtdCarrinho" style="
-position:absolute;
-top:-5px;
-right:-10px;
-background:red;
-color:#fff;
-font-size:10px;
-padding:2px 6px;
-border-radius:10px;
-">0</span>
+<a href="carrinho.html" class="item-menu">
+<span id="qtdCarrinho" style="position:absolute;top:-5px;right:-10px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;">0</span>
 
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <circle cx="9" cy="21" r="1"/>
@@ -301,38 +187,152 @@ border-radius:10px;
 Carrinho
 </a>
 
-<a href="perfil.html">
+<a href="perfil.html" class="item-menu">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
 <circle cx="12" cy="8" r="4"/>
 <path d="M4 21 C4 16,20 16,20 21"/>
 </svg>
 Perfil
 </a>
-  
+
 </div>
 
 <script>
-function atualizarCarrinho(){
-  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-  let total = 0;
 
-  carrinho.forEach(item=>{
-    total += item.quantidade;
-  });
+let adicionais = [
+{id:1,nome:"Cheiro verde extra",preco:1},
+{id:2,nome:"Ovo de codorna",preco:1},
+{id:3,nome:"Pimenta biquinho",preco:1},
+{id:4,nome:"Torrada",preco:1.5},
+{id:5,nome:"Torresmo",preco:5},
+{id:6,nome:"Calabresa",preco:5},
+{id:7,nome:"Bacon",preco:5},
+{id:8,nome:"Mussarela",preco:6}
+];
 
-  let badge = document.getElementById("qtdCarrinho");
-  if(badge){
-    badge.innerText = total;
-  }
+let extrasSelecionados = {};
+
+function renderExtras(){
+let container = document.getElementById("extras");
+container.innerHTML = "";
+
+adicionais.forEach(item=>{
+extrasSelecionados[item.id] = 0;
+
+let div = document.createElement("div");
+div.className = "item";
+
+div.innerHTML = `
+<span>${item.nome} (R$ ${item.preco.toFixed(2)})</span>
+<div class="contador">
+<button onclick="altExtra(${item.id}, -1)">-</button>
+<span id="extra-${item.id}">0</span>
+<button onclick="altExtra(${item.id}, 1)">+</button>
+</div>
+`;
+
+container.appendChild(div);
+});
 }
 
-function verificarEstoque(){
-  // estoque ilimitado - não faz nada
+function alt(valor){
+let span = document.querySelector("#contadorCaldo span");
+let n = parseInt(span.innerText)||0;
+n+=valor;
+if(n<0)n=0;
+span.innerText=n;
+atualizarTotal();
 }
 
+function altExtra(id,valor){
+
+let qtdCaldo = parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
+
+if(qtdCaldo<=0){
+alert("Selecione o caldo primeiro");
+return;
+}
+
+let totalExtras = Object.values(extrasSelecionados).reduce((a,b)=>a+(b||0),0);
+
+if(valor>0 && totalExtras >= qtdCaldo*10) return;
+
+extrasSelecionados[id]+=valor;
+if(extrasSelecionados[id]<0) extrasSelecionados[id]=0;
+
+document.getElementById(`extra-${id}`).innerText = extrasSelecionados[id];
+
+atualizarTotal();
+}
+
+function atualizarTotal(){
+let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
+let total = qtd*20;
+
+adicionais.forEach(item=>{
+total += (extrasSelecionados[item.id]||0)*item.preco;
+});
+
+document.getElementById("totalPreco").innerText = total.toFixed(2);
+}
+
+function add(){
+
+let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
+
+if(qtd<=0){
+alert("Selecione pelo menos 1 item");
+return;
+}
+
+let c = JSON.parse(localStorage.getItem("carrinho"))||[];
+
+let extrasArray = [];
+
+adicionais.forEach(item=>{
+let q = extrasSelecionados[item.id];
+if(q>0){
+extrasArray.push({nome:item.nome,quantidade:q,preco:item.preco});
+}
+});
+
+c.push({
+id: "caldo1",
+nome:"Caldo Tradicional",
+quantidade:qtd,
+preco:20,
+tipo:"comida",
+pagina:"caldo-tradicional.html",
+extras:extrasArray
+});
+
+localStorage.setItem("carrinho",JSON.stringify(c));
+
+extrasSelecionados={};
+adicionais.forEach(item=>extrasSelecionados[item.id]=0);
+
+document.querySelectorAll("[id^='extra-']").forEach(el=>el.innerText="0");
+document.querySelector("#contadorCaldo span").innerText="0";
+
+atualizarTotal();
 atualizarCarrinho();
-verificarEstoque();
+
+alert("Adicionado ao carrinho");
+}
+
+function atualizarCarrinho(){
+let carrinho = JSON.parse(localStorage.getItem("carrinho"))||[];
+let total = 0;
+carrinho.forEach(item=> total += item.quantidade);
+let badge = document.getElementById("qtdCarrinho");
+if(badge) badge.innerText = total;
+}
+
+renderExtras();
+atualizarTotal();
+atualizarCarrinho();
+
 </script>
 
 </body>
-</html>
+  </html>
