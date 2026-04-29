@@ -133,9 +133,10 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 <h2>Refrigerante Lata 350ml</h2>
 <p>Escolha entre Coca-Cola, Coca Zero, Fanta ou Guaraná.</p>
+
 <div class="preco">R$ 6,50</div>
 
-<div class="item" data-id="lata_coca">
+<div class="item">
 <span>Coca-Cola</span>
 <div class="contador">
 <button class="menos" onclick="alterar(this,-1)">-</button>
@@ -144,7 +145,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 </div>
 </div>
 
-<div class="item" data-id="lata_cocazero">
+<div class="item">
 <span>Coca-Cola Zero</span>
 <div class="contador">
 <button class="menos" onclick="alterar(this,-1)">-</button>
@@ -153,7 +154,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 </div>
 </div>
 
-<div class="item" data-id="lata_fanta">
+<div class="item">
 <span>Fanta Laranja</span>
 <div class="contador">
 <button class="menos" onclick="alterar(this,-1)">-</button>
@@ -162,7 +163,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 </div>
 </div>
 
-<div class="item" data-id="lata_guarana">
+<div class="item">
 <span>Guaraná Antártica</span>
 <div class="contador">
 <button class="menos" onclick="alterar(this,-1)">-</button>
@@ -177,13 +178,40 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 <div class="menu">
 
-<a href="index.html" class="item-menu">Início</a>
-<a href="#" class="item-menu">Promoções</a>
+<a href="index.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<path d="M3 10 L12 3 L21 10 V21 H3 Z"/>
+</svg>
+Início
+</a>
+
+<a href="#" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="7" cy="7" r="2"></circle>
+<circle cx="17" cy="17" r="2"></circle>
+<line x1="7" y1="17" x2="17" y2="7"></line>
+</svg>
+Promoções
+</a>
+
 <a href="carrinho.html" class="item-menu">
-<span id="qtdCarrinho">0</span>
+<span id="qtdCarrinho" style="position:absolute;top:-5px;right:-10px;background:red;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;">0</span>
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="9" cy="21" r="1"/>
+<circle cx="20" cy="21" r="1"/>
+<path d="M1 1 H5 L7 14 H19 L23 6 H6"/>
+</svg>
 Carrinho
 </a>
-<a href="perfil.html" class="item-menu">Perfil</a>
+
+<a href="perfil.html" class="item-menu">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+<circle cx="12" cy="8" r="4"/>
+<path d="M4 21 C4 16,20 16,20 21"/>
+</svg>
+Perfil
+</a>
 
 </div>
 
@@ -192,8 +220,10 @@ Carrinho
 function alterar(botao, valor){
 let numero = botao.parentElement.querySelector("span");
 let atual = parseInt(numero.innerText)||0;
+
 atual += valor;
 if(atual<0) atual = 0;
+
 numero.innerText = atual;
 }
 
@@ -204,14 +234,11 @@ let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let adicionou = false;
 
 itens.forEach(item=>{
-
-let id = item.dataset.id;
 let nome = item.querySelector("span").innerText;
 let qtd = parseInt(item.querySelector(".contador span").innerText);
 
 if(qtd>0){
 carrinho.push({
-id:id,
 nome:nome,
 quantidade:qtd,
 preco:6.5,
@@ -228,13 +255,10 @@ return;
 
 localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
-/* 🔥 AQUI ESTÁ O QUE FALTAVA */
-document.querySelectorAll(".contador span").forEach(el=>{
-el.innerText = "0";
-});
+/* RESET */
+document.querySelectorAll(".contador span").forEach(el=>el.innerText="0");
 
 atualizarCarrinho();
-
 alert("Adicionado ao carrinho");
 }
 
@@ -242,8 +266,7 @@ function atualizarCarrinho(){
 let carrinho = JSON.parse(localStorage.getItem("carrinho"))||[];
 let total = 0;
 carrinho.forEach(item=> total += item.quantidade);
-let badge = document.getElementById("qtdCarrinho");
-if(badge) badge.innerText = total;
+document.getElementById("qtdCarrinho").innerText = total;
 }
 
 atualizarCarrinho();
@@ -251,4 +274,4 @@ atualizarCarrinho();
 </script>
 
 </body>
-</html>
+  </html>
