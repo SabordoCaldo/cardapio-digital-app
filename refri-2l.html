@@ -177,7 +177,6 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 <a class="botao" onclick="add()">Adicionar ao carrinho</a>
 
-<!-- MENU -->
 <div class="menu">
 
 <a href="index.html" class="item-menu">
@@ -256,6 +255,9 @@ return;
 }
 
 localStorage.setItem("carrinho", JSON.stringify(carrinho));
+
+/* 🔥 RESET ADICIONADO */
+document.querySelectorAll(".contador span").forEach(el=>el.innerText="0");
 
 atualizarCarrinho();
 alert("Adicionado ao carrinho");
