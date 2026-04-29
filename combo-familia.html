@@ -283,6 +283,13 @@ extras:extrasArray
 
 localStorage.setItem("carrinho",JSON.stringify(c));
 
+/* 🔥 ÚNICA ALTERAÇÃO */
+extrasSelecionados={};
+adicionais.forEach(item=>extrasSelecionados[item.id]=0);
+document.querySelectorAll("[id^='extra-']").forEach(el=>el.innerText="0");
+document.querySelector("#contadorCaldo span").innerText="0";
+atualizarTotal();
+
 atualizarCarrinho();
 alert("Adicionado ao carrinho");
 }
