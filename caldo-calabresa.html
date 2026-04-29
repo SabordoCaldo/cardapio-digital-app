@@ -285,13 +285,6 @@ alert("Selecione pelo menos 1 item");
 return;
 }
 
-let estoque = parseInt(localStorage.getItem("qtd_caldo2")) || 0;
-
-if(qtd > estoque){
-  alert("Quantidade indisponível em estoque");
-  return;
-}
-
 let c = JSON.parse(localStorage.getItem("carrinho"))||[];
 
 let extrasArray = [];
@@ -341,4 +334,4 @@ atualizarCarrinho();
 </script>
 
 </body>
-  </html>
+</html>
