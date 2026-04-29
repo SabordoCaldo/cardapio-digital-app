@@ -135,39 +135,39 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <p>Escolha entre Coca-Cola, Coca Zero, Fanta ou Guaraná.</p>
 <div class="preco">R$ 6,50</div>
 
-<div class="item">
+<div class="item" data-id="lata_coca">
 <span>Coca-Cola</span>
 <div class="contador">
-<button onclick="alterar(this,-1)">-</button>
+<button class="menos" onclick="alterar(this,-1)">-</button>
 <span>0</span>
-<button onclick="alterar(this,1)">+</button>
+<button class="mais" onclick="alterar(this,1)">+</button>
 </div>
 </div>
 
-<div class="item">
+<div class="item" data-id="lata_cocazero">
 <span>Coca-Cola Zero</span>
 <div class="contador">
-<button onclick="alterar(this,-1)">-</button>
+<button class="menos" onclick="alterar(this,-1)">-</button>
 <span>0</span>
-<button onclick="alterar(this,1)">+</button>
+<button class="mais" onclick="alterar(this,1)">+</button>
 </div>
 </div>
 
-<div class="item">
+<div class="item" data-id="lata_fanta">
 <span>Fanta Laranja</span>
 <div class="contador">
-<button onclick="alterar(this,-1)">-</button>
+<button class="menos" onclick="alterar(this,-1)">-</button>
 <span>0</span>
-<button onclick="alterar(this,1)">+</button>
+<button class="mais" onclick="alterar(this,1)">+</button>
 </div>
 </div>
 
-<div class="item">
+<div class="item" data-id="lata_guarana">
 <span>Guaraná Antártica</span>
 <div class="contador">
-<button onclick="alterar(this,-1)">-</button>
+<button class="menos" onclick="alterar(this,-1)">-</button>
 <span>0</span>
-<button onclick="alterar(this,1)">+</button>
+<button class="mais" onclick="alterar(this,1)">+</button>
 </div>
 </div>
 
@@ -215,7 +215,6 @@ Perfil
 </div>
 
 <script>
-
 function alterar(botao, valor){
 let numero = botao.parentElement.querySelector("span");
 let atual = parseInt(numero.innerText)||0;
@@ -223,51 +222,6 @@ atual += valor;
 if(atual<0) atual = 0;
 numero.innerText = atual;
 }
-
-function add(){
-
-let itens = document.querySelectorAll(".item");
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-let adicionou = false;
-
-itens.forEach(item=>{
-let nome = item.querySelector("span").innerText;
-let qtd = parseInt(item.querySelector(".contador span").innerText);
-
-if(qtd>0){
-carrinho.push({
-nome:nome,
-quantidade:qtd,
-preco:6.5,
-tipo:"bebida"
-});
-adicionou = true;
-}
-});
-
-if(!adicionou){
-alert("Selecione pelo menos 1 item");
-return;
-}
-
-localStorage.setItem("carrinho", JSON.stringify(carrinho));
-
-/* RESET */
-document.querySelectorAll(".contador span").forEach(el=>el.innerText="0");
-
-atualizarCarrinho();
-alert("Adicionado ao carrinho");
-}
-
-function atualizarCarrinho(){
-let carrinho = JSON.parse(localStorage.getItem("carrinho"))||[];
-let total = 0;
-carrinho.forEach(item=> total += item.quantidade);
-document.getElementById("qtdCarrinho").innerText = total;
-}
-
-atualizarCarrinho();
-
 </script>
 
 </body>
