@@ -276,7 +276,15 @@ total += (extrasSelecionados[item.id]||0)*item.preco;
 document.getElementById("totalPreco").innerText = total.toFixed(2);
 }
 
+/* 🔥 ON/OFF */
+let statusCaldo = "on";
+
 function add(){
+
+if(statusCaldo === "off"){
+alert("Produto indisponível no momento");
+return;
+}
 
 let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText);
 
@@ -328,9 +336,7 @@ let badge = document.getElementById("qtdCarrinho");
 if(badge) badge.innerText = total;
 }
 
-/* 🔥 CONTROLE ON/OFF DO CALDO */
-let statusCaldo = "on"; // muda para "off" quando quiser
-
+/* 🔥 ESCONDER SE OFF */
 function verificarDisponibilidadeCaldo(){
 
 if(statusCaldo === "off"){
@@ -351,14 +357,12 @@ document.querySelector(".conteudo").appendChild(aviso);
 
 }
 
-/* CHAMADA */
-verificarDisponibilidadeCaldo();
-
 renderExtras();
 atualizarTotal();
 atualizarCarrinho();
+verificarDisponibilidadeCaldo();
 
 </script>
 
 </body>
-  </html>
+</html>
