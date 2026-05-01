@@ -135,7 +135,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 
 <p>Escolha entre Pepsi, Sukita e Guaraná Antarctica.</p>
 
-<div class="preco">R$ 10,00</div>
+<div class="preco">R$ 9,90</div>
 
 <div class="item">
 <span>Pepsi</span>
@@ -163,6 +163,9 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <button class="mais" onclick="alterar(this,1)">+</button>
 </div>
 </div>
+
+<!-- 🔥 TOTAL ADICIONADO -->
+<div class="preco">Total: R$ <span id="totalPreco">0.00</span></div>
 
 </div>
 
@@ -217,12 +220,28 @@ function alterar(botao, valor){
   if(atual<0) atual = 0;
 
   numero.innerText = atual;
+
+  atualizarTotal(); // 🔥
+}
+
+/* 🔥 TOTAL */
+function atualizarTotal(){
+
+let total = 0;
+
+document.querySelectorAll(".item").forEach(item=>{
+let qtd = parseInt(item.querySelector(".contador span").innerText)||0;
+total += qtd * 9.9;
+});
+
+document.getElementById("totalPreco").innerText = total.toFixed(2);
+
 }
 
 /* 🔥 CONTROLE ON/OFF */
 let statusItens = {
-  "Pepsi": "off",
-  "Sukita": "off",
+  "Pepsi": "on",
+  "Sukita": "on",
   "Guaraná Antártica": "on"
 };
 
@@ -272,6 +291,7 @@ localStorage.setItem("carrinho", JSON.stringify(carrinho));
 document.querySelectorAll(".contador span").forEach(el=>el.innerText="0");
 
 atualizarCarrinho();
+atualizarTotal();
 alert("Adicionado ao carrinho");
 }
 
@@ -284,6 +304,7 @@ document.getElementById("qtdCarrinho").innerText = total;
 
 atualizarCarrinho();
 verificarDisponibilidade();
+atualizarTotal();
 
 </script>
 
