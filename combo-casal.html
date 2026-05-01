@@ -264,7 +264,7 @@ atualizarTotal();
 
 function atualizarTotal(){
 let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
-let total = qtd*55;
+let total = qtd*56;
 
 adicionais.forEach(item=>{
 total += (extrasSelecionados[item.id]||0)*item.preco;
@@ -297,7 +297,7 @@ c.push({
 id: "combo_casal",
 nome:"Combo Casal",
 quantidade:qtd,
-preco:55,
+preco:56,
 tipo:"comida",
 extras:extrasArray
 });
