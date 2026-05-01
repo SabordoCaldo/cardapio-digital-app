@@ -267,7 +267,7 @@ atualizarTotal();
 
 function atualizarTotal(){
 let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
-let total = qtd*25;
+let total = qtd*26;
 
 adicionais.forEach(item=>{
 total += (extrasSelecionados[item.id]||0)*item.preco;
@@ -300,7 +300,7 @@ c.push({
 id: "caldo5",
 nome:"Caldo Completo",
 quantidade:qtd,
-preco:25,
+preco:26,
 tipo:"comida",
 extras:extrasArray
 });
