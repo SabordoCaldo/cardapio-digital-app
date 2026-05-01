@@ -276,7 +276,6 @@ total += (extrasSelecionados[item.id]||0)*item.preco;
 document.getElementById("totalPreco").innerText = total.toFixed(2);
 }
 
-/* 🔥 ON/OFF */
 let statusCaldo = "on";
 
 function add(){
@@ -336,12 +335,11 @@ let badge = document.getElementById("qtdCarrinho");
 if(badge) badge.innerText = total;
 }
 
-/* 🔥 ESCONDER SE OFF */
 function verificarDisponibilidadeCaldo(){
 
 if(statusCaldo === "off"){
 
-document.querySelector(".item").style.display = "none";
+document.getElementById("contadorCaldo").parentElement.style.display = "none";
 
 document.querySelector(".botao").style.opacity = "0.5";
 document.querySelector(".botao").style.pointerEvents = "none";
