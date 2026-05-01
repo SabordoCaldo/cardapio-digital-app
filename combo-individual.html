@@ -153,7 +153,7 @@ Acompanha torresmo crocante, torradas sequinhas e cheiro verde fresco.<br><br>
 <h3>Adicionais</h3>
 <div id="extras"></div>
 
-<div class="preco">Total: R$ <span id="totalPreco">29.00</span></div>
+<div class="preco">Total: R$ <span id="totalPreco">30.00</span></div>
 
 </div>
 
@@ -268,7 +268,7 @@ atualizarTotal();
 
 function atualizarTotal(){
 let qtd = parseInt(document.querySelector("#contadorCaldo span").innerText)||0;
-let total = qtd*29;
+let total = qtd*30;
 
 adicionais.forEach(item=>{
 total += (extrasSelecionados[item.id]||0)*item.preco;
@@ -301,7 +301,7 @@ c.push({
 id: "combo_individual",
 nome:"Combo Individual",
 quantidade:qtd,
-preco:29,
+preco:30,
 tipo:"comida",
 extras:extrasArray
 });
