@@ -138,7 +138,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 <div class="preco">R$ 9,90</div>
 
 <div class="item">
-<span>Coca-Cola</span>
+<span>Pepsi</span>
 <div class="contador">
 <button class="menos" onclick="alterar(this,-1)">-</button>
 <span>0</span>
@@ -147,16 +147,7 @@ body{margin:0;font-family:Arial;background:#fff;margin-top:60px;padding-bottom:1
 </div>
 
 <div class="item">
-<span>Coca-Cola Zero</span>
-<div class="contador">
-<button class="menos" onclick="alterar(this,-1)">-</button>
-<span>0</span>
-<button class="mais" onclick="alterar(this,1)">+</button>
-</div>
-</div>
-
-<div class="item">
-<span>Fanta Laranja</span>
+<span>Sukita</span>
 <div class="contador">
 <button class="menos" onclick="alterar(this,-1)">-</button>
 <span>0</span>
@@ -228,6 +219,28 @@ function alterar(botao, valor){
   numero.innerText = atual;
 }
 
+/* 🔥 CONTROLE ON/OFF */
+let statusItens = {
+  "Pepsi": "on",
+  "Sukita": "on",
+  "Guaraná Antártica": "on"
+};
+
+function verificarDisponibilidade(){
+
+document.querySelectorAll(".item").forEach(item=>{
+
+let nome = item.querySelector("span").innerText;
+let status = statusItens[nome] || "on";
+
+if(status === "off"){
+item.style.display = "none";
+}
+
+});
+
+}
+
 function add(){
 
 let itens = document.querySelectorAll(".item");
@@ -256,7 +269,6 @@ return;
 
 localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
-/* 🔥 RESET ADICIONADO */
 document.querySelectorAll(".contador span").forEach(el=>el.innerText="0");
 
 atualizarCarrinho();
@@ -271,6 +283,7 @@ document.getElementById("qtdCarrinho").innerText = total;
 }
 
 atualizarCarrinho();
+verificarDisponibilidade();
 
 </script>
 
