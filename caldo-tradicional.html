@@ -328,6 +328,32 @@ let badge = document.getElementById("qtdCarrinho");
 if(badge) badge.innerText = total;
 }
 
+/* 🔥 CONTROLE ON/OFF DO CALDO */
+let statusCaldo = "on"; // muda para "off" quando quiser
+
+function verificarDisponibilidadeCaldo(){
+
+if(statusCaldo === "off"){
+
+document.querySelector(".item").style.display = "none";
+
+document.querySelector(".botao").style.opacity = "0.5";
+document.querySelector(".botao").style.pointerEvents = "none";
+
+let aviso = document.createElement("p");
+aviso.innerText = "Indisponível no momento";
+aviso.style.color = "red";
+aviso.style.fontWeight = "bold";
+
+document.querySelector(".conteudo").appendChild(aviso);
+
+}
+
+}
+
+/* CHAMADA */
+verificarDisponibilidadeCaldo();
+
 renderExtras();
 atualizarTotal();
 atualizarCarrinho();
