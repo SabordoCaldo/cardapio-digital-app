@@ -231,7 +231,7 @@ let total = 0;
 
 document.querySelectorAll(".item").forEach(item=>{
 let qtd = parseInt(item.querySelector(".contador span").innerText)||0;
-total += qtd * 9.9;
+total += qtd * 10;
 });
 
 document.getElementById("totalPreco").innerText = total.toFixed(2);
@@ -274,7 +274,7 @@ if(qtd>0){
 carrinho.push({
 nome:nome,
 quantidade:qtd,
-preco:9.9,
+preco:10,
 tipo:"bebida"
 });
 adicionou = true;
